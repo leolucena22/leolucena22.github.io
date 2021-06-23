@@ -120,11 +120,11 @@ footer {
     margin-top: 90px ;
 }
 
-footer p {
+footer a {
     font-family: var(--font_main);
     color: var(--purple1);
     font-weight: bold;
-    font-size: 0.8rem;
+    font-size: 1rem;
 }
 
 @media (max-width:600px){
