@@ -63,6 +63,7 @@ ul, li, a {
     margin: var(--distancia_perfil);
     border: 5px var(--purple3) solid;
     box-shadow: 1px 1px 50px 5px var(--purple1);
+    clip-path: circle();
 }
 
 .informacoes {
