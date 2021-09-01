@@ -39,7 +39,7 @@ a {
   align-items: center;
   flex-flow: column nowrap;
   margin: 40px 60px;
-  height: 500px;
+  height: 600px;
   width: 300px;
   background-color: var(--purple2);
   border-radius: 10px;
