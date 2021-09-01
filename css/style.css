@@ -59,7 +59,7 @@ a {
 }
 
 .perfil img {
-  max-width: 70px;
+  max-width: 180px;
   /* box-shadow: 1px 1px 20px 20px var(--green1); */
   border-radius: 10px;
   margin: var(--distancia_perfil);
