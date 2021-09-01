@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Baloo+Tammudu+2:&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul li a {
+  text-decoration: none;
+  list-style: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --font_main: 'Lato';
+  --font_links: 'Baloo Tammudu 2';
+  --azul-escuro: #071e3d;
+  --azul-medio: #1f4287;
+  --azul-claro: #278ea5;
+  --verde: #21e6c1;
+}
+
+.grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.header {
+  background-color: var(--azul-escuro);
+  font-family: var(--font_main);
+}
+
+.navbar ul li {
+  list-style: none;
+  text-decoration: none;
+}
+
+.navbar h3 {
+  color: var(--azul-claro);
+}
+
+.nav li a {
+  color: var(--verde);
+}
