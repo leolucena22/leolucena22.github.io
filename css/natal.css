@@ -44,7 +44,6 @@ p {
   background-color: var(--gray2);
   height: 100%;
   padding: 20px 0;
-  box-shadow: 5px 5px 15px var(--red1);
 }
 
 .background {
@@ -59,6 +58,7 @@ p {
   border-radius: 10px;
   overflow-y: scroll;
   padding: 40px 20px;
+  box-shadow: 5px 5px 15px var(--red1);
 }
 
 .box::-webkit-scrollbar {
