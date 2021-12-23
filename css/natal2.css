@@ -69,7 +69,7 @@ p {
 }
 
 .box::-webkit-scrollbar-track {
-  background-color: var(--black1);
+  background-color: var(--red1);
 }
 
 .box::-webkit-scrollbar-thumb {
