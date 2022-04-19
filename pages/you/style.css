@@ -86,8 +86,8 @@ body {
 @media (max-width: 600px){
 
 .container {
-  margin: 20px 10px;
-  width: 100%;
+  margin: 40px auto;
+  width: 90%;
   height: 100%;
 }
   
