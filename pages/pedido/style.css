@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+body {
+  height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.box a {
+  padding: 40px 40px;
+  background-color: blueviolet;
+  border-radius: 10px;
+  box-shadow: 10px 10px 20px #b6b6b6;
+  color: #ffffff;
+}
+
+.box a:hover {
+  background-color: red;
+}
