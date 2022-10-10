@@ -6,6 +6,11 @@ function imprimeResultado(valor) {
   resultado.innerHTML = `${valor} Metros`
 }
 
+function limpar() {
+  document.querySelector('#qtd-pedras').value = ''
+  resultado.innerHTML = ''
+}
+
 function vinteQuarenta() {
   let calculo = Number(pedras.value) / 12.5
   calculo <= 0

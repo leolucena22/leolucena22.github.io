@@ -37,7 +37,7 @@ input[type="number"] {
 }
 
 .box {
-  height: 500px;
+  height: 600px;
   width: 400px;
   background-color: var(--color-primary);
   border-radius: 30px;
@@ -117,7 +117,7 @@ input::placeholder {
 
 @media (max-width:600px) {
   .box {
-    height: 550px;
+    height: 580px;
     width: 500px;
     background-color: var(--color-primary);
     border-radius: 30px;
