@@ -29,6 +29,7 @@ function quarenta() {
 
 function cinquenta() {
   let calculo = Number(pedras.value) / 4.0
+  let metros_total = Number(pedras * 4.0)
   calculo <= 0
     ? (resultado.innerHTML = `Valor Inválido`)
     : imprimeResultado(calculo.toFixed(2))
