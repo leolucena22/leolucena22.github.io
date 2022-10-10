@@ -7,7 +7,7 @@ function imprimeResultado(valor) {
 }
 
 function limpar() {
-  document.querySelector('#qtd-pedras').value = ''
+  pedras.value = ''
   resultado.innerHTML = ''
 }
 
