@@ -74,7 +74,7 @@ input::placeholder {
 }
 
 .resultado-box {
-  padding: 40px 0;
+  padding: 40px 10px;
   background-color: var(--color-button);
   color: #ffffff;
   box-shadow: 1px 5px 20px #000000;
@@ -145,6 +145,7 @@ input::placeholder {
     width: 300px;
     margin-bottom: 20px;
   }
+  
 
   .tamanho-box a {
     padding: 5px 37px;
