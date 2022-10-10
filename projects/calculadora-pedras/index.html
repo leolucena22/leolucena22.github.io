@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Pedras</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="box">
+      <img class="logo" src="assets/icon.png" alt="">
+      <h3>Calculadora de Pedras</h3>
+
+      <div class="input-box">
+        <input min="0" type="number" name="qtd-pedras" id="qtd-pedras" placeholder="Quantidade">
+
+        <div class="resultado-box">
+          <p id="result"></p>
+        </div>
+      </div>
+
+      <div class="tamanho-box">
+        <a onclick="vinteQuarenta()">20/40 <i class="bi bi-arrow-right-circle"></i></a>
+        <a onclick="trinta()">30/30 <i class="bi bi-arrow-right-circle"></i></a>
+        <a onclick="quarenta()">40/40 <i class="bi bi-arrow-right-circle"></i></a>
+        <a onclick="cinquenta()">50/50 <i class="bi bi-arrow-right-circle"></i></a>
+      </div>
+
+      <p class="by">By <a href="">Leonardo Lucena&copy</a> - 2022</p>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+
+</body>
+
+</html>
