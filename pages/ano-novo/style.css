@@ -51,12 +51,10 @@ body {
   text-align: center;
   margin-bottom: 20px;
   color: var(--font-color);
-  text-shadow: 5px 5px 5px #202124;
 }
 
 .box p {
   font-family: var(--font-body);
-  text-shadow: 5px 5px 5px #202124;
   font-weight: 600;
   font-size: 1.2rem;
 }
