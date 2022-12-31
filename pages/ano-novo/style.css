@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+:root {
+  --font-title: 'Indie Flower', cursive;
+  --font-body: 'Indie Flower', cursive;
+  --background-color: #f3f3f3;
+  --font-color: #ffd700
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #202124;
+  background-image: url('https://images.unsplash.com/photo-1609421141185-8a4f37a5d063?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80');
+}
+
+.container {
+  background-color: var(--background-color);
+  width: 500px;
+  padding: 20px;
+  margin: 0 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  line-height: 1.5rem;
+  text-align: justify;
+  padding: 20px;
+  
+}
+
+.box h2 {
+  font-family: var(--font-title);
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--font-color);
+  text-shadow: 5px 5px 5px #202124;
+}
+
+.box p {
+  font-family: var(--font-body);
+  text-shadow: 5px 5px 5px #202124;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+@media (max-width:600px) {
+  .box h2 {
+    font-size: 1.3rem;
+  }
+}
