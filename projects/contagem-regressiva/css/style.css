@@ -75,7 +75,7 @@ h1 {
 #clockdiv div>span {
   padding: 15px;
   border-radius: 3px;
-  background: var(--vermelho);
+  background: var(--black);
   display: inline-block;
 }
 
