@@ -10,11 +10,12 @@
 :root {
   --vermelho: #a70707;
   --vermelhor2: #b84545;
+  --black: #22272E;
 }
 
 body {
   text-align: center;
-  background: var(--vermelho);
+  background: var(--black);
   font-family: sans-serif;
   font-weight: 100;
   height: 100vh;
