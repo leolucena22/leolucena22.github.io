@@ -30,7 +30,7 @@ a {
   --purple1-alt: #7900FF;
   --purple2: #5f50a2;
   --purple3: #73749b;
-  --blue1: #94B3FD;
+  --white1: #ffffff;
   --green1: #4a7f80;
   --green2: #28FFBF;
   --red1: #FF6363;
@@ -44,9 +44,10 @@ a {
   flex-flow: column nowrap;
   margin: 40px 60px;
   height: 600px;
-  width: 300px;
+  width: 400px;
   background-color: var(--purple1-alt);
   border-radius: 10px;
+  padding: 0 40px;
 }
 
 .perfil {
@@ -58,7 +59,7 @@ a {
 
 .perfil h1 {
   font-family: var(--font_main);
-  color: var(--blue1);
+  color: var(--white1);
   font-size: 1.6rem;
 }
 
@@ -111,7 +112,7 @@ a {
 }
 
 .social a {
-  color: var(--blue1);
+  color: var(--white1);
   font-size: 2rem;
 }
 
@@ -128,7 +129,7 @@ footer {
 
 footer a {
   font-family: var(--font_main);
-  color: var(--green2);
+  color: var(--white1);
   font-weight: bold;
   font-size: 1rem;
 }
