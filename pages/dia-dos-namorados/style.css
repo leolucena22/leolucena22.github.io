@@ -49,6 +49,7 @@ body {
 
 .narracao p {
   font-family: var(--font-text);
+  margin-bottom: 10px;
 }
 
 .text {
