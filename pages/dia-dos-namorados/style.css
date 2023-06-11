@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Special+Elite&display=swap');
+
+:root {
+  --font-text: 'Raleway', sans-serif;
+  --font-maquina: 'Special Elite', cursive;
+  --red-color: #ba0001;
+  --white-color: #ffffff;
+  --container-color: #222831;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-smooth: auto;
+}
+
+body {
+  background-color: var(--container-color);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 0;
+  width: 100%;
+  height: 100%;
+}
+
+.main {
+  width: 700px;
+  background-color: var(--white-color);
+  padding: 40px;
+  box-shadow: 5px 5px 10px rgb(194, 194, 194);
+  border-radius: 10px;
+}
+
+.narracao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.narracao p {
+  font-family: var(--font-text);
+}
+
+.text {
+  color: var(--);
+  font-size: 1.2rem;
+  font-family: var(--font-text);
+  line-height: 1.5rem;
+  text-align: justify;
+}
+
+.text p {
+  font-weight: 200;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+@media (max-width: 600px){
+
+.container {
+  margin: 40px auto;
+  width: 90%;
+  height: 100%;
+}
+  
+.main {
+  padding: 10px;
+}
+
+.text {
+  font-size: 1rem;
+}
+}
