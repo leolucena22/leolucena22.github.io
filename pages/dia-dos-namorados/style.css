@@ -6,6 +6,8 @@
   --font-text: 'Raleway', sans-serif;
   --font-maquina: 'Special Elite', cursive;
   --red-color: #ba0001;
+  --pink1-color: #ff2644;
+  --pink2-color: #ffc5e6;
   --white-color: #ffffff;
   --container-color: #222831;
 }
@@ -19,7 +21,8 @@
 }
 
 body {
-  background-color: var(--container-color);
+  background-image: url('./assets/GettyImages-1146362290.webp');
+  
 }
 
 .container {
@@ -33,9 +36,9 @@ body {
 
 .main {
   width: 700px;
-  background-color: var(--white-color);
+  background-color: var(--pink2-color);
   padding: 40px;
-  box-shadow: 5px 5px 10px rgb(194, 194, 194);
+  box-shadow: 5px 5px 10px var(--container-color);
   border-radius: 10px;
 }
 
@@ -50,10 +53,11 @@ body {
 .narracao p {
   font-family: var(--font-text);
   margin-bottom: 10px;
+  color: var(--container-color);
 }
 
 .text {
-  color: var(--);
+  color: var(--container-color);
   font-size: 1.2rem;
   font-family: var(--font-text);
   line-height: 1.5rem;
