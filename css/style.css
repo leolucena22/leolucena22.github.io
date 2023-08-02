@@ -73,7 +73,7 @@ section {
 
 .img img {
   width: 100%;
-  
+  border-radius: 50%;
 }
 
 .button {
@@ -122,10 +122,13 @@ footer {
   .img {
     margin: 0 auto;
     margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .img img {
-    width: 60%;
+    width: 80%;
   }
 
   .box {
