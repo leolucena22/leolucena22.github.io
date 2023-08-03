@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Borel&family=Nunito&display=swap');
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+a {
+  color: var(--title-color);
+}
+
+:root {
+  --title-font: 'Borel', cursive;
+  --body-font: 'Nunito', sans-serif;
+  --background-body: #202124;
+  --background-box: #303134;
+  --title-color: #ffffff;
+}
+
+body {
+  background-color: var(--background-body);
+}
+
+.title {
+  font-family: var(--title-font);
+  text-align: center;
+  color: var(--title-color);
+}
+
+.container {
+  margin: 60px 60px;
+}
+
+.box {
+  margin: 20px 20px;
+  padding: 40px 0;
+  border: 3px dashed #ffffff;
+  background-color: var(--background-box);
+}
+
+.cards {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.card {
+  width: 300px;
+  height: 400px;
+  background-color: var(--background-body);
+  padding: 0 10px;
+  text-align: center;
+  font-family: var(--body-font);
+  color: var(--title-color);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.imagem img{
+  width: 280px;
+  height: 280px;
+  padding: 10px;
+}
+
+.card a {
+  border: 3px solid var(--title-color);
+  padding: 5px 20px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.card a:hover {
+  background-color: var(--background-box);
+  transition: 1s;
+}
