@@ -81,3 +81,25 @@ body {
   background-color: var(--background-box);
   transition: 1s;
 }
+
+@media (max-width: 600px) {
+
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .container {
+    margin: 20px 20px;
+  }
+  
+  .box {
+    margin: 20px 5px;
+    padding: 40px 0;
+    border: 3px dashed #ffffff;
+    background-color: var(--background-box);
+  }
+
+  .cards {
+    gap: 20px;
+  }
+}
