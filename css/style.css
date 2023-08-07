@@ -61,6 +61,7 @@ nav {
 
 section {
   margin: 40px 60px;
+  align-items: center;
 }
 
 #about {
@@ -89,7 +90,7 @@ section {
   background-color: transparent;
   border-radius: 10px;
   border: 2px #ffffff solid;
-  width: 300px;
+  max-width: 300px;
   text-align: center;
   transition: 1s;
 }
