@@ -62,7 +62,7 @@ nav {
 
 section {
   margin: 40px 60px;
-  align-items: center;
+  align-items: flex-start;
 }
 
 #about {
