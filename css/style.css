@@ -57,7 +57,7 @@ nav {
 
 .links a {
   color: #ffffff;
-  
+
 }
 
 section {
@@ -83,7 +83,7 @@ section {
 
 .img img {
   width: 100%;
-  border-radius: 50%;
+  /* border-radius: 50%; */
 }
 
 .button {
@@ -147,7 +147,7 @@ footer {
     width: 100%;
     gap: 1.5rem;
   }
-  
+
   .social {
     display: flex;
     flex-flow: row wrap;
