@@ -1,0 +1,104 @@
+@import url('https://fonts.cdnfonts.com/css/segoe-script');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-background: #39394d;
+  --color-div: #1a1b26;
+  --font-text: 'Segoe Script', sans-serif;
+}
+
+.box {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+
+.text {
+  width: 500px;
+  height: 500px;
+  overflow-y: scroll;
+  padding: 20px;
+  background-color: var(--color-div);
+  font-family: var(--font-text);
+  color: #ffffff;
+  border-radius: 15px;
+  text-align: justify;
+}
+
+.text::-webkit-scrollbar {
+  width: 8px;               /* width of the entire scrollbar */
+}
+
+.text::-webkit-scrollbar-track {
+  background: transparent;        /* color of the tracking area */
+}
+
+.text::-webkit-scrollbar-thumb {
+  background-color: var(--color-background);    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  /*border: 3px solid transparent; */  /* creates padding around scroll thumb */
+}
+
+.box-botoes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+
+.emoji {
+  font-size: 5rem;
+}
+
+.box-botoes a {
+  text-decoration: none;
+  padding: 10px 30px;
+  color: var(--color-div);
+  border-radius: 10px;
+  border: #1a1b26 solid 2px;
+  font-family: var(--font-text);
+  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+}
+
+.box-botoes a:hover {
+  background-color: #f92f60;
+  color: #ffffff;
+  transition: 1s;
+  transform: scale(1.2)
+}
+
+#smartphone{
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .box {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .box-botoes {
+    gap: 20px;
+  }
+
+  .emoji {
+    font-size: 3rem;
+  }
+
+  #pc {
+    display: none;
+  }
+
+  .text {
+    width: 400px;
+    height: 300px;
+  }
+}
