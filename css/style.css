@@ -77,6 +77,10 @@ section {
   gap: 1.5rem;
 }
 
+.box p {
+  text-align: justify;
+}
+
 #about .img {
   width: 300px;
 }
