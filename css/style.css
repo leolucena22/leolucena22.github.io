@@ -78,7 +78,7 @@ section {
 }
 
 .box p {
-  text-align: justify;
+  text-align:justify;
 }
 
 #about .img {
@@ -121,7 +121,7 @@ footer {
 @media (max-width: 600px) {
 
   section {
-    margin: 20px 30px;
+    margin: 20px 15px;
   }
 
   #about {
