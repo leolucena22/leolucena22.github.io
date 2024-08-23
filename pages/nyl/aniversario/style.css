@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+
+:root {
+  --font: "Lato", sans-serif;
+  --color-background: #03001C;
+  --color-box: #5B8FB9;
+  --color-text: #ffffff;
+  --color-red: #FF204E;
+  --color-green: #03C988;
+
+}
+
+body {
+  font-family: var(--font);
+  background-color: var(--color-background);
+  height: 100vh;
+  color: var(--color-text);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.box {
+  background-color: var(--color-box);
+  padding: 80px;
+  border-radius: 20px;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1.5rem;
+  align-items: center; 
+}
+
+.box h2 {
+  font-weight: 900;
+}
+
+.botoes {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.botao {
+  padding: 5px 20px;
+  border-radius: 5px;
+  color: var(--color-text);
+}
+
+.botoes a {
+  font-weight: 500;
+}
+
+.sim {
+  background-color: var(--color-red);
+}
+
+.nao {
+  background-color: var(--color-green);
+}
+
+.sim:hover {
+  opacity: 0.9;
+}
+
+.nao:hover {
+  opacity: 0.8;
+}
