@@ -62,11 +62,11 @@ body {
   font-weight: 500;
 }
 
-.sim {
+.nao {
   background-color: var(--color-red);
 }
 
-.nao {
+.sim {
   background-color: var(--color-green);
 }
 
