@@ -120,6 +120,10 @@ footer {
 
 @media (max-width: 600px) {
 
+  .box h2 {
+    text-align: center;
+  }
+
   section {
     margin: 20px 15px;
   }
@@ -150,6 +154,10 @@ footer {
     flex-direction: column;
     width: 100%;
     gap: 1.5rem;
+  }
+
+  .button {
+    margin: 0 auto;
   }
 
   .social {
