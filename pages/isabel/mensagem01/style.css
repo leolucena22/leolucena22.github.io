@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font);
+}
+
+:root {
+  --font: "Poppins", sans-serif;
+  --pink-color: #e357df; 
+  --white-color: #f3f3f3;
+}
+
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: #DFE9EB;
+}
+
+*::-webkit-scrollbar-track:hover {
+  background-color: #B8C0C2;
+}
+
+*::-webkit-scrollbar-track:active {
+  background-color: #B8C0C2;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: var(--pink-color);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--pink-color);
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: var(--pink-color);
+}
+
+
+body {
+ background: #282c34;
+}
+
+.box {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 20px;
+}
+
+.texto {
+  margin-top: 10px;
+  height: 500px;
+  overflow: auto;
+  color: var(--white-color);
+  background-color: #e357debd;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: justify;
+}
+
+.imagem img{
+  width: 100px;
+  border-radius: 10px;
+}
+
+.texto h2 {
+  margin-bottom: 1rem;
+  text-align: center;
+}
