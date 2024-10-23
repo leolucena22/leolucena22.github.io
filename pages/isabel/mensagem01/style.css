@@ -61,6 +61,7 @@ body {
 .texto {
   margin-top: 10px;
   height: 500px;
+  width: 500px;
   overflow: auto;
   color: var(--white-color);
   background-color: #e357debd;
@@ -69,7 +70,7 @@ body {
   text-align: justify;
 }
 
-.imagem img{
+.imagem img {
   width: 100px;
   border-radius: 10px;
 }
@@ -77,4 +78,10 @@ body {
 .texto h2 {
   margin-bottom: 1rem;
   text-align: center;
+}
+
+@media (max-width: 600px){
+  .texto {
+    overflow: auto;
+  }
 }
