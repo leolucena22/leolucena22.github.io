@@ -7,7 +7,7 @@ body {
 /* Estilos gerais para dark mode */
 @media (prefers-color-scheme: dark) {
     body {
-      background-color: #1a202c!important; /* Fundo escuro (Tailwind gray-900) */
+      background-color: #1a202c; /* Fundo escuro (Tailwind gray-900) */
       color: #f7fafc; /* Texto claro (Tailwind gray-100) */
     }
 
