@@ -3,3 +3,39 @@
 body {
     font-family: "Montserrat", sans-serif;
 }
+
+/* Estilos gerais para dark mode */
+@media (prefers-color-scheme: dark) {
+    body {
+      background-color: #1a202c!important; /* Fundo escuro (Tailwind gray-900) */
+      color: #f7fafc; /* Texto claro (Tailwind gray-100) */
+    }
+
+    .bg-white {
+      background-color: #2d3748; /* Tailwind gray-800 */
+    }
+
+    .text-black {
+      color: #f7fafc; /* Ajusta texto para o modo escuro */
+    }
+
+    .border-gray-300 {
+      border-color: #4a5568; /* Tailwind gray-600 */
+    }
+
+    .focus\:ring-green-500 {
+      outline-color: #38a169; /* Verde Tailwind */
+    }
+
+    .bg-green-500 {
+      background-color: #38a169; /* Verde Tailwind */
+    }
+
+    .hover\:bg-green-600:hover {
+      background-color: #2f855a; /* Verde Tailwind mais escuro */
+    }
+
+    .text-white {
+      color: #f7fafc; /* Garante legibilidade no dark mode */
+    }
+  }
