@@ -6,56 +6,55 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nossas Férias</title>
-  <link rel="apple-touch-icon" sizes="57x57" href="assets/favicon/apple-icon-57x57.png">
-  <link rel="apple-touch-icon" sizes="60x60" href="assets/favicon/apple-icon-60x60.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="assets/favicon/apple-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="assets/favicon/apple-icon-76x76.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="assets/favicon/apple-icon-114x114.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="assets/favicon/apple-icon-120x120.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="assets/favicon/apple-icon-144x144.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="assets/favicon/apple-icon-152x152.png">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-icon-180x180.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/android-icon-192x192.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
-  <link rel="manifest" href="assets/favicon/manifest.json">
-  <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="assets/favicon/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
-  <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body class="bg-gradient-to-br from-blue-500 to-purple-700 min-h-screen flex flex-col items-center justify-center text-white">
 
-  <div class="container">
-    <div class="imagens">
-      <img src="assets/Eventos IME.png" alt="">
-      <img src="assets/ferias.webp" alt="">
-      <img src="assets/2X1 (2).png" alt="">
+  <div class="container mx-auto p-6">
+    <!-- Section Header -->
+    <div class="text-center mb-10">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4">Férias!!!</h1>
+      <p class="text-lg md:text-xl text-gray-200">A contagem regressiva para o descanso merecido começou!</p>
     </div>
-    <div id="clockdiv">
-      <h1>Férias!!!</h1>
-      <div>
-        <span class="days" id="day"></span>
-        <div class="smalltext">Dias</div>
+
+    <!-- Images Section -->
+<div class="flex justify-center space-x-6 mb-12">
+  <img src="assets/Eventos IME.png" alt="Evento IME" class="w-40 md:w-56 rounded-lg shadow-lg">
+  <img src="assets/ferias.webp" alt="Férias" class="w-40 md:w-56 rounded-lg shadow-lg">
+  <img src="assets/VASP-sombreada.png" alt="Promoção" class="w-40 md:w-56 rounded-lg shadow-lg">
+</div>
+
+
+    <!-- Countdown Timer -->
+    <div id="clockdiv" class="flex justify-center space-x-8">
+      <div class="text-center">
+        <span id="day" class="block text-6xl font-extrabold"></span>
+        <span class="text-lg">Dias</span>
       </div>
-      <div>
-        <span class="hours" id="hour"></span>
-        <div class="smalltext">Horas</div>
+      <div class="text-center">
+        <span id="hour" class="block text-6xl font-extrabold"></span>
+        <span class="text-lg">Horas</span>
       </div>
-      <div>
-        <span class="minutes" id="minute"></span>
-        <div class="smalltext">Minutos</div>
+      <div class="text-center">
+        <span id="minute" class="block text-6xl font-extrabold"></span>
+        <span class="text-lg">Minutos</span>
       </div>
-      <div>
-        <span class="seconds" id="second"></span>
-        <div class="smalltext">Segundos</div>
+      <div class="text-center">
+        <span id="second" class="block text-6xl font-extrabold"></span>
+        <span class="text-lg">Segundos</span>
       </div>
     </div>
   </div>
 
-  <p id="demo"></p>
+  <!-- Footer -->
+  <footer class="mt-16 text-center text-gray-300">
+    <p>&copy; 2024 Nossas Férias. Todos os direitos reservados.</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
