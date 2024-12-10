@@ -17,8 +17,14 @@
       background-color: #7924c9;
       color: #fff;
     }
+
     .btn-roxa:hover {
       background-color: #811bb4;
+    }
+
+    input:focus, select:focus {
+    outline: none;
+    box-shadow: none;
     }
   </style>
 </head>
@@ -62,7 +68,7 @@
       <h2 class="text-lg font-bold">Texto Gerado:</h2>
       <div class="bg-gray-700 p-4 mt-4 rounded relative">
         <pre id="textoGerado" class="whitespace-pre-wrap text-gray-200"></pre>
-        <button id="copiarTexto" class="btn-roxa p-2 rounded text-sm absolute bottom-2 right-2">
+        <button id="copiarTexto" class="btn-roxa p-2 rounded text-sm absolute bottom-1 right-2">
           Copiar Texto
         </button>
       </div>
