@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Certificados</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: "Montserrat", serif;
+    }
+    .btn-roxa {
+      background-color: #7924c9;
+      color: #fff;
+    }
+    .btn-roxa:hover {
+      background-color: #811bb4;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col items-center py-10">
+  <header class="text-center mb-6">
+    <h1 class="text-3xl font-bold">Gerador de Certificados</h1>
+    <p class="text-gray-400">Preencha as informações para gerar os textos automaticamente.</p>
+  </header>
+
+  <main class="w-full max-w-4xl bg-gray-800 p-6 rounded-lg shadow-lg">
+    <form id="certificadoForm" class="space-y-6">
+      <div>
+        <label for="tipoCertificado" class="block text-sm font-medium">Tipo de Certificado</label> <br>
+        <select id="tipoCertificado" class="w-full p-3 bg-gray-700 text-gray-100 rounded">
+          <option value="participacao">Certificado de Participação</option>
+          <option value="participacaoAtividades">Certificado de Participação em Atividades</option>
+          <option value="apresentacao">Certificado de Apresentação de Trabalho</option>
+          <option value="publicacao">Certificado de Publicação</option>
+          <option value="revisor">Certificado de Revisor</option>
+          <option value="ministrante">Certificado de Ministrante</option>
+          <option value="palestrante">Certificado de Palestrante</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="nomeEvento" class="block text-sm font-medium">Nome Completo do Evento</label> <br>
+        <input id="nomeEvento" type="text" class="w-full p-3 bg-gray-700 text-gray-100 rounded" placeholder="Digite o nome completo do evento">
+      </div>
+
+      <div>
+        <label for="dataEvento" class="block text-sm font-medium">Data do Evento</label> <br>
+        <input id="dataEvento" type="text" class="w-full p-3 bg-gray-700 text-gray-100 rounded" placeholder="Ex: 10 a 15 de dezembro de 2024">
+      </div>
+
+      <button type="button" id="gerarCertificado" class="w-full btn-roxa p-3 rounded font-medium">
+        Gerar Certificado
+      </button>
+    </form>
+
+    <section id="resultado" class="mt-8 hidden">
+      <h2 class="text-lg font-bold">Texto Gerado:</h2>
+      <div class="bg-gray-700 p-4 mt-4 rounded relative">
+        <pre id="textoGerado" class="whitespace-pre-wrap text-gray-200"></pre>
+        <button id="copiarTexto" class="btn-roxa p-2 rounded text-sm absolute bottom-2 right-2">
+          Copiar Texto
+        </button>
+      </div>
+    </section>
+  </main>
+  <br>
+  <p class="text-gray-400"><a href="https://leolucena22.github.io"/>&copy;leolucena22</a></p>
+
+  <script src="script.js"></script>
+</body>
+</html>
