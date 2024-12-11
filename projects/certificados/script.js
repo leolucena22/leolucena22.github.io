@@ -31,6 +31,9 @@ document.getElementById("gerarCertificado").addEventListener("click", () => {
     case "publicacao":
       texto = `Certificamos que o trabalho intitulado :resumo_titulo do tipo :tipo_resumo de autoria de :nome, :coautor foi aprovado e publicado nos anais do evento <strong>${nomeEvento}</strong>, através da <strong>${nomeRevista}</strong> (ISSN: XXXX-XXXX) no seu Volume X, número X, sob registro DOI :doi_ref.`;
       break;
+    case "aceiteSubmissao":
+      texto = `Certificamos para os devidos fins que a submissão do trabalho intitulado :resumo_titulo do tipo :tipo_resumo de autoria de :nome, :coautor foi aprovado no <strong>${nomeEvento}</strong>, na modalidade <strong>on-line</strong>, que irá ocorrer no período de <strong>${dataEvento}</strong>.`
+      break;
     case "revisor":
       texto = `Certificamos para os devidos fins que :nome participou como revisor(a) dos trabalhos submetidos ao evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 80 horas.`;
       break;
