@@ -20,25 +20,25 @@ document.getElementById("gerarCertificado").addEventListener("click", () => {
 
   switch (tipo) {
     case "participacao":
-      texto = `Certificamos para os devidos fins que <strong>:nome</strong> participou do <strong>${nomeEvento}</strong>, na modalidade <strong>on-line</strong>, no período de <strong>${dataEvento}</strong>, com carga horária total de <strong>40 horas</strong>.`;
+      texto = `Certificamos para os devidos fins que :nome participou do <strong>${nomeEvento}</strong>, na modalidade <strong>on-line</strong>, no período de <strong>${dataEvento}</strong>, com carga horária total de <strong>40 horas</strong>.`;
       break;
     case "participacaoAtividades":
-      texto = `Certificamos para os devidos fins que <strong>:nome</strong>, participou do minicurso <strong>:atividade</strong>, ofertado durante o evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 4 horas.`;
+      texto = `Certificamos para os devidos fins que :nome, participou do minicurso :atividade, ofertado durante o evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 4 horas.`;
       break;
     case "apresentacao":
-      texto = `Certificamos para os devidos fins que o trabalho intitulado "<strong>:resumo_titulo</strong>", de autoria de <strong>:nome</strong>, :coautor foi apresentado na modalidade "<strong>:modalidade_de_apresentacao</strong>" durante o evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>.`;
+      texto = `Certificamos para os devidos fins que o trabalho intitulado ":resumo_titulo", de autoria de :nome, :coautor foi apresentado na modalidade ":modalidade_de_apresentacao" durante o evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>.`;
       break;
     case "publicacao":
-      texto = `Certificamos que o trabalho intitulado <strong>:resumo_titulo</strong> do tipo <strong>:tipo_resumo</strong> de autoria de <strong>:nome</strong>, :coautor foi aprovado e publicado nos anais do evento <strong>${nomeEvento}</strong>, através da <strong>${nomeRevista}</strong> (ISSN: XXXX-XXXX) no seu Volume X, número X, sob registro DOI <strong>:doi_ref</strong>.`;
+      texto = `Certificamos que o trabalho intitulado :resumo_titulo do tipo :tipo_resumo de autoria de :nome, :coautor foi aprovado e publicado nos anais do evento <strong>${nomeEvento}</strong>, através da <strong>${nomeRevista}</strong> (ISSN: XXXX-XXXX) no seu Volume X, número X, sob registro DOI :doi_ref.`;
       break;
     case "revisor":
-      texto = `Certificamos para os devidos fins que <strong>:nome</strong> participou como revisor(a) dos trabalhos submetidos ao evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 80 horas.`;
+      texto = `Certificamos para os devidos fins que :nome participou como revisor(a) dos trabalhos submetidos ao evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 80 horas.`;
       break;
     case "ministrante":
-      texto = `Certificamos para os devidos fins que <strong>:nome</strong> ministrou o minicurso "<strong>:atividade</strong>", com carga horária de 4 horas, durante o evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>.`;
+      texto = `Certificamos para os devidos fins que <strong>:nome</strong> ministrou o minicurso ":atividade", com carga horária de 4 horas, durante o evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>.`;
       break;
     case "palestrante":
-      texto = `Certificamos para os devidos fins que <strong>:nome</strong> ministrou a palestra intitulada "<strong>:palestra</strong>", durante o evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 2 horas.`;
+      texto = `Certificamos para os devidos fins que :nome ministrou a palestra intitulada ":palestra", durante o evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 2 horas.`;
       break;
   }
 
