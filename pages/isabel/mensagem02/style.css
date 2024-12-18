@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", serif;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  align-items: center;
+  background-color: #181C14;
+}
+
+.container {
+  background-image: url(images/image.png);
+  background-repeat: repeat;
+  width: 400px;
+  height: 100%;
+  overflow-x: auto; 
+  padding: 40px 20px;
+  backdrop-filter: blur(100px);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 10px;
+}
+
+.narracao {
+  display: flex;
+  text-align: center;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  background-color: #181C14;
+  padding: 10px 0;
+  border-radius: 10px;
+}
+
+.narracao span {
+  font-size: 0.8rem;
+  color: #ffffff;
+  margin-top: 10px;
+}
+
+audio {
+  height: 30px;
+}
+
+.texto {
+  color: #000000;
+  text-align: justify;
+  font-weight: 500;
+  text-shadow: 2px 2px 10px #ffffff;
+}
+
+/* Scrollbar*/
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #181C14;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #3C3D37;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #3C3D37;
+}
+
+/* Responsivo */
+@media (max-width:600px){
+  .container {
+   margin: 0 10px; 
+   padding: 20px;
+   height: 98%;
+  }
+}
