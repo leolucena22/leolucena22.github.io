@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Links Diretos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-2xl p-6 bg-gray-800 rounded-lg shadow-lg">
+    <h1 class="text-2xl font-bold text-center mb-6">Gerador de Links Diretos</h1>
+    <form id="link-form" class="space-y-4">
+      <!-- Input para cada arquivo -->
+      <div>
+        <label for="link1" class="block text-sm font-medium mb-2">Modelo de Resumo Expandido (Com identificação dos autores)</label>
+        <input type="url" id="link1" placeholder="Cole o link aqui..." class="w-full px-4 py-2 bg-gray-700 rounded focus:outline-none">
+      </div>
+      <div>
+        <label for="link2" class="block text-sm font-medium mb-2">Modelo de Resumo Expandido (Sem identificação dos autores)</label>
+        <input type="url" id="link2" placeholder="Cole o link aqui..." class="w-full px-4 py-2 bg-gray-700 rounded focus:outline-none">
+      </div>
+      <div>
+        <label for="link3" class="block text-sm font-medium mb-2">Modelo de Apresentação Oral</label>
+        <input type="url" id="link3" placeholder="Cole o link aqui..." class="w-full px-4 py-2 bg-gray-700 rounded focus:outline-none">
+      </div>
+      <div>
+        <label for="link4" class="block text-sm font-medium mb-2">Modelo de E-Banner</label>
+        <input type="url" id="link4" placeholder="Cole o link aqui..." class="w-full px-4 py-2 bg-gray-700 rounded focus:outline-none">
+      </div>
+      <button type="button" id="generate-links" class="w-full px-4 py-2 bg-purple-600 rounded hover:bg-purple-500">Gerar Links Diretos</button>
+    </form>
+    <div id="output" class="mt-6 space-y-4 hidden">
+      <!-- Saídas de links gerados -->
+      <div>
+        <h3 class="font-bold mb-2">Modelo de Resumo Expandido (Com identificação dos autores)</h3>
+        <div class="flex items-center justify-between">
+          <span id="output1" class="truncate">Link direto 1</span>
+          <button data-copy="output1" class="copy-btn px-4 py-2 bg-green-600 rounded hover:bg-green-500">Copiar</button>
+        </div>
+      </div>
+      <div>
+        <h3 class="font-bold mb-2">Modelo de Resumo Expandido (Sem identificação dos autores)</h3>
+        <div class="flex items-center justify-between">
+          <span id="output2" class="truncate">Link direto 2</span>
+          <button data-copy="output2" class="copy-btn px-4 py-2 bg-green-600 rounded hover:bg-green-500">Copiar</button>
+        </div>
+      </div>
+      <div>
+        <h3 class="font-bold mb-2">Modelo de Apresentação Oral</h3>
+        <div class="flex items-center justify-between">
+          <span id="output3" class="truncate">Link direto 3</span>
+          <button data-copy="output3" class="copy-btn px-4 py-2 bg-green-600 rounded hover:bg-green-500">Copiar</button>
+        </div>
+      </div>
+      <div>
+        <h3 class="font-bold mb-2">Modelo de E-Banner</h3>
+        <div class="flex items-center justify-between">
+          <span id="output4" class="truncate">Link direto 4</span>
+          <button data-copy="output4" class="copy-btn px-4 py-2 bg-green-600 rounded hover:bg-green-500">Copiar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
