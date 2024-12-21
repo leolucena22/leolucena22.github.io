@@ -68,7 +68,7 @@ main {
   display: flex;
   gap: 3rem;
   flex-flow: row wrap;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   margin: 40px 60px;
 }
 
@@ -83,7 +83,7 @@ main {
   text-align: justify;
   box-shadow: 5px 5px 10px var(--nav-background);
   border-radius: 10px;
-  width: 400px;
+  width: 350px;
 }
 
 .card h4 {
