@@ -35,7 +35,7 @@ document.getElementById("gerarCertificado").addEventListener("click", () => {
       texto = `Certificamos para os devidos fins que a submissão do trabalho intitulado :resumo_titulo do tipo :tipo_resumo de autoria de :nome, :coautor foi aprovado no <strong>${nomeEvento}</strong>, na modalidade <strong>on-line</strong>, que irá ocorrer no período de <strong>${dataEvento}</strong>.`
       break;
     case "revisor":
-      texto = `Certificamos para os devidos fins que :nome participou como revisor(a) dos trabalhos submetidos ao evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 80 horas.`;
+      texto = `Certificamos para os devidos fins que :nome participou como membro da Comissão Científica na categoria de Revisor(a) dos trabalhos submetidos ao evento <strong>${nomeEvento}</strong>, na modalidade on-line, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 80 horas.`;
       break;
     case "ministrante":
       texto = `Certificamos para os devidos fins que <strong>:nome</strong> ministrou o minicurso ":atividade", com carga horária de 4 horas, durante o evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>.`;
