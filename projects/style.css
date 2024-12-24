@@ -90,6 +90,7 @@ main {
 .card h4 {
   color: #ffffff;
   font-size: 1.2rem;
+  text-align: center;
 }
 
 .card span {
