@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", serif;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  align-items: center;
+  background: rgb(0,0,0);
+  background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(6,32,4,1) 50%, rgba(0,0,0,1) 100%);
+  color: #ffffff;
+}
+
+.container {
+  background-color: #479e39;
+  width: 400px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.box {
+  display: flex;
+  flex-flow: column;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.box h1 {
+  text-transform: uppercase;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.box-inputs p {
+  margin: 10px 0;
+}
+
+.box-inputs input[type=number] {
+  border: none;
+  font-size: 1.3rem;
+  text-align: center;
+  padding: 5px 0;
+  width: 100%;
+}
+
+.box-inputs input:focus {
+  outline: none;
+}
+
+.botao {
+  width: 70px;
+  padding: 10px 0;
+  border: none;
+  background: #0d4008;
+  cursor: pointer;
+  color: #ffffff;
+  border-radius: 5px;
+}
+
+.box-resultado {
+  background: #67bd56;
+  color: #ffffff;
+  text-align: center;
+  padding: 10px;
+}
+
+.disable {
+  display: none;
+}
