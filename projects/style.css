@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit&family=Poppins&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+:root {
+  --background: #202124;
+  --nav-background: #303134;
+  --cards-background: #55575f;
+  --logo-font: 'Kanit', sans-serif;
+  --body-font: 'Poppins', sans-serif;
+}
+
+ul li {
+  list-style: none;
+}
+
+body {
+  background-color: var(--background);
+}
+
+header {
+  background-color: var(--nav-background);
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.logo {
+  color: #ffffff;
+  font-family: var(--logo-font);
+  font-weight: 900;
+}
+
+.links {
+  color: #ffffff;
+  font-family: var(--body-font);
+}
+
+.links a:hover {
+  opacity: 0.5;
+  text-decoration: underline;
+  transition: 0.2s;
+}
+
+main {
+  height: 100vh;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cards {
+  display: flex;
+  gap: 3rem;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  margin: 40px 60px;
+}
+
+.card {
+  background-color: var(--cards-background);
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+  font-family: var(--body-font);
+  padding: 20px;
+  gap: 1rem;
+  text-align: justify;
+  box-shadow: 5px 5px 10px var(--nav-background);
+  border-radius: 10px;
+  width: 350px;
+}
+
+.card h4 {
+  color: #ffffff;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.card span {
+  color: #ffffff;
+}
+
+.imagem {
+  height: 100%;
+}
+
+.imagem img {
+  height: 200px;
+  width: 200px;
+  border-radius: 10px;
+}
+
+.botao {
+  padding: 10px;
+  background-color: var(--background);
+  border-radius: 5px;
+}
+
+.botao:hover {
+  opacity: 0.8;
+  transition: 0.5s;
+}
+
+footer {
+  background-color: var(--nav-background);
+  text-align: center;
+  padding: 20px 0;
+  margin-top: auto;
+  font-family: var(--body-font);
+}
+
+@media (max-width:600px) {
+  header {
+    justify-content: space-between;
+  }
+}
