@@ -19,7 +19,7 @@ body {
 
 .container {
   background: rgba(0, 0, 0, 0.6);
-  padding: 40px;
+  padding: 25px;
   border-radius: 15px;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
   max-width: 400px;
@@ -29,7 +29,7 @@ body {
 .box {
   display: flex;
   flex-flow: column;
-  gap: 20px;
+  gap: 15px;
 }
 
 .contador {
@@ -61,6 +61,11 @@ h3 {
   margin-top: 10px;
   text-align: justify;
   font-size: small;
+}
+
+audio {
+  height: 30px;
+  margin: 0 auto;
 }
 
 @keyframes fadeIn {
