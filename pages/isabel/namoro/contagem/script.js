@@ -1,26 +1,36 @@
-// Define a data inicial do namoro (substitua pela data real)
-const dataInicial = new Date('2024-12-22T09:00:00'); // Exemplo: 14 de fevereiro de 2023
+const startDate = new Date('2024-12-22T10:05:00'); // Data do início do namoro
+const contador = document.getElementById('contador');
 
-// Função para atualizar o contador
-function atualizarContador() {
-  const agora = new Date();
-  const diferenca = agora - dataInicial; // Diferença em milissegundos
+function updateTimer() {
+  const now = new Date();
+  const diff = now - startDate;
 
-  // Converte a diferença em dias, horas, minutos e segundos
-  const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
-  const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
-  const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+  // Calcular tempo total
+  const seconds = Math.floor(diff / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  const months = Math.floor(days / 30.44); // Aproximando meses
+  const years = Math.floor(months / 12);
 
-  // Atualiza o conteúdo do contador
-  const contador = document.getElementById('contador');
-  contador.innerHTML = `
-    <h3>${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos</h3>
+  // Dias adicionais após meses/anos completos
+  const remainingDays = days - (months * 30.44).toFixed(0);
+  const remainingMonths = months % 12;
+  const remainingHours = hours % 24;
+  const remainingMinutes = minutes % 60;
+  const remainingSeconds = seconds % 60;
+
+  // Mostrar o tempo completo
+  let timeString = '';
+  if (years > 0) {
+    timeString += `<p>${years} anos</p>`;
+  }
+  timeString += `
+    <p>${remainingMonths} mês | ${remainingDays.toFixed()} dias | </p>
+    <p>${remainingHours} horas | ${remainingMinutes} minutos | ${remainingSeconds} segundos</p>
   `;
+  contador.innerHTML = timeString;
 }
 
-// Atualiza o contador a cada segundo
-setInterval(atualizarContador, 1000);
-
-// Chama a função imediatamente para mostrar o tempo assim que a página carregar
-atualizarContador();
+// Atualizar o contador a cada segundo
+setInterval(updateTimer, 1000);

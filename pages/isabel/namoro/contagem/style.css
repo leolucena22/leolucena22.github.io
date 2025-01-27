@@ -75,3 +75,12 @@ audio {
     opacity: 1;
   }
 }
+
+@media (max-width: 600px){
+  .contador {
+    padding: 20px 0;
+  }
+  .contador p {
+    font-size: 1.4rem;
+  }
+}
