@@ -20,3 +20,9 @@ function startWhatsAppChat() {
     const whatsappLink = `https://wa.me/${number}`;
     window.open(whatsappLink, '_blank');
   }
+
+  document.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+      startWhatsAppChat()
+    }
+  });
