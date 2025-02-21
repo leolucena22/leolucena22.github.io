@@ -27,12 +27,15 @@ function updateTimer() {
   const minutes = Math.floor(diff / (1000 * 60)) % 60;
   const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
 
+  // Definir texto correto para "mês" ou "meses"
+  const mesTexto = months === 1 ? 'mês' : 'meses';
+
   // Montar a string formatada
   let timeString = '';
   if (years > 0) {
     timeString += `<p>${years} anos</p>`;
   }
-  timeString += `<p>${months} mês | ${days} dias | </p>`;
+  timeString += `<p>${months} ${mesTexto} | ${days} dias | </p>`;
   timeString += `<p>${hours} horas | ${minutes} minutos | ${seconds} segundos</p>`;
 
   contador.innerHTML = timeString;
