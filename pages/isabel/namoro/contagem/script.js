@@ -3,34 +3,41 @@ const contador = document.getElementById('contador');
 
 function updateTimer() {
   const now = new Date();
+
+  // Diferença de anos e meses
+  let years = now.getFullYear() - startDate.getFullYear();
+  let months = now.getMonth() - startDate.getMonth();
+  let days = now.getDate() - startDate.getDate();
+
+  // Ajuste para quando o dia ainda não foi atingido no mês atual
+  if (days < 0) {
+    months -= 1;
+    const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0); // Último dia do mês anterior
+    days += lastMonth.getDate();
+  }
+
+  if (months < 0) {
+    years -= 1;
+    months += 12;
+  }
+
+  // Calcular o tempo restante do dia atual
   const diff = now - startDate;
+  const seconds = Math.floor(diff / 1000) % 60;
+  const minutes = Math.floor(diff / (1000 * 60)) % 60;
+  const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
 
-  // Calcular tempo total
-  const seconds = Math.floor(diff / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  const months = Math.floor(days / 30.44); // Aproximando meses
-  const years = Math.floor(months / 12);
-
-  // Dias adicionais após meses/anos completos
-  const remainingDays = days - (months * 30.44).toFixed(0);
-  const remainingMonths = months % 12;
-  const remainingHours = hours % 24;
-  const remainingMinutes = minutes % 60;
-  const remainingSeconds = seconds % 60;
-
-  // Mostrar o tempo completo
+  // Montar a string formatada
   let timeString = '';
   if (years > 0) {
     timeString += `<p>${years} anos</p>`;
   }
-  timeString += `
-    <p>${remainingMonths} mês | ${remainingDays.toFixed()} dias | </p>
-    <p>${remainingHours} horas | ${remainingMinutes} minutos | ${remainingSeconds} segundos</p>
-  `;
+  timeString += `<p>${months} mês | ${days} dias | </p>`;
+  timeString += `<p>${hours} horas | ${minutes} minutos | ${seconds} segundos</p>`;
+
   contador.innerHTML = timeString;
 }
 
 // Atualizar o contador a cada segundo
 setInterval(updateTimer, 1000);
+updateTimer(); // Chamar imediatamente para evitar o delay do primeiro segundo
