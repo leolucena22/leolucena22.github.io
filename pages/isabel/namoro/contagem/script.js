@@ -4,7 +4,7 @@ const contador = document.getElementById('contador');
 function updateTimer() {
   const now = new Date();
 
-  // Diferença de anos, meses e dias
+  // Diferença em anos, meses e dias
   let years = now.getFullYear() - startDate.getFullYear();
   let months = now.getMonth() - startDate.getMonth();
   let days = now.getDate() - startDate.getDate();
@@ -12,7 +12,7 @@ function updateTimer() {
   let minutes = now.getMinutes() - startDate.getMinutes();
   let seconds = now.getSeconds() - startDate.getSeconds();
 
-  // Ajustar dias e horas se necessário
+  // Ajustar minutos e segundos negativos
   if (seconds < 0) {
     seconds += 60;
     minutes -= 1;
@@ -35,12 +35,14 @@ function updateTimer() {
     months += 12;
   }
 
-  // Garantir que só conte "2 meses" após a hora exata
+  // Garantir que o contador mostre o mês certo antes do horário exato
   let mesTexto;
-  if (months === 1 && (now.getDate() < startDate.getDate() || (now.getDate() === startDate.getDate() && now.getHours() < startDate.getHours()))) {
-    months = 0; // Ainda não completou 1 mês
+  if (months === 1 && now.getDate() === startDate.getDate() && now.getHours() < startDate.getHours()) {
+    // Ainda não chegou no horário certo, então mantém "1 mês"
+    months = 1;
     mesTexto = "mês";
   } else {
+    // Atualiza corretamente após o horário
     mesTexto = months === 1 ? "mês" : "meses";
   }
 
@@ -57,4 +59,4 @@ function updateTimer() {
 
 // Atualizar o contador a cada segundo
 setInterval(updateTimer, 1000);
-updateTimer(); // Chamar imediatamente para evitar o delay do primeiro segundo
+updateTimer(); // Chamar imediatamente para evitar atraso
