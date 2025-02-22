@@ -4,31 +4,45 @@ const contador = document.getElementById('contador');
 function updateTimer() {
   const now = new Date();
 
-  // Diferença de anos e meses
+  // Diferença de anos, meses e dias
   let years = now.getFullYear() - startDate.getFullYear();
   let months = now.getMonth() - startDate.getMonth();
   let days = now.getDate() - startDate.getDate();
+  let hours = now.getHours() - startDate.getHours();
+  let minutes = now.getMinutes() - startDate.getMinutes();
+  let seconds = now.getSeconds() - startDate.getSeconds();
 
-  // Ajuste para quando o dia ainda não foi atingido no mês atual
+  // Ajustar dias e horas se necessário
+  if (seconds < 0) {
+    seconds += 60;
+    minutes -= 1;
+  }
+  if (minutes < 0) {
+    minutes += 60;
+    hours -= 1;
+  }
+  if (hours < 0) {
+    hours += 24;
+    days -= 1;
+  }
   if (days < 0) {
     months -= 1;
     const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0); // Último dia do mês anterior
     days += lastMonth.getDate();
   }
-
   if (months < 0) {
     years -= 1;
     months += 12;
   }
 
-  // Calcular o tempo restante do dia atual
-  const diff = now - startDate;
-  const seconds = Math.floor(diff / 1000) % 60;
-  const minutes = Math.floor(diff / (1000 * 60)) % 60;
-  const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
-
-  // Definir texto correto para "mês" ou "meses"
-  const mesTexto = months === 1 ? 'mês' : 'meses';
+  // Garantir que só conte "2 meses" após a hora exata
+  let mesTexto;
+  if (months === 1 && (now.getDate() < startDate.getDate() || (now.getDate() === startDate.getDate() && now.getHours() < startDate.getHours()))) {
+    months = 0; // Ainda não completou 1 mês
+    mesTexto = "mês";
+  } else {
+    mesTexto = months === 1 ? "mês" : "meses";
+  }
 
   // Montar a string formatada
   let timeString = '';
