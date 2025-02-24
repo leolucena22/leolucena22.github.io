@@ -12,7 +12,7 @@
         }
     </script>
     <style>
-        /* Removendo as setas dos inputs numéricos */
+        /* Removendo setas dos inputs numéricos */
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
             -webkit-appearance: none;
@@ -44,6 +44,9 @@
         <label class="block font-semibold mb-2">Nome do Evento</label>
         <input type="text" id="evento" class="w-full border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 rounded p-2 mb-4 focus:ring-green-500 focus:outline-none" placeholder="Digite o nome do evento">
 
+        <label class="block font-semibold mb-2">Valor Atual no Painel (R$)</label>
+        <input type="number" id="valorPainel" class="w-full border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 rounded p-2 mb-4 focus:ring-green-500 focus:outline-none" placeholder="Digite o valor em reais">
+
         <label class="block font-semibold mb-2">Trabalhos Aprovados</label>
         <input type="number" id="trabalhos" class="w-full border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 rounded p-2 mb-4 focus:ring-green-500 focus:outline-none" placeholder="Digite a quantidade">
 
@@ -56,8 +59,10 @@
 
         <div id="resultado-box" class="mt-4 fade-in">
             <p id="resultado" class="text-lg font-semibold"></p>
-            <p id="faltando" class="mt-2 text-sm"></p>
-            <p id="projecao" class="mt-2 text-sm"></p>
+            <p id="faltando1" class="mt-2 text-sm"></p>
+            <p id="faltando2" class="mt-2 text-sm"></p>
+            <p id="faltando3" class="mt-2 text-sm"></p>
+            <p id="faltando4" class="mt-2 text-sm"></p>
         </div>
     </div>
 
