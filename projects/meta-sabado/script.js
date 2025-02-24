@@ -17,7 +17,7 @@ function calcularFolgas() {
     const meta1 = 25000; 
     const meta2 = 28000; 
     const meta3 = meta2 * 1.08; 
-    const meta4 = 30000; 
+    const meta4 = 30000 * 1.10; 
 
     let folgas = 0;
 
