@@ -1,24 +1,30 @@
+function formatarMoeda(campo) {
+    let valor = campo.value.replace(/\D/g, ""); 
+    valor = (parseFloat(valor) / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    campo.value = valor;
+}
+
 function calcularFolgas() {
     const evento = document.getElementById('evento').value.trim();
-    const valorPainel = parseFloat(document.getElementById('valorPainel').value) || 0;
+    let valorPainel = document.getElementById('valorPainel').value;
     const trabalhos = parseInt(document.getElementById('trabalhos').value) || 0;
     const inscritos = parseInt(document.getElementById('inscritos').value) || 0;
 
-    // Cálculo do total de pontos
-    const totalPontos = (trabalhos * 100) + inscritos + valorPainel;
+    // Remover R$ e formatar para número
+    valorPainel = parseFloat(valorPainel.replace(/[^\d,]/g, "").replace(",", ".") || 0);
 
     // Metas para ganhar sábados
-    const meta1 = 25000;
-    const meta2 = meta1 * 1.05; // +5%
-    const meta3 = meta1 * 1.08; // +8%
-    const meta4 = 30000; // Última meta fixa
+    const meta1 = 25000; 
+    const meta2 = 28000; 
+    const meta3 = meta2 * 1.08; 
+    const meta4 = 30000; 
 
     let folgas = 0;
 
-    if (totalPontos >= meta1) folgas = 1;
-    if (totalPontos >= meta2) folgas = 2;
-    if (totalPontos >= meta3) folgas = 3;
-    if (totalPontos >= meta4) folgas = 4;
+    if (valorPainel > meta1) folgas = 1;
+    if (valorPainel > meta2) folgas = 2;
+    if (valorPainel > meta3) folgas = 3;
+    if (valorPainel > meta4) folgas = 4;
 
     const resultadoBox = document.getElementById('resultado-box');
     const resultado = document.getElementById('resultado');
@@ -27,11 +33,11 @@ function calcularFolgas() {
     const faltando3 = document.getElementById('faltando3');
     const faltando4 = document.getElementById('faltando4');
 
-    resultadoBox.classList.remove("show"); // Reseta animação
+    resultadoBox.classList.remove("show");
     setTimeout(() => {
-        resultadoBox.classList.add("show"); // Exibe a saída
+        resultadoBox.classList.add("show");
 
-        let eventoTexto = evento ? `para o evento <strong>*${evento}</strong>` : "para o evento";
+        let eventoTexto = evento ? `para o evento <strong>${evento}</strong>` : "para o evento";
 
         if (folgas > 0) {
             resultado.innerHTML = `🎉 Você ganhou <span class="font-bold">${folgas} sábado(s) de folga</span> ${eventoTexto}!`;
@@ -43,11 +49,10 @@ function calcularFolgas() {
             resultado.classList.add("text-red-600");
         }
 
-        // Exibe os valores que faltam para cada nível de folga
-        faltando1.innerHTML = `🔹 Faltam <span class="font-bold">R$${Math.max(0, meta1 - totalPontos).toLocaleString()}</span> para 1 sábado.`;
-        faltando2.innerHTML = `🔹 Faltam <span class="font-bold">R$${Math.max(0, meta2 - totalPontos).toLocaleString()}</span> para 2 sábados.`;
-        faltando3.innerHTML = `🔹 Faltam <span class="font-bold">R$${Math.max(0, meta3 - totalPontos).toLocaleString()}</span> para 3 sábados.`;
-        faltando4.innerHTML = `🔹 Faltam <span class="font-bold">R$${Math.max(0, meta4 - totalPontos).toLocaleString()}</span> para 4 sábados.`;
-        
+        faltando1.innerHTML = `🔹 Faltam <span class="font-bold">${(meta1 - valorPainel > 0) ? (meta1 - valorPainel).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "✅"}</span> para 1 sábado.`;
+        faltando2.innerHTML = `🔹 Faltam <span class="font-bold">${(meta2 - valorPainel > 0) ? (meta2 - valorPainel).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "✅"}</span> para 2 sábados.`;
+        faltando3.innerHTML = `🔹 Faltam <span class="font-bold">${(meta3 - valorPainel > 0) ? (meta3 - valorPainel).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "✅"}</span> para 3 sábados.`;
+        faltando4.innerHTML = `🔹 Faltam <span class="font-bold">${(meta4 - valorPainel > 0) ? (meta4 - valorPainel).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "✅"}</span> para 4 sábados.`;
+
     }, 100);
 }
