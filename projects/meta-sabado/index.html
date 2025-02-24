@@ -39,16 +39,16 @@
     <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96 text-center">
         <h2 class="text-2xl font-bold mb-4">Calculadora de Metas 📅</h2>
 
-        <label class="block font-semibold mb-2">Nome do Evento</label>
+        <label class="block font-semibold mb-2 text-left">Nome do Evento</label>
         <input type="text" id="evento" class="w-full border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 rounded p-2 mb-4 focus:ring-green-500 focus:outline-none" placeholder="Digite o nome do evento">
 
-        <label class="block font-semibold mb-2">Valor Atual no Painel (R$)</label>
+        <label class="block font-semibold mb-2 text-left">Valor Atual no Painel (R$)</label>
         <input type="text" id="valorPainel" class="w-full border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 rounded p-2 mb-4 focus:ring-green-500 focus:outline-none" placeholder="Digite o valor em reais" oninput="formatarMoeda(this)">
 
-        <label class="block font-semibold mb-2">Trabalhos Aprovados</label>
+        <label class="block font-semibold mb-2 text-left">Trabalhos Aprovados</label>
         <input type="number" id="trabalhos" class="w-full border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 rounded p-2 mb-4 focus:ring-green-500 focus:outline-none" placeholder="Digite a quantidade">
 
-        <label class="block font-semibold mb-2">Inscritos no Evento</label>
+        <label class="block font-semibold mb-2 text-left">Inscritos no Evento</label>
         <input type="number" id="inscritos" class="w-full border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 rounded p-2 mb-4 focus:ring-green-500 focus:outline-none" placeholder="Digite a quantidade">
 
         <button onclick="calcularFolgas()" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 w-full transition-all">
@@ -62,7 +62,7 @@
             <p id="faltando3" class="mt-2 text-sm"></p>
             <p id="faltando4" class="mt-2 text-sm"></p>
         </div>
-        <p class="text-gray-400 text-center"><a href="https://leolucena22.github.io"/>&copy;leolucena22</a></p>
+        <p class="text-gray-400 text-center mt-6"><a href="https://leolucena22.github.io"/>&copy;leolucena22</a></p>
     </div>
     <script src="script.js"></script>
 </body>

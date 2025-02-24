@@ -56,3 +56,9 @@ function calcularFolgas() {
 
     }, 100);
 }
+
+document.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        calcularFolgas()
+    }
+  });
