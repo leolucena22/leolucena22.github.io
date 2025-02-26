@@ -154,6 +154,7 @@ nav {
 
 .texto p {
   font-size: 1.1rem;
+  text-align: justify;
 }
 
 .texto i {
@@ -212,6 +213,9 @@ footer {
 
 /* Responsivo */
 @media (max-width: 600px) {
+  .container {
+    margin: 20px;
+  }
   .links {
     position: fixed;
     top: 0;
