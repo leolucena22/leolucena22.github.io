@@ -8,6 +8,18 @@ function formatarTexto() {
 
     let estruturaEsperada = tipoResumo === "pesquisa" ? estruturaPesquisa : estruturaRelato;
 
+    // Mapeamento para normalização (singular/plural equivalentes)
+    const equivalencias = {
+        "Objetivo": "Objetivos",
+        "Objetivos": "Objetivos",
+        "Metodologia": "Metodologia",
+        "Metodologias": "Metodologia",
+        "Relato de caso": "Relato de caso",
+        "Relatos de caso": "Relato de caso",
+        "Relato de experiência": "Relato de experiência",
+        "Relatos de experiência": "Relato de experiência",
+    };
+
     // Captura as seções presentes no texto
     let regexTituloss = /(Introdução|Objetivo|Objetivos|Metodologia|Metodologias|Resultados|Relato de caso|Relatos de caso|Relato de experiência|Relatos de experiência|Conclusão):/g;
     let secoesPresentes = texto.match(regexTituloss);
@@ -19,16 +31,11 @@ function formatarTexto() {
 
     let secoesEncontradas = secoesPresentes.map(secao => secao.replace(":", "").trim());
 
-    // Normaliza os nomes das seções para evitar erro de singular/plural
-    const normalizarSecao = secao => secao
-        .replace("Objetivo", "Objetivos")
-        .replace("Metodologia", "Metodologias")
-        .replace("Relato de caso", "Relatos de caso")
-        .replace("Relato de experiência", "Relatos de experiência");
+    // Normalizar seções encontradas para o formato esperado (mapeando singular/plural)
+    let secoesNormalizadas = secoesEncontradas.map(secao => equivalencias[secao] || secao);
 
-    let secoesFaltantes = estruturaEsperada.filter(secao => 
-        !secoesEncontradas.map(normalizarSecao).includes(normalizarSecao(secao))
-    );
+    // Verificar quais seções estão faltando
+    let secoesFaltantes = estruturaEsperada.filter(secao => !secoesNormalizadas.includes(secao));
 
     if (secoesFaltantes.length > 0) {
         alert("Erro: Seu resumo está incompleto. As seguintes seções estão faltando: " + secoesFaltantes.join(", "));
@@ -50,8 +57,27 @@ function formatarTexto() {
 }
 
 function copiarTexto() {
-    let textoFormatado = document.getElementById("outputTexto").innerText;
-    navigator.clipboard.writeText(textoFormatado).then(() => {
-        alert("✅ Texto copiado para a área de transferência!");
+    let outputDiv = document.getElementById("outputTexto");
+
+    // Criar um elemento temporário para copiar
+    let tempElement = document.createElement("div");
+    tempElement.innerHTML = outputDiv.innerHTML;
+
+    // Remover estilos inline e classes desnecessárias
+    let elementos = tempElement.querySelectorAll("*");
+    elementos.forEach(el => {
+        el.removeAttribute("style");
+        el.removeAttribute("class");
+    });
+
+    // Criar um Blob (formato HTML) e copiar corretamente
+    let blob = new Blob([tempElement.innerHTML], { type: "text/html" });
+    let data = [new ClipboardItem({ "text/html": blob })];
+
+    navigator.clipboard.write(data).then(() => {
+        alert("✅ Texto formatado copiado com sucesso!");
+    }).catch(err => {
+        console.error("Erro ao copiar o texto:", err);
+        alert("❌ Falha ao copiar o texto.");
     });
 }
