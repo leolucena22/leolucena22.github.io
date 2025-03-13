@@ -71,27 +71,24 @@ function copiarTexto() {
     let tempDiv = document.createElement("div");
     tempDiv.innerHTML = outputDiv.innerHTML;
 
-    // Sanitização e formatação consistente
-    tempDiv.querySelectorAll("*").forEach(el => {
-        el.removeAttribute("style");
-        el.removeAttribute("class");
-        el.style.backgroundColor = "transparent";
-    });
+    // Adiciona a formatação de justificação no HTML copiado
+    let formattedHTML = `<div style="text-align: justify;">${tempDiv.innerHTML}</div>`;
 
     navigator.clipboard.write([
         new ClipboardItem({
-            "text/html": new Blob([tempDiv.innerHTML], { type: "text/html" }),
+            "text/html": new Blob([formattedHTML], { type: "text/html" }),
             "text/plain": new Blob([tempDiv.textContent], { type: "text/plain" })
         })
     ]).then(() => {
-        alert("✅ Texto copiado com formatação correta!");
+        alert("✅ Texto copiado com justificação (se compatível)!");
     }).catch(() => {
+        // Backup para copiar sem formatação caso o navegador não suporte
         const textarea = document.createElement("textarea");
         textarea.value = tempDiv.textContent;
         document.body.appendChild(textarea);
         textarea.select();
         document.execCommand("copy");
         document.body.removeChild(textarea);
-        alert("✅ Texto copiado (versão simples)!");
+        alert("✅ Texto copiado (versão sem formatação)!");
     });
 }
