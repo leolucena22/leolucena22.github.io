@@ -9,9 +9,20 @@ function normalizarSecao(secao) {
         "relato de caso": "Relato",
         "relatos de caso": "Relato",
         "relato de experiência": "Relato",
-        "relatos de experiência": "Relato"
+        "relatos de experiência": "Relato",
+        "conclusão": "Conclusão",
+        "conclusões": "Conclusão"
     };
-    return equivalencias[secao.toLowerCase()] || secao;
+    return equivalencias[secao.toLowerCase()] || toTitleCase(secao);
+}
+
+function toTitleCase(str) {
+    const lowerWords = ['e', 'de', 'da', 'do', 'das', 'dos', 'em', 'para', 'com'];
+    return str.toLowerCase().split(' ')
+        .map((word, index) => (index === 0 || !lowerWords.includes(word)) 
+            ? word.charAt(0).toUpperCase() + word.slice(1) 
+            : word)
+        .join(' ');
 }
 
 function formatarTexto() {
@@ -22,8 +33,9 @@ function formatarTexto() {
     const estruturaRelato = ["Introdução", "Objetivos", "Relato", "Conclusão"];
     let estruturaEsperada = tipoResumo === "pesquisa" ? estruturaPesquisa : estruturaRelato;
 
-    // Adicionei a flag 'i' para case-insensitive e ajustei os termos
-    let regexTitulos = /(Introdução|Objetivo|Objetivos|Metodologia|Metodologias|Material e métodos|Materiais e métodos|Resultado|Resultados|Relato de caso|Relatos de caso|Relato de experiência|Relatos de experiência|Conclusão):/gi;
+    // Regex atualizada com grupos capturadores
+    let regexTitulos = /(\bIntrodução|\bObjetivo|\bObjetivos|\bMetodologia|\bMetodologias|\bMaterial\s+e\s+Métodos|\bMateriais\s+e\s+Métodos|\bResultado|\bResultados|\bRelato\s+de\s+Caso|\bRelatos\s+de\s+Caso|\bRelato\s+de\s+Experiência|\bRelatos\s+de\s+Experiência|\bConclusão|\bConclusões)(:)/gi;
+    
     let secoesPresentes = texto.match(regexTitulos);
 
     if (!secoesPresentes) {
@@ -31,15 +43,13 @@ function formatarTexto() {
         return;
     }
 
-    // Normaliza as seções encontradas (tratamento case-insensitive)
+    // Normalização para validação
     let secoesEncontradas = secoesPresentes.map(secao => {
         let secaoLimpa = secao.replace(":", "").trim();
         return normalizarSecao(secaoLimpa);
     });
 
-    // Remove duplicatas (ex: múltiplas ocorrências de Metodologias)
     secoesEncontradas = [...new Set(secoesEncontradas)];
-
     let secoesFaltantes = estruturaEsperada.filter(secao => !secoesEncontradas.includes(secao));
 
     if (secoesFaltantes.length > 0) {
@@ -47,36 +57,41 @@ function formatarTexto() {
         return;
     }
 
-    // Restante do código permanece igual...
-    let textoFormatado = texto.replace(regexTitulos, function(match) {
-        return `<strong>${match}</strong>`;
+    // Formatação com Capitalize Case
+    let textoFormatado = texto.replace(regexTitulos, function(match, p1, p2) {
+        return `<strong>${toTitleCase(p1)}${p2}</strong>`;
     });
 
     document.getElementById("outputTexto").innerHTML = textoFormatado;
     document.getElementById("resultadoContainer").classList.remove("hidden");
 }
 
-// As demais funções (copiarTexto) permanecem inalteradas
-
 function copiarTexto() {
     let outputDiv = document.getElementById("outputTexto");
+    let tempDiv = document.createElement("div");
+    tempDiv.innerHTML = outputDiv.innerHTML;
 
-    let tempElement = document.createElement("div");
-    tempElement.innerHTML = outputDiv.innerHTML;
-
-    let elementos = tempElement.querySelectorAll("*");
-    elementos.forEach(el => {
+    // Sanitização e formatação consistente
+    tempDiv.querySelectorAll("*").forEach(el => {
         el.removeAttribute("style");
         el.removeAttribute("class");
+        el.style.backgroundColor = "transparent";
     });
 
-    let blob = new Blob([tempElement.innerHTML], { type: "text/html" });
-    let data = [new ClipboardItem({ "text/html": blob })];
-
-    navigator.clipboard.write(data).then(() => {
-        alert("✅ Texto formatado copiado com sucesso!");
-    }).catch(err => {
-        console.error("Erro ao copiar o texto:", err);
-        alert("❌ Falha ao copiar o texto.");
+    navigator.clipboard.write([
+        new ClipboardItem({
+            "text/html": new Blob([tempDiv.innerHTML], { type: "text/html" }),
+            "text/plain": new Blob([tempDiv.textContent], { type: "text/plain" })
+        })
+    ]).then(() => {
+        alert("✅ Texto copiado com formatação correta!");
+    }).catch(() => {
+        const textarea = document.createElement("textarea");
+        textarea.value = tempDiv.textContent;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        alert("✅ Texto copiado (versão simples)!");
     });
 }
