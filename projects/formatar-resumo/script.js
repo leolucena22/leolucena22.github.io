@@ -5,6 +5,8 @@ function normalizarSecao(secao) {
         "metodologias": "Metodologias",
         "materiais e métodos": "Metodologias",
         "material e métodos": "Metodologias",
+        "método": "Metodologias",  // Novo
+        "métodos": "Metodologias",  // Novo
         "resultado": "Resultados",
         "relato de caso": "Relato",
         "relatos de caso": "Relato",
@@ -13,16 +15,7 @@ function normalizarSecao(secao) {
         "conclusão": "Conclusão",
         "conclusões": "Conclusão"
     };
-    return equivalencias[secao.toLowerCase()] || toTitleCase(secao);
-}
-
-function toTitleCase(str) {
-    const lowerWords = ['e', 'de', 'da', 'do', 'das', 'dos', 'em', 'para', 'com'];
-    return str.toLowerCase().split(' ')
-        .map((word, index) => (index === 0 || !lowerWords.includes(word)) 
-            ? word.charAt(0).toUpperCase() + word.slice(1) 
-            : word)
-        .join(' ');
+    return equivalencias[secao.toLowerCase()] || secao;
 }
 
 function formatarTexto() {
@@ -33,8 +26,8 @@ function formatarTexto() {
     const estruturaRelato = ["Introdução", "Objetivos", "Relato", "Conclusão"];
     let estruturaEsperada = tipoResumo === "pesquisa" ? estruturaPesquisa : estruturaRelato;
 
-    // Regex atualizada com grupos capturadores
-    let regexTitulos = /(\bIntrodução|\bObjetivo|\bObjetivos|\bMetodologia|\bMetodologias|\bMaterial\s+e\s+Métodos|\bMateriais\s+e\s+Métodos|\bResultado|\bResultados|\bRelato\s+de\s+Caso|\bRelatos\s+de\s+Caso|\bRelato\s+de\s+Experiência|\bRelatos\s+de\s+Experiência|\bConclusão|\bConclusões)(:)/gi;
+    // Regex atualizada com "Método" e "Métodos"
+    let regexTitulos = /(Introdução|Objetivo|Objetivos|Metodologia|Metodologias|Método|Métodos|Material\s*e\s*Métodos|Materiais\s*e\s*Métodos|Resultado|Resultados|Relato\s*de\s*Caso|Relatos\s*de\s*Caso|Relato\s*de\s*Experiência|Relatos\s*de\s*Experiência|Conclusão|Conclusões)\s*:/gi;
     
     let secoesPresentes = texto.match(regexTitulos);
 
@@ -43,23 +36,24 @@ function formatarTexto() {
         return;
     }
 
-    // Normalização para validação
+    // Normalização
     let secoesEncontradas = secoesPresentes.map(secao => {
-        let secaoLimpa = secao.replace(":", "").trim();
+        let secaoLimpa = secao.replace(/\s*:/, '').trim();
         return normalizarSecao(secaoLimpa);
     });
 
+    // Verificação de estrutura
     secoesEncontradas = [...new Set(secoesEncontradas)];
     let secoesFaltantes = estruturaEsperada.filter(secao => !secoesEncontradas.includes(secao));
 
     if (secoesFaltantes.length > 0) {
-        alert(`Erro: Seu resumo está incompleto. As seguintes seções estão faltando: ${secoesFaltantes.join(", ")}`);
+        alert(`Erro: Seções faltantes: ${secoesFaltantes.join(", ")}`);
         return;
     }
 
-    // Formatação com Capitalize Case
-    let textoFormatado = texto.replace(regexTitulos, function(match, p1, p2) {
-        return `<strong>${toTitleCase(p1)}${p2}</strong>`;
+    // Formatação
+    let textoFormatado = texto.replace(regexTitulos, (match) => {
+        return `<strong>${match.trim()}</strong>`;
     });
 
     document.getElementById("outputTexto").innerHTML = textoFormatado;
