@@ -1,21 +1,37 @@
 function normalizarSecao(secao) {
     const equivalencias = {
+        "introducao": "Introdução",
+        "introdução": "Introdução",
         "objetivo": "Objetivos",
+        "objetivos": "Objetivos",
         "metodologia": "Metodologias",
         "metodologias": "Metodologias",
-        "materiais e métodos": "Metodologias",
-        "material e métodos": "Metodologias",
-        "método": "Metodologias",  // Novo
-        "métodos": "Metodologias",  // Novo
+        "material e metodos": "Metodologias",
+        "materiais e metodos": "Metodologias",
+        "método": "Metodologias",
+        "métodos": "Metodologias",
         "resultado": "Resultados",
+        "resultados": "Resultados",
         "relato de caso": "Relato",
         "relatos de caso": "Relato",
-        "relato de experiência": "Relato",
-        "relatos de experiência": "Relato",
+        "conclusao": "Conclusão",
         "conclusão": "Conclusão",
+        "conclusoes": "Conclusão",
         "conclusões": "Conclusão"
     };
-    return equivalencias[secao.toLowerCase()] || secao;
+
+    // Normalização avançada
+    const normalized = secao
+        .toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, "") // Remove acentos
+        .replace(/[^a-z0-9\s]/g, "") // Remove caracteres especiais
+        .trim();
+    
+    return equivalencias[normalized] || capitalizeFirstLetter(secao.toLowerCase());
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
 function formatarTexto() {
@@ -26,8 +42,8 @@ function formatarTexto() {
     const estruturaRelato = ["Introdução", "Objetivos", "Relato", "Conclusão"];
     let estruturaEsperada = tipoResumo === "pesquisa" ? estruturaPesquisa : estruturaRelato;
 
-    // Regex atualizada com "Método" e "Métodos"
-    let regexTitulos = /(Introdução|Objetivo|Objetivos|Metodologia|Metodologias|Método|Métodos|Material\s*e\s*Métodos|Materiais\s*e\s*Métodos|Resultado|Resultados|Relato\s*de\s*Caso|Relatos\s*de\s*Caso|Relato\s*de\s*Experiência|Relatos\s*de\s*Experiência|Conclusão|Conclusões)\s*:/gi;
+    // Padrão regex abrangente
+    let regexTitulos = /(\bINTRODU[CÇ][AÃ]O|\bOBJETIVO|\bMETODOLOGIA|\bRESULTAD[OA]|\bCONCLUS[AÃ]O|\bM[EÉ]TODO|\bRELATO|\bINTRODUÇÃO|\bOBJETIVOS|\bMETODOLOGIAS|\bRESULTADOS|\bCONCLUSÕES)(\s*:)/gi;
     
     let secoesPresentes = texto.match(regexTitulos);
 
@@ -36,13 +52,19 @@ function formatarTexto() {
         return;
     }
 
-    // Normalização
+    // Normalizar seções
     let secoesEncontradas = secoesPresentes.map(secao => {
-        let secaoLimpa = secao.replace(/\s*:/, '').trim();
+        let secaoLimpa = secao.replace(/:\s*$/, '').trim();
         return normalizarSecao(secaoLimpa);
     });
 
-    // Verificação de estrutura
+    // Tratamento especial para Resultado/Resultados
+    if (secoesEncontradas.includes("Resultado") && !secoesEncontradas.includes("Resultados")) {
+        secoesEncontradas.push("Resultados");
+    }
+    secoesEncontradas = secoesEncontradas.filter(sec => sec !== "Resultado");
+    
+    // Remover duplicatas e verificar estrutura
     secoesEncontradas = [...new Set(secoesEncontradas)];
     let secoesFaltantes = estruturaEsperada.filter(secao => !secoesEncontradas.includes(secao));
 
@@ -51,9 +73,12 @@ function formatarTexto() {
         return;
     }
 
-    // Formatação
+    // Formatar texto (converte para minúsculas com primeira letra maiúscula)
     let textoFormatado = texto.replace(regexTitulos, (match) => {
-        return `<strong>${match.trim()}</strong>`;
+        const tituloFormatado = match.replace(/:\s*$/, '') // Remove os dois pontos
+            .toLowerCase()
+            .replace(/(^\w| [a-z])/g, letra => letra.toUpperCase());
+        return `<strong>${tituloFormatado}:</strong>`;
     });
 
     document.getElementById("outputTexto").innerHTML = textoFormatado;
