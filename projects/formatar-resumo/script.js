@@ -20,65 +20,62 @@ function normalizarSecao(secao) {
         "conclusões": "Conclusão"
     };
 
-    // Normalização avançada
     const normalized = secao
         .toLowerCase()
-        .normalize('NFD').replace(/[\u0300-\u036f]/g, "") // Remove acentos
-        .replace(/[^a-z0-9\s]/g, "") // Remove caracteres especiais
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9\s]/g, "")
         .trim();
     
-    return equivalencias[normalized] || capitalizeFirstLetter(secao.toLowerCase());
-}
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    return equivalencias[normalized] || secao.charAt(0).toUpperCase() + secao.slice(1).toLowerCase();
 }
 
 function formatarTexto() {
-    let texto = document.getElementById("inputTexto").value;
-    let tipoResumo = document.getElementById("tipoResumo").value;
+    const texto = document.getElementById("inputTexto").value;
+    const tipoResumo = document.getElementById("tipoResumo").value;
 
     const estruturaPesquisa = ["Introdução", "Objetivos", "Metodologias", "Resultados", "Conclusão"];
     const estruturaRelato = ["Introdução", "Objetivos", "Relato", "Conclusão"];
-    let estruturaEsperada = tipoResumo === "pesquisa" ? estruturaPesquisa : estruturaRelato;
+    const estruturaEsperada = tipoResumo === "pesquisa" ? estruturaPesquisa : estruturaRelato;
 
-    // Padrão regex abrangente
-    let regexTitulos = /(\bINTRODU[CÇ][AÃ]O|\bOBJETIVO|\bMETODOLOGIA|\bRESULTAD[OA]|\bCONCLUS[AÃ]O|\bM[EÉ]TODO|\bRELATO|\bINTRODUÇÃO|\bOBJETIVOS|\bMETODOLOGIAS|\bRESULTADOS|\bCONCLUSÕES)(\s*:)/gi;
-    
-    let secoesPresentes = texto.match(regexTitulos);
+    const regexTitulos = /(\bINTRODU[CÇ][AÃ]O|\bOBJETIVO(S?)|\bMETODOLOGIA(S?)|\bRESULTAD[OA]S?|\bCONCLUS[AÃ]O(S?)|\bMATERIAIS?\sE\sM[EÉ]TODOS?|\bRELATO|\bM[EÉ]TODO(S?))(:\s*)/gi;
 
-    if (!secoesPresentes) {
-        alert("Erro: O resumo não contém nenhuma seção identificada.");
+    const secoesPresentes = texto.match(regexTitulos) || [];
+
+    if (secoesPresentes.length === 0) {
+        alert("Erro: Nenhuma seção identificada no texto!");
         return;
     }
 
-    // Normalizar seções
     let secoesEncontradas = secoesPresentes.map(secao => {
-        let secaoLimpa = secao.replace(/:\s*$/, '').trim();
+        const secaoLimpa = secao.replace(/:\s*$/, '').trim();
         return normalizarSecao(secaoLimpa);
     });
 
-    // Tratamento especial para Resultado/Resultados
-    if (secoesEncontradas.includes("Resultado") && !secoesEncontradas.includes("Resultados")) {
-        secoesEncontradas.push("Resultados");
-    }
-    secoesEncontradas = secoesEncontradas.filter(sec => sec !== "Resultado");
-    
-    // Remover duplicatas e verificar estrutura
-    secoesEncontradas = [...new Set(secoesEncontradas)];
-    let secoesFaltantes = estruturaEsperada.filter(secao => !secoesEncontradas.includes(secao));
+    // Conversões obrigatórias
+    secoesEncontradas = secoesEncontradas.map(sec => {
+        if (sec === "Objetivo") return "Objetivos";
+        if (sec === "Resultado") return "Resultados";
+        if (sec === "Metodologia") return "Metodologias";
+        return sec;
+    });
 
+    secoesEncontradas = [...new Set(secoesEncontradas)];
+    const secoesFaltantes = estruturaEsperada.filter(sec => !secoesEncontradas.includes(sec));
+    
     if (secoesFaltantes.length > 0) {
-        alert(`Erro: Seções faltantes: ${secoesFaltantes.join(", ")}`);
+        alert(`ERRO: Seções faltantes:\n${secoesFaltantes.join("\n")}`);
         return;
     }
 
-    // Formatar texto (converte para minúsculas com primeira letra maiúscula)
-    let textoFormatado = texto.replace(regexTitulos, (match) => {
-        const tituloFormatado = match.replace(/:\s*$/, '') // Remove os dois pontos
+    // Formatação com espaçamento correto
+    const textoFormatado = texto.replace(regexTitulos, (match, p1) => {
+        const titulo = p1
             .toLowerCase()
-            .replace(/(^\w| [a-z])/g, letra => letra.toUpperCase());
-        return `<strong>${tituloFormatado}:</strong>`;
+            .replace(/(^|:?\s+)(\w)/g, (_, espaco, letra) => espaco + letra.toUpperCase())
+            .replace(/ De /g, " de ")
+            .replace(/ E /g, " e ");
+        
+        return `<strong>${titulo}:</strong> `; // Espaço após os dois pontos
     });
 
     document.getElementById("outputTexto").innerHTML = textoFormatado;
@@ -86,28 +83,24 @@ function formatarTexto() {
 }
 
 function copiarTexto() {
-    let outputDiv = document.getElementById("outputTexto");
-    let tempDiv = document.createElement("div");
-    tempDiv.innerHTML = outputDiv.innerHTML;
-
-    // Adiciona a formatação de justificação no HTML copiado
-    let formattedHTML = `<div style="text-align: justify;">${tempDiv.innerHTML}</div>`;
+    const outputDiv = document.getElementById("outputTexto");
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = outputDiv.innerHTML.replace(/<\/strong>/g, "</strong> "); // Garante espaçamento
 
     navigator.clipboard.write([
         new ClipboardItem({
-            "text/html": new Blob([formattedHTML], { type: "text/html" }),
+            "text/html": new Blob([tempDiv.innerHTML], { type: "text/html" }),
             "text/plain": new Blob([tempDiv.textContent], { type: "text/plain" })
         })
     ]).then(() => {
-        alert("✅ Texto copiado com justificação (se compatível)!");
+        alert("✅ Texto copiado com formatação perfeita!");
     }).catch(() => {
-        // Backup para copiar sem formatação caso o navegador não suporte
         const textarea = document.createElement("textarea");
-        textarea.value = tempDiv.textContent;
+        textarea.value = tempDiv.textContent.replace(/(:\s*)/g, ": "); // Fallback
         document.body.appendChild(textarea);
         textarea.select();
         document.execCommand("copy");
         document.body.removeChild(textarea);
-        alert("✅ Texto copiado (versão sem formatação)!");
+        alert("✅ Texto copiado (versão simplificada)");
     });
 }
