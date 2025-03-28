@@ -1,6 +1,9 @@
 function formatarMoeda(campo) {
-    let valor = campo.value.replace(/\D/g, ""); 
-    valor = (parseFloat(valor) / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    let valor = campo.value.replace(/\D/g, "");
+    valor = (parseFloat(valor) / 100).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
     campo.value = valor;
 }
 
@@ -12,19 +15,19 @@ function calcularFolgas() {
 
     // Remover R$ e formatar para número
     valorPainel = parseFloat(valorPainel.replace(/[^\d,]/g, "").replace(",", ".") || 0);
+    const valorBase = (trabalhos * 100) + inscritos;
 
-    // Metas para ganhar sábados
-    const meta1 = 25000; 
-    const meta2 = 28000; 
-    const meta3 = meta2 * 1.08; 
-    const meta4 = 30000 * 1.10; 
+    // Comparações
+    const base1 = valorBase;
+    const base2 = valorBase * 1.05;
+    const base3 = valorBase * 1.08;
+    const base4 = valorBase * 1.10;
 
     let folgas = 0;
-
-    if (valorPainel > meta1) folgas = 1;
-    if (valorPainel > meta2) folgas = 2;
-    if (valorPainel > meta3) folgas = 3;
-    if (valorPainel > meta4) folgas = 4;
+    if (valorPainel > base1) folgas = 1;
+    if (valorPainel > base2) folgas = 2;
+    if (valorPainel > base3) folgas = 3;
+    if (valorPainel > base4) folgas = 4;
 
     const resultadoBox = document.getElementById('resultado-box');
     const resultado = document.getElementById('resultado');
@@ -49,16 +52,18 @@ function calcularFolgas() {
             resultado.classList.add("text-red-600");
         }
 
-        faltando1.innerHTML = `🔹 Faltam <span class="font-bold">${(meta1 - valorPainel > 0) ? (meta1 - valorPainel).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "✅"}</span> para 1 sábado.`;
-        faltando2.innerHTML = `🔹 Faltam <span class="font-bold">${(meta2 - valorPainel > 0) ? (meta2 - valorPainel).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "✅"}</span> para 2 sábados.`;
-        faltando3.innerHTML = `🔹 Faltam <span class="font-bold">${(meta3 - valorPainel > 0) ? (meta3 - valorPainel).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "✅"}</span> para 3 sábados.`;
-        faltando4.innerHTML = `🔹 Faltam <span class="font-bold">${(meta4 - valorPainel > 0) ? (meta4 - valorPainel).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) : "✅"}</span> para 4 sábados.`;
+        // Cálculo do que falta
+        const formatar = v => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
+        faltando1.innerHTML = `🔹 Faltam <span class="font-bold">${(valorPainel < base1) ? formatar(base1 - valorPainel) : "✅"}</span> para 1 sábado.`;
+        faltando2.innerHTML = `🔹 Faltam <span class="font-bold">${(valorPainel < base2) ? formatar(base2 - valorPainel) : "✅"}</span> para 2 sábados.`;
+        faltando3.innerHTML = `🔹 Faltam <span class="font-bold">${(valorPainel < base3) ? formatar(base3 - valorPainel) : "✅"}</span> para 3 sábados.`;
+        faltando4.innerHTML = `🔹 Faltam <span class="font-bold">${(valorPainel < base4) ? formatar(base4 - valorPainel) : "✅"}</span> para 4 sábados.`;
     }, 100);
 }
 
-document.addEventListener('keypress', function(event) {
+document.addEventListener('keypress', function (event) {
     if (event.key === 'Enter') {
-        calcularFolgas()
+        calcularFolgas();
     }
-  });
+});
