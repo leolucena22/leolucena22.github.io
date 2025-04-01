@@ -1,6 +1,11 @@
 function formatarMoeda(campo) {
     let valor = campo.value.replace(/\D/g, "");
-    valor = (parseFloat(valor) / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    valor = (parseFloat(valor) / 100).toLocaleString("pt-BR", { 
+        style: "currency", 
+        currency: "BRL",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
     campo.value = valor;
 }
 
@@ -10,64 +15,59 @@ function calcularFolgas() {
     const trabalhos = parseInt(document.getElementById('trabalhos').value) || 0;
     const inscritos = parseInt(document.getElementById('inscritos').value) || 0;
 
-    // Remover R$ e formatar para número
-    valorPainel = parseFloat(valorPainel.replace(/[^\d,]/g, "").replace(",", ".") || 0);
+    // Converter valorPainel para número (base)
+    valorPainel = parseFloat(
+        valorPainel.replace(/[^\d,]/g, "")
+        .replace(",", ".")
+    ) || 0;
 
-    // Cálculo do valor base com trabalhos e inscritos
-    const base = (trabalhos * 100) + inscritos;
-
-    // Metas com incrementos sobre o base
-    const meta1 = 25000;
-    const meta2 = base * 1.05;
-    const meta3 = base * 1.08;
-    const meta4 = base * 1.10;
+    // Metas conforme a imagem (usando valorPainel como base)
+    const METAS = [
+        { valor: 25000, bonus: 0 },    // Meta 1: base >25k
+        { valor: 28000, bonus: 0.05 }, // Meta 2: base*1.05 >28k
+        { valor: 28000, bonus: 0.08 }, // Meta 3: base*1.08 >28k
+        { valor: 30000, bonus: 0.10 }  // Meta 4: base*1.10 >30k
+    ];
 
     let folgas = 0;
-    if (valorPainel > meta4) {
-        folgas = 4;
-    } else if (valorPainel > meta3) {
-        folgas = 3;
-    } else if (valorPainel > meta2) {
-        folgas = 2;
-    } else if (valorPainel > meta1) {
-        folgas = 1;
+    for (let i = 0; i < METAS.length; i++) {
+        const valorRequerido = valorPainel * (1 + METAS[i].bonus);
+        if (valorRequerido >= METAS[i].valor) {
+            folgas = i + 1;
+        } else {
+            break;
+        }
     }
 
+    // Atualizar interface
     const resultadoBox = document.getElementById('resultado-box');
     const resultado = document.getElementById('resultado');
-    const faltando1 = document.getElementById('faltando1');
-    const faltando2 = document.getElementById('faltando2');
-    const faltando3 = document.getElementById('faltando3');
-    const faltando4 = document.getElementById('faltando4');
+    const [f1, f2, f3, f4] = ['faltando1', 'faltando2', 'faltando3', 'faltando4'].map(id => document.getElementById(id));
 
     resultadoBox.classList.remove("show");
     setTimeout(() => {
         resultadoBox.classList.add("show");
 
-        let eventoTexto = evento ? `para o evento <strong>${evento}</strong>` : "para o evento";
+        const formatar = valor => valor.toLocaleString("pt-BR", { 
+            style: "currency", 
+            currency: "BRL" 
+        });
 
-        if (folgas > 0) {
-            resultado.innerHTML = `🎉 Você ganhou <span class="font-bold">${folgas} sábado(s) de folga</span> ${eventoTexto}!`;
-            resultado.classList.remove("text-red-600");
-            resultado.classList.add("text-green-600");
-        } else {
-            resultado.innerHTML = `❌ <span class="font-bold">Meta não alcançada</span> ${eventoTexto}. Continue trabalhando!`;
-            resultado.classList.remove("text-green-600");
-            resultado.classList.add("text-red-600");
-        }
+        // Mensagem principal
+        resultado.innerHTML = folgas > 0 
+            ? `🎉 ${folgas} SÁBADOS LIBERADOS!` 
+            : "❌ NENHUM SÁBADO LIBERADO";
+        resultado.className = folgas > 0 ? "text-green-600 font-bold" : "text-red-600 font-bold";
 
-        const formatar = valor => valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-
-        faltando1.innerHTML = `🔹 Faltam <span class="font-bold">${(valorPainel <= meta1 ? formatar(meta1 - valorPainel + 0.01) : "✅")}</span> para 1 sábado.`;
-        faltando2.innerHTML = `🔹 Faltam <span class="font-bold">${(valorPainel <= meta2 ? formatar(meta2 - valorPainel + 0.01) : "✅")}</span> para 2 sábados.`;
-        faltando3.innerHTML = `🔹 Faltam <span class="font-bold">${(valorPainel <= meta3 ? formatar(meta3 - valorPainel + 0.01) : "✅")}</span> para 3 sábados.`;
-        faltando4.innerHTML = `🔹 Faltam <span class="font-bold">${(valorPainel <= meta4 ? formatar(meta4 - valorPainel + 0.01) : "✅")}</span> para 4 sábados.`;
+        // Detalhamento das metas
+        METAS.forEach((meta, index) => {
+            const valorRequerido = valorPainel * (1 + meta.bonus);
+            const alcancado = valorRequerido >= meta.valor;
+            const faltando = meta.valor - valorRequerido;
+            
+            document.getElementById(`faltando${index + 1}`).innerHTML = 
+                `🔹 Meta ${index + 1}: ${alcancado ? "✅" : `❌ (Faltam ${formatar(faltando > 0 ? faltando : 0)})`}`;
+        });
 
     }, 100);
 }
-
-document.addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        calcularFolgas();
-    }
-});
