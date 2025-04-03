@@ -8,6 +8,10 @@ function normalizarSecao(secao) {
         "metodologias": "Metodologias",
         "material e metodos": "Metodologias",
         "materiais e metodos": "Metodologias",
+        "material e método": "Metodologias",
+        "material e métodos": "Metodologias",
+        "materiais e método": "Metodologias",
+        "materiais e métodos": "Metodologias",
         "método": "Metodologias",
         "métodos": "Metodologias",
         "resultado": "Resultados",
@@ -37,7 +41,7 @@ function formatarTexto() {
     const estruturaRelato = ["Introdução", "Objetivos", "Relato", "Conclusão"];
     const estruturaEsperada = tipoResumo === "pesquisa" ? estruturaPesquisa : estruturaRelato;
 
-    const regexTitulos = /(\bINTRODU[CÇ][AÃ]O|\bOBJETIVO(S?)|\bMETODOLOGIA(S?)|\bRESULTAD[OA]S?|\bCONCLUS[AÃ]O(S?)|\bMATERIAIS?\sE\sM[EÉ]TODOS?|\bRELATO|\bM[EÉ]TODO(S?))(:\s*)/gi;
+    const regexTitulos = /(\bINTRODU[CÇ][AÃ]O|\bOBJETIVO(S?)|\bMETODOLOGIA(S?)|\bRESULTAD[OA]S?|\bCONCLUS[AÃ]O(S?)|\bMATERIAL\sE\sM[EÉ]TODOS?|\bRELATO|\bM[EÉ]TODO(S?))(:\s*)/gi;
 
     const secoesPresentes = texto.match(regexTitulos) || [];
 
@@ -51,11 +55,11 @@ function formatarTexto() {
         return normalizarSecao(secaoLimpa);
     });
 
-    // Conversões obrigatórias
     secoesEncontradas = secoesEncontradas.map(sec => {
         if (sec === "Objetivo") return "Objetivos";
         if (sec === "Resultado") return "Resultados";
         if (sec === "Metodologia") return "Metodologias";
+        if (sec === "Material e Métodos") return "Metodologias";
         return sec;
     });
 
@@ -67,7 +71,6 @@ function formatarTexto() {
         return;
     }
 
-    // Formatação com espaçamento correto
     const textoFormatado = texto.replace(regexTitulos, (match, p1) => {
         const titulo = p1
             .toLowerCase()
@@ -75,7 +78,7 @@ function formatarTexto() {
             .replace(/ De /g, " de ")
             .replace(/ E /g, " e ");
         
-        return `<strong>${titulo}:</strong> `; // Espaço após os dois pontos
+        return `<strong>${titulo}:</strong> `;
     });
 
     document.getElementById("outputTexto").innerHTML = textoFormatado;
@@ -85,7 +88,7 @@ function formatarTexto() {
 function copiarTexto() {
     const outputDiv = document.getElementById("outputTexto");
     const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = outputDiv.innerHTML.replace(/<\/strong>/g, "</strong> "); // Garante espaçamento
+    tempDiv.innerHTML = outputDiv.innerHTML.replace(/<\/strong>/g, "</strong> ");
 
     navigator.clipboard.write([
         new ClipboardItem({
@@ -93,14 +96,14 @@ function copiarTexto() {
             "text/plain": new Blob([tempDiv.textContent], { type: "text/plain" })
         })
     ]).then(() => {
-        alert("✅ Texto copiado com formatação perfeita!");
+        alert("✅ Texto formatado copiado!");
     }).catch(() => {
         const textarea = document.createElement("textarea");
-        textarea.value = tempDiv.textContent.replace(/(:\s*)/g, ": "); // Fallback
+        textarea.value = tempDiv.textContent.replace(/(:\s*)/g, ": ");
         document.body.appendChild(textarea);
         textarea.select();
         document.execCommand("copy");
         document.body.removeChild(textarea);
-        alert("✅ Texto copiado (versão simplificada)");
+        alert("✅ Texto copiado (formato simples)");
     });
 }
