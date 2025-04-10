@@ -1,3 +1,41 @@
+particlesJS("particles-js", {
+  "particles": {
+    "number": {
+      "value": 30
+    },
+    "shape": {
+      "type": "image",
+      "image": {
+        "src": "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/2764.png",
+        "width": 72,
+        "height": 72
+      }
+    },
+    "size": {
+      "value": 16,
+      "random": true
+    },
+    "move": {
+      "speed": 1,
+      "direction": "top",
+      "out_mode": "out"
+    },
+    "opacity": {
+      "value": 0.6,
+      "random": true
+    }
+  },
+  "interactivity": {
+    "events": {
+      "onhover": {
+        "enable": true,
+        "mode": "repulse"
+      }
+    }
+  },
+  "retina_detect": true
+});
+
 function getReflexaoDoDia(reflexoes) {
     const hoje = new Date();
     const dataInicial = new Date('2025-04-10'); // Data de início
@@ -18,16 +56,16 @@ function getReflexaoDoDia(reflexoes) {
     `;
   }
   
-  fetch('reflexoes.json')
-    .then(response => response.json())
-    .then(reflexoes => {
-      const reflexao = getReflexaoDoDia(reflexoes);
-      renderReflexao(reflexao);
+fetch('reflexoes.json')
+  .then(response => response.json())
+  .then(reflexoes => {
+    const reflexao = getReflexaoDoDia(reflexoes);
+    renderReflexao(reflexao);
     })
-    .catch(error => {
-      console.error('Erro ao carregar reflexões:', error);
-      document.getElementById('reflexao-dia').innerHTML = `
-        <p class="text-red-400">Erro ao carregar a reflexão de hoje. 🙏</p>
+  .catch(error => {
+    console.error('Erro ao carregar reflexões:', error);
+    document.getElementById('reflexao-dia').innerHTML = `
+      <p class="text-red-400">Erro ao carregar a reflexão de hoje. 🙏</p>
       `;
-    });
+  });
   
