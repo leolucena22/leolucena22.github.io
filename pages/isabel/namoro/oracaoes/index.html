@@ -7,6 +7,8 @@
   <title>Oração Diária pelo Nosso Amor</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🙏💖</text></svg>">
   <style>
     body {
       font-family: 'Playfair Display', serif;
@@ -15,65 +17,17 @@
 </head>
 
 <body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col items-center justify-center px-4 py-10">
-  <h1 class="text-3xl md:text-5xl font-bold mb-6 text-pink-300 text-center">Oração Diária pelo Nosso Relacionamento</h1>
+  <h1 class="text-3xl md:text-5xl font-bold mb-6 text-pink-300 text-center">
+    Oração Diária pelo Nosso Relacionamento
+  </h1> <br>
 
-  <div class="w-full max-w-xl relative overflow-hidden rounded-2xl shadow-lg">
-    <div id="reflexao-dia" class="transition-all duration-500"></div>
+  <div class="w-full max-w-xl relative overflow-hidden rounded-2xl shadow-lg bg-gray-800 p-6">
+    <div id="reflexao-dia" class="transition-all duration-500 space-y-4">
+      <!-- Reflexão será carregada aqui -->
+    </div>
   </div>
 
-  <script>
-    const reflexoes = [
-      {
-        dia: 1,
-        mensagem: "Onde dois ou três estiverem reunidos em meu nome, ali estou no meio deles.",
-        meditacao: "Quando vocês oram juntos, Jesus está presente. O amor de vocês não é vivido sozinho, mas acompanhado pelo próprio Deus."
-      },
-      {
-        dia: 2,
-        mensagem: "O amor é paciente, o amor é bondoso.",
-        meditacao: "O verdadeiro amor não se apressa, nem cobra. Ele entende o tempo do outro e age com gentileza, mesmo quando há falhas."
-      },
-      {
-        dia: 3,
-        mensagem: "Senhor, que o nosso amor seja reflexo do Teu amor por nós.",
-        meditacao: "Que cada gesto de carinho entre vocês revele a ternura de Deus — um amor que acolhe, perdoa e permanece."
-      },
-      {
-        dia: 4,
-        mensagem: "Que saibamos perdoar com a mesma misericórdia que recebemos de Deus.",
-        meditacao: "O perdão é libertador. Quando vocês se perdoam, renovam o compromisso de amar como Deus ama: sem mágoas, com um coração leve."
-      },
-      {
-        dia: 5,
-        mensagem: "Um relacionamento saudável se constrói com oração e verdade.",
-        meditacao: "A oração fortalece, a verdade sustenta. Com esses dois pilares, o amor de vocês será firme mesmo nas tempestades."
-      },
-      // Continue adicionando até a reflexão 60
-    ];
-
-    function getReflexaoDoDia() {
-      const hoje = new Date();
-      const dataInicial = new Date('2025-04-10'); // Data de início
-      const diffEmDias = Math.floor((hoje - dataInicial) / (1000 * 60 * 60 * 24));
-      const index = Math.min(diffEmDias, reflexoes.length - 1);
-      return reflexoes[index];
-    }
-
-    function renderReflexao() {
-      const item = getReflexaoDoDia();
-      const hoje = new Date().toLocaleDateString('pt-BR');
-
-      document.getElementById('reflexao-dia').innerHTML = `
-        <div class="p-6 bg-gray-800 rounded-xl">
-          <p class="text-sm text-gray-400 mb-2">Dia ${item.dia} - ${hoje}</p>
-          <h2 class="text-xl md:text-2xl text-pink-400 font-semibold mb-4">\"${item.mensagem}\"</h2>
-          <p class="text-md leading-relaxed text-gray-300">${item.meditacao}</p>
-        </div>
-      `;
-    }
-
-    renderReflexao();
-  </script>
+  <script src="script.js"></script>
 </body>
 
 </html>
