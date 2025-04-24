@@ -41,7 +41,8 @@ function formatarTexto() {
     const estruturaRelato = ["Introdução", "Objetivos", "Relato", "Conclusão"];
     const estruturaEsperada = tipoResumo === "pesquisa" ? estruturaPesquisa : estruturaRelato;
 
-    const regexTitulos = /(\bINTRODU[CÇ][AÃ]O|\bOBJETIVO(S?)|\bMETODOLOGIA(S?)|\bRESULTAD[OA]S?|\bCONCLUS[AÃ]O(S?)|\bMATERIAL\sE\sM[EÉ]TODOS?|\bRELATO|\bM[EÉ]TODO(S?))(:\s*)/gi;
+    // Regex atualizada para capturar todas variações
+    const regexTitulos = /(\bMATERIAIS?\sE\sM[EÉ]TODOS?|\bINTRODU[CÇ][AÃ]O|\bOBJETIVO(S?)|\bMETODOLOGIA(S?)|\bRESULTAD[OA]S?|\bCONCLUS[AÃ]O(S?)|\bRELATO)(:\s*)/gi;
 
     const secoesPresentes = texto.match(regexTitulos) || [];
 
@@ -50,19 +51,23 @@ function formatarTexto() {
         return;
     }
 
+    // Processar e normalizar seções
     let secoesEncontradas = secoesPresentes.map(secao => {
         const secaoLimpa = secao.replace(/:\s*$/, '').trim();
         return normalizarSecao(secaoLimpa);
     });
 
+    // Converter todas variações para Metodologias
     secoesEncontradas = secoesEncontradas.map(sec => {
+        if (sec === "Material e Métodos") return "Metodologias";
+        if (sec === "Materiais e Métodos") return "Metodologias";
         if (sec === "Objetivo") return "Objetivos";
         if (sec === "Resultado") return "Resultados";
         if (sec === "Metodologia") return "Metodologias";
-        if (sec === "Material e Métodos") return "Metodologias";
         return sec;
     });
 
+    // Remover duplicatas e verificar estrutura
     secoesEncontradas = [...new Set(secoesEncontradas)];
     const secoesFaltantes = estruturaEsperada.filter(sec => !secoesEncontradas.includes(sec));
     
@@ -71,6 +76,7 @@ function formatarTexto() {
         return;
     }
 
+    // Formatar texto com capitalização correta
     const textoFormatado = texto.replace(regexTitulos, (match, p1) => {
         const titulo = p1
             .toLowerCase()
