@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contrato de Namoro 💖</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Great+Vibes&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💌</text></svg>">
+  <style>
+    body {
+      font-family: 'Playfair Display', serif;
+      overflow-x: hidden;
+      overflow-y: auto;
+      min-height: 100vh;
+      position: relative;
+      background-color: #fdf2f8;
+    }
+
+    .heart {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background-image: url('https://cdn-icons-png.flaticon.com/512/833/833472.png');
+      background-size: cover;
+      animation: floatUp 5s infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+      }
+
+      100% {
+        transform: translateY(-800px) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    .assinatura {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2rem;
+      color: #db2777;
+    }
+  </style>
+</head>
+
+<body class="flex flex-col items-center p-8">
+
+  <div id="heart-container"></div>
+
+  <h1 class="text-4xl md:text-6xl text-pink-600 font-bold mb-6 text-center">Contrato de Namoro 💌</h1>
+
+  <div class="max-w-3xl w-full bg-white rounded-3xl shadow-xl p-10 text-gray-800 space-y-6">
+    <p>Entre as partes, de um lado <span id="autor" class="font-semibold">Leonardo Lucena</span> e, de outro lado, <span
+        id="namorada" class="font-semibold italic">______</span>, firmam o presente Contrato de Namoro.</p>
+
+    <h2 class="text-2xl text-pink-500 font-bold">Cláusulas:</h2>
+    <ul class="list-disc list-inside space-y-2">
+      <li>Prometemos rezar juntos e colocar Deus no centro do nosso relacionamento.</li>
+      <li>Trocar declarações de amor diárias, mesmo que seja por uma simples mensagem.</li>
+      <li>Nos beijarmos pelo menos 5 vezes por dia (mínimo obrigatório 💋).</li>
+      <li>Segurar a mão um do outro em qualquer situação pública ou privada.</li>
+      <li>Momentos safadinhos permitidos, mas sempre com respeito e carinho. 🔥</li>
+      <li>Priorizar momentos de oração em dupla e visitas ao Santíssimo Sacramento.</li>
+      <li>Datas especiais obrigam surpresinhas românticas (não importa o valor 💝).</li>
+      <li>Abraços apertados sempre que nos encontrarmos.</li>
+      <li>Jamais dormir brigados.</li>
+      <li>Planos de futuro sempre serão discutidos com amor e responsabilidade.</li>
+    </ul>
+
+    <p class="text-gray-500">Feito e assinado em <span id="dataHoje" class="italic"></span>.</p>
+
+    <div class="flex flex-col items-center mt-10 space-y-6">
+      <div>
+        <p class="assinatura" id="assinaturaAutor">Leonardo Lucena</p>
+        <p class="text-center text-sm text-gray-500">Assinatura do Amado</p>
+      </div>
+
+      <div id="assinaturaNamoradaDiv" class="hidden">
+        <p class="assinatura" id="assinaturaNamorada">Isabel de Lima</p>
+        <p class="text-center text-sm text-gray-500">Assinatura da Amada</p>
+      </div>
+    </div>
+
+    <div id="botoes" class="flex justify-center mt-10 space-x-4">
+      <button onclick="aceitarContrato()"
+        class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-6 rounded-full">Aceitar ❤️</button>
+      <button onclick="recusarContrato()"
+        class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-6 rounded-full">Recusar 😭</button>
+    </div>
+
+    <p id="mensagemFinal" class="text-center text-pink-500 mt-6 text-xl font-semibold"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
