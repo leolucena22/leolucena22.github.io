@@ -271,7 +271,7 @@
         }
 
         .summary-box {
-            margin-top: 2rem;
+            margin-top: 6rem;
             background-color: rgba(0, 200, 83, 0.1);
             border-left: 4px solid var(--primary-color);
             padding: 1rem 1.5rem;
