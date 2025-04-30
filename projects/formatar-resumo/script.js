@@ -18,6 +18,8 @@ function normalizarSecao(secao) {
         "resultados": "Resultados",
         "relato de caso": "Relato",
         "relatos de caso": "Relato",
+        "relato de experiência": "Relato", // Nova equivalência
+        "relatos de experiência": "Relato", // Nova equivalência
         "conclusao": "Conclusão",
         "conclusão": "Conclusão",
         "conclusoes": "Conclusão",
@@ -41,8 +43,8 @@ function formatarTexto() {
     const estruturaRelato = ["Introdução", "Objetivos", "Relato", "Conclusão"];
     const estruturaEsperada = tipoResumo === "pesquisa" ? estruturaPesquisa : estruturaRelato;
 
-    // Regex atualizada para capturar todas variações
-    const regexTitulos = /(\bMATERIAIS?\sE\sM[EÉ]TODOS?|\bINTRODU[CÇ][AÃ]O|\bOBJETIVO(S?)|\bMETODOLOGIA(S?)|\bRESULTAD[OA]S?|\bCONCLUS[AÃ]O(S?)|\bRELATO)(:\s*)/gi;
+    // Regex atualizada para capturar ambas variações
+    const regexTitulos = /(\bINTRODU[CÇ][AÃ]O|\bOBJETIVO(S?)|\bMETODOLOGIA(S?)|\bRESULTAD[OA]S?|\bCONCLUS[AÃ]O(S?)|\bMATERIAIS?\sE\sM[EÉ]TODOS?|\bRELATO\s+DE\s+(CASO|EXPERIÊNCIA)|\bM[EÉ]TODO(S?))(:\s*)/gi;
 
     const secoesPresentes = texto.match(regexTitulos) || [];
 
@@ -51,23 +53,21 @@ function formatarTexto() {
         return;
     }
 
-    // Processar e normalizar seções
     let secoesEncontradas = secoesPresentes.map(secao => {
         const secaoLimpa = secao.replace(/:\s*$/, '').trim();
         return normalizarSecao(secaoLimpa);
     });
 
-    // Converter todas variações para Metodologias
     secoesEncontradas = secoesEncontradas.map(sec => {
-        if (sec === "Material e Métodos") return "Metodologias";
-        if (sec === "Materiais e Métodos") return "Metodologias";
         if (sec === "Objetivo") return "Objetivos";
         if (sec === "Resultado") return "Resultados";
         if (sec === "Metodologia") return "Metodologias";
+        if (sec === "Material e Métodos") return "Metodologias";
+        if (sec === "Relato de Experiência") return "Relato"; // Nova conversão
+        if (sec === "Relato de Caso") return "Relato"; // Nova conversão
         return sec;
     });
 
-    // Remover duplicatas e verificar estrutura
     secoesEncontradas = [...new Set(secoesEncontradas)];
     const secoesFaltantes = estruturaEsperada.filter(sec => !secoesEncontradas.includes(sec));
     
@@ -76,7 +76,6 @@ function formatarTexto() {
         return;
     }
 
-    // Formatar texto com capitalização correta
     const textoFormatado = texto.replace(regexTitulos, (match, p1) => {
         const titulo = p1
             .toLowerCase()

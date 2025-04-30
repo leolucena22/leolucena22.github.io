@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador CDI | Investimentos Inteligentes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
+
+    <meta name="description" content="Simulador de investimentos atrelado ao CDI com cálculo de rendimento líquido, imposto e valor acumulado.">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Leonardo Lucena">
+    <meta name="keywords" content="Simulador CDI, Investimentos, Rendimento, CDB, LCI, LCA, Calculadora CDI, Leonardo Lucena, Eventos IME, SOBREC">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://leolucena22.github.io/projects/calculadora-cdi/">
+    <meta property="og:title" content="Simulador CDI - Investimentos Inteligentes">
+    <meta property="og:image" content="https://leolucena22.github.io/projects/calculadora-cdi/images/imagem.png">
+    <meta property="og:description" content="Faça simulações completas com valor inicial, aportes mensais, percentual do CDI e imposto. Veja seu rendimento total e valor líquido.">
+
+    <meta property="article:author" content="Leonardo Lucena">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@leolucena22">
+    <meta name="twitter:title" content="Simulador CDI - Investimentos Inteligentes">
+    <meta name="twitter:creator" content="@leolucena22">
+    <meta name="twitter:description" content="Simule seus investimentos com base no CDI e veja o rendimento líquido e acumulado. Ferramenta completa e intuitiva.">
+    <meta name="twitter:image" content="https://leolucena22.github.io/projects/calculadora-cdi/images/imagem.png">
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Simulador CDI</h1>
+        </header>
+
+        <div class="card">
+            <h2>Dados do Investimento</h2>
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="initialDeposit">Valor Inicial</label>
+                    <div class="input-wrapper prefix" data-prefix="R$">
+                        <input type="text" id="initialDeposit" placeholder="1.000,00" aria-describedby="initialDepositError">
+                    </div>
+                    <div class="error-message" id="initialDepositError">Insira um valor válido</div>
+                </div>
+                <div class="form-group">
+                    <label for="monthlyDeposit">Depósito Mensal</label>
+                    <div class="input-wrapper prefix" data-prefix="R$">
+                        <input type="text" id="monthlyDeposit" placeholder="500,00" aria-describedby="monthlyDepositError">
+                    </div>
+                    <div class="error-message" id="monthlyDepositError">Insira um valor válido</div>
+                </div>
+                <div class="form-group">
+                    <label for="cdiRate">Taxa do CDI
+                        <span class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Taxa atual do CDI (Certificado de Depósito Interbancário) anual</span>
+                        </span>
+                    </label>
+                    <div class="input-wrapper suffix" data-suffix="%">
+                        <input type="text" id="cdiRate" placeholder="12,75" aria-describedby="cdiRateError">
+                    </div>
+                    <div class="error-message" id="cdiRateError">Insira uma taxa válida</div>
+                </div>
+                <div class="form-group">
+                    <label for="percentCDI">Percentual do CDI
+                        <span class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Percentual do CDI que seu investimento rende (CDB, LCI, LCA, etc)</span>
+                        </span>
+                    </label>
+                    <div class="input-wrapper suffix" data-suffix="%">
+                        <input type="text" id="percentCDI" placeholder="110" aria-describedby="percentCDIError">
+                    </div>
+                    <div class="error-message" id="percentCDIError">Insira um percentual válido</div>
+                </div>
+                <div class="form-group">
+                    <label for="timePeriod">Período</label>
+                    <div class="input-wrapper suffix" data-suffix="meses">
+                        <input type="text" id="timePeriod" placeholder="12" aria-describedby="timePeriodError">
+                    </div>
+                    <div class="error-message" id="timePeriodError">Insira um período válido</div>
+                </div>
+                <div class="form-group">
+                    <label for="taxRate">Alíquota de IR
+                        <span class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Imposto de renda sobre o rendimento (até 6 meses: 22,5%, até 12 meses: 20%, até 24 meses: 17,5%, acima de 24 meses: 15%)</span>
+                        </span>
+                    </label>
+                    <div class="input-wrapper suffix" data-suffix="%">
+                        <input type="text" id="taxRate" placeholder="15" aria-describedby="taxRateError">
+                    </div>
+                    <div class="error-message" id="taxRateError">Insira uma alíquota válida</div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button id="calculateBtn">Calcular Rendimento</button>
+                <button id="resetBtn" class="secondary">Limpar Dados</button>
+            </div>
+        </div>
+
+        <div class="card" id="resultsCard" style="display: none;">
+            <h2>Resultados da Simulação</h2>
+            <div class="results">
+                <div class="result-card">
+                    <h3>Rendimento Total</h3>
+                    <div class="result-value" id="totalReturn">R$ 0,00</div>
+                    <p>Rendimento bruto</p>
+                </div>
+                <div class="result-card">
+                    <h3>Imposto de Renda</h3>
+                    <div class="result-value" id="taxAmount">R$ 0,00</div>
+                    <p>Total a pagar</p>
+                </div>
+                <div class="result-card">
+                    <h3>Rendimento Líquido</h3>
+                    <div class="result-value" id="netReturn">R$ 0,00</div>
+                    <p>Após impostos</p>
+                </div>
+                <div class="result-card">
+                    <h3>Valor Final</h3>
+                    <div class="result-value" id="finalValue">R$ 0,00</div>
+                    <p>Total acumulado</p>
+                </div>
+                <div class="result-card">
+                    <h3>Soma Total</h3>
+                    <div class="result-value" id="totalWithNetReturn">R$ 0,00</div>
+                    <p>Investimento + Rendimento líquido</p>
+                </div>
+                
+            </div>
+
+            <div class="chart-container">
+                <canvas id="growthChart"></canvas>
+            </div>
+
+            <div class="summary-box">
+                <h3>Detalhes da Simulação</h3>
+                <ul class="summary-list">
+                    <li>
+                        <span>Valor investido:</span>
+                        <span id="totalInvested">R$ 0,00</span>
+                    </li>
+                    <li>
+                        <span>Taxa anual efetiva:</span>
+                        <span id="effectiveRate">0,00%</span>
+                    </li>
+                    <li>
+                        <span>Rendimento médio mensal:</span>
+                        <span id="averageMonthlyReturn">R$ 0,00</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
