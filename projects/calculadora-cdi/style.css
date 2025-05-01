@@ -224,6 +224,7 @@
             height: 400px;
             margin-top: 2rem;
             position: relative;
+            margin-bottom: 6rem;
         }
 
         .tooltip {
@@ -271,7 +272,6 @@
         }
 
         .summary-box {
-            margin-top: 6rem;
             background-color: rgba(0, 200, 83, 0.1);
             border-left: 4px solid var(--primary-color);
             padding: 1rem 1.5rem;
@@ -338,6 +338,7 @@
             
             .chart-container {
                 height: 300px;
+                margin-bottom: -12rem;
             }
         }
 
