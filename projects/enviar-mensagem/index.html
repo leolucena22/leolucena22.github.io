@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <title>Submissões - Mensagens Dinâmicas</title>
+        <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>📞</text></svg>"></link>
+
+        <!-- Meta Title -->
+        <title>Mensagens Dinâmicas - Sistema de Contato via WhatsApp</title>
+        <meta name="title" content="Mensagens Dinâmicas - Sistema de Contato via WhatsApp">
+
+        <!-- Meta Description -->
+        <meta name="description" content="Gerencie contatos de eventos científicos com eficiência! Envie mensagens personalizadas via WhatsApp diretamente a partir de uma planilha Excel.">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://leolucena22.github.io/projects/enviar-mensagem">
+        <meta property="og:title" content="Mensagens Dinâmicas - Sistema de Contato via WhatsApp">
+        <meta property="og:description" content="Gerencie contatos de eventos científicos com eficiência! Envie mensagens personalizadas via WhatsApp diretamente a partir de uma planilha Excel.">
+        <meta property="og:image" content="https://leolucena22.github.io/projects/images/sistema-mensagens.webp">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:url" content="https://leolucena22.github.io/projects/enviar-mensagem">
+        <meta name="twitter:title" content="Mensagens Dinâmicas - Sistema de Contato via WhatsApp">
+        <meta name="twitter:description" content="Gerencie contatos de eventos científicos com eficiência! Envie mensagens personalizadas via WhatsApp diretamente a partir de uma planilha Excel.">
+        <meta name="twitter:image" content="https://leolucena22.github.io/projects/images/sistema-mensagens.webp">
+
+        <style>
+          body {
+            font-family: 'Inter', sans-serif;
+          }
+        </style>
+      </head>
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors">
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-center mb-6">📋 Lista de Submissões com Mensagens Dinâmicas</h1>
+    
+    <div class="flex flex-col items-center gap-4 mb-6">
+      <input type="file" id="fileInput" accept=".xlsx"
+             class="text-sm bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 p-2 rounded shadow" />
+
+      <input type="text" id="nomeEvento" placeholder="Digite o nome do evento"
+        class="w-full max-w-2xl p-2 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-sm text-gray-800 dark:text-gray-100" />
+
+      <div class="w-full max-w-2xl flex flex-wrap gap-2">
+        <button onclick="insertTag('{{nome}}')" class="bg-blue-600 text-white px-3 py-1 rounded text-xs">+ {{nome}}</button>
+        <button onclick="insertTag('{{titulo}}')" class="bg-blue-600 text-white px-3 py-1 rounded text-xs">+ {{titulo}}</button>
+        <button onclick="insertTag('{{evento}}')" class="bg-blue-600 text-white px-3 py-1 rounded text-xs">+ {{evento}}</button>
+      </div>
+
+      <textarea id="mensagemPersonalizada" rows="4"
+        placeholder="Digite suas mensagens, uma por linha. Ex: 
+Olá {{nome}}, obrigado por submeter o trabalho '{{titulo}}' ao {{evento}}."
+        class="w-full max-w-2xl p-3 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-sm text-gray-800 dark:text-gray-100"></textarea>
+    </div>
+
+    <div id="tableContainer" class="overflow-x-auto"></div>
+    <p class="text-gray-400 text-center mt-1"><a href="https://leolucena22.github.io"/>&copy;leolucena22</a></p>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
