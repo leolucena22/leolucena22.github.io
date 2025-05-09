@@ -152,3 +152,29 @@ function renderTable(data) {
     html += '</tbody></table>';
     container.innerHTML = html;
 }
+
+// Mudança de tema
+tailwind.config = {
+    darkMode: 'class',
+  }
+
+  const html = document.documentElement;
+  const botaoTema = document.getElementById('themeToggle');
+  const temaSalvo = localStorage.getItem('tema');
+
+  // Aplica tema salvo ou sistema
+  const prefereEscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  if (temaSalvo === 'escuro' || (!temaSalvo && prefereEscuro)) {
+    html.classList.add('dark');
+    botaoTema.textContent = '🌞';
+  } else {
+    html.classList.remove('dark');
+    botaoTema.textContent = '🌙';
+  }
+
+  botaoTema.addEventListener('click', () => {
+    const estaEscuro = html.classList.toggle('dark');
+    localStorage.setItem('tema', estaEscuro ? 'escuro' : 'claro');
+    botaoTema.textContent = estaEscuro ? '🌞' : '🌙';
+  });
