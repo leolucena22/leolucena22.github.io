@@ -381,7 +381,7 @@
         
         .quote-highlight::before,
         .quote-highlight::after {
-            content: "”";
+            content: "“";
             font-size: 1.5em;
             color: var(--primary-light);
             line-height: 0;
