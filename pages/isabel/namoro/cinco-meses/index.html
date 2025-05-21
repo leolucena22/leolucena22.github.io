@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Uma mensagem especial de amor para celebrar 5 meses de relacionamento">
+    <title>5 Meses de Amor - Uma Jornada de Sentimentos</title>
+    
+    <!-- Pré-carregar recursos críticos -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" as="style">
+    
+    <!-- CSS Externo -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="hearts-container" aria-hidden="true"></div>
+    
+    <div class="container mx-auto px-4 py-10 max-w-4xl relative">
+        <!-- Container Principal -->
+        <div class="main-container">
+            <div class="card p-6 sm:p-8 md:p-10">
+                <!-- Cabeçalho com Título -->
+                <header class="text-center mb-6 sm:mb-8 fade-in">
+                    <h1 class="elegant-title text-4xl sm:text-5xl mb-4">5 Meses de Amor</h1>
+                    <div class="flex items-center justify-center serif-text text-lg text-gray-700">
+                        <span>Leonardo</span>
+                        <div class="mx-3">
+                            <i class="fas fa-heart text-2xl text-pink-600 animate-pulse" aria-hidden="true"></i>
+                        </div>
+                        <span>Para Sempre Você</span>
+                    </div>
+                    <div class="decorative-divider mt-4"></div>
+                    <div class="serif-text text-sm text-gray-500 mt-4">
+                        <time datetime="2025-05-22">22 de maio de 2025</time>
+                        <span class="mx-2">•</span>
+                        <span class="month-counter"><span>5</span> meses</span>
+                        <span class="mx-2">•</span>
+                        <span><span class="gold-accent">151</span> dias de amor</span>
+                    </div>
+                </header>
+                
+                <!-- Player de Áudio com Design Elegante -->
+                <section class="mb-6 sm:mb-8 fade-in" style="animation-delay: 200ms;" aria-label="Mensagem de áudio">
+                    <div class="relative bg-gradient-to-r from-pink-50 to-pink-100 p-4 sm:p-5 rounded-xl">
+                        <div class="mb-3 sm:mb-4 text-center">
+                            <span class="text-sm text-gray-600 serif-text">Uma mensagem especial de amor para você</span>
+                        </div>
+                        <audio id="love-message" class="audio-player mb-3" controls aria-label="Mensagem de amor em áudio">
+                            <source src="audio/5-meses - Editado.mp3" type="audio/mp3">
+                            Seu navegador não suporta o elemento de áudio.
+                        </audio>
+                        <div class="text-center">
+                            <button id="play-button" class="elegant-button mt-2" aria-label="Reproduzir mensagem">
+                                <i class="fas fa-play" aria-hidden="true"></i>
+                                <span>Ouvir Mensagem</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Seção de Legendas -->
+                <section class="fade-in" style="animation-delay: 400ms;" aria-label="Transcrição da mensagem">
+                    <div class="bg-gradient-to-br from-pink-50 to-white rounded-xl p-4 sm:p-5">
+                        <h2 class="text-center mb-3 sm:mb-4">
+                            <span class="elegant-title text-2xl">Nossa História de Amor</span>
+                        </h2>
+                        <div id="captions" class="caption-container" role="log" aria-live="polite">
+                            <div class="flex items-center justify-center h-full">
+                                <p class="text-center text-gray-400 italic serif-text">
+                                    <i class="fas fa-heart-pulse mr-2 text-pink-300" aria-hidden="true"></i>Clique em "Ouvir Mensagem" para iniciar...
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Assinatura Final -->
+                <footer class="text-center mt-8 sm:mt-10 fade-in" style="animation-delay: 600ms;">
+                    <div class="decorative-divider"></div>
+                    <p class="elegant-title text-2xl mb-2 mt-4">Seu para sempre,</p>
+                    <p class="serif-text text-lg text-gray-700">Leonardo Lucena</p>
+                    
+                    <!-- Selo decorativo -->
+                    <div class="flex justify-center mt-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-pink-600 flex items-center justify-center text-white">
+                            <i class="fas fa-infinity" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        
+        <!-- Rodapé decorativo -->
+        <div class="text-center text-xs text-gray-500 mt-6 fade-in" style="animation-delay: 800ms;">
+            <p class="serif-text">Criado com amor eterno para celebrar nossa jornada</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
