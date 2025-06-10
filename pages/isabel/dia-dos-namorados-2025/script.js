@@ -62,10 +62,11 @@
       });
     });
 
-    // Efeito de digitação no título
+    // Efeito de digitação responsivo
     document.addEventListener('DOMContentLoaded', () => {
       const title = document.querySelector('.typing-animation');
-      if (title) {
+      if (title && window.innerWidth > 768) {
+        // Só aplica o efeito de digitação em desktop
         const text = title.textContent;
         title.textContent = '';
         title.style.borderRight = '2px solid #ff6b9d';
@@ -75,7 +76,7 @@
           if (i < text.length) {
             title.textContent += text.charAt(i);
             i++;
-            setTimeout(typeWriter, 100);
+            setTimeout(typeWriter, 80);
           } else {
             setTimeout(() => {
               title.style.borderRight = 'none';

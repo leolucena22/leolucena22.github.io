@@ -68,11 +68,14 @@
       box-shadow: 0 0 30px rgba(255, 107, 157, 0.3);
     }
 
+    /* Versão desktop da animação de digitação */
     .typing-animation {
       overflow: hidden;
-      border-right: 2px solid #ff6b9d;
       white-space: nowrap;
-      animation: typing 3s steps(30, end), blink-caret 0.75s step-end infinite;
+      border-right: 2px solid #ff6b9d;
+      animation: typing 4s steps(60, end), blink-caret 0.75s step-end infinite;
+      max-width: fit-content;
+      margin: 0 auto;
     }
 
     @keyframes typing {
@@ -94,6 +97,54 @@
 
       50% {
         border-color: #ff6b9d;
+      }
+    }
+
+    /* Versão mobile - remove a animação de digitação */
+    @media (max-width: 768px) {
+      .typing-animation {
+        white-space: normal;
+        overflow: visible;
+        border-right: none;
+        animation: mobile-fade-in 2s ease-in;
+        max-width: 100%;
+        word-wrap: break-word;
+        hyphens: auto;
+      }
+
+      @keyframes mobile-fade-in {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Ajustes de texto para mobile */
+      .typing-animation {
+        font-size: 1.25rem !important;
+        line-height: 1.6;
+        padding: 0 1rem;
+      }
+
+      .handwriting.text-6xl {
+        font-size: 2.5rem !important;
+      }
+
+      .handwriting.text-4xl {
+        font-size: 2rem !important;
+      }
+
+      .handwriting.text-3xl {
+        font-size: 1.75rem !important;
+      }
+
+      .handwriting.text-2xl {
+        font-size: 1.5rem !important;
       }
     }
 
