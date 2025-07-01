@@ -6,10 +6,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nossas Memórias ❤️</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts - Fontes românticas e elegantes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Great+Vibes&family=Playfair+Display:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨🏻‍❤️‍👩🏻</text></svg>">
+
   <script>
     tailwind.config = {
       theme: {
         extend: {
+          fontFamily: {
+            'dancing': ['Dancing Script', 'cursive'],
+            'great-vibes': ['Great Vibes', 'cursive'],
+            'playfair': ['Playfair Display', 'serif'],
+            'poppins': ['Poppins', 'sans-serif'],
+          },
           animation: {
             'float': 'float 6s ease-in-out infinite',
             'pulse-slow': 'pulse 3s ease-in-out infinite',
@@ -35,11 +52,13 @@
       }
     }
   </script>
+
   <style>
     body {
       background: linear-gradient(-45deg, #ff9a9e, #fecfef, #fecfef, #ffecd2);
       background-size: 400% 400%;
       animation: gradient 15s ease infinite;
+      font-family: 'Poppins', sans-serif;
     }
 
     @keyframes gradient {
@@ -103,6 +122,33 @@
         opacity: 0;
       }
     }
+
+    .title-shadow {
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+    }
+
+    .romantic-script {
+      font-family: 'Dancing Script', cursive;
+      font-weight: 600;
+    }
+
+    .elegant-script {
+      font-family: 'Great Vibes', cursive;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
   </style>
 </head>
 
@@ -113,109 +159,198 @@
   <div class="max-w-6xl mx-auto">
     <!-- Header -->
     <header class="text-center mb-12 animate-fade-in">
-      <h1 class="text-5xl md:text-7xl font-bold text-gray-800 mb-4 drop-shadow-lg">
+      <h1 class="text-5xl md:text-7xl font-bold text-gray-800 mb-4 drop-shadow-lg title-shadow elegant-script">
         Nossas Memórias
         <span class="heart text-6xl md:text-8xl">❤️</span>
       </h1>
-      <p class="text-xl md:text-2xl text-gray-700 font-light max-w-2xl mx-auto drop-shadow">
+      <p class="text-xl md:text-2xl text-gray-700 font-light max-w-2xl mx-auto drop-shadow romantic-script">
         Uma coleção especial de todos os momentos que criamos juntos
       </p>
     </header>
 
-    <!-- Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-      <!-- Mensagem 01 -->
-      <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 0.1s">
-        <div class="text-center">
-          <div class="text-6xl mb-4 animate-bounce-slow">💌</div>
-          <h3 class="text-2xl font-bold text-gray-800 mb-3">Primeira Mensagem</h3>
-          <p class="text-gray-700 mb-6">O início de tudo, onde as primeiras palavras especiais foram escritas</p>
-          <a href="/pages/isabel/mensagem01/"
-            class="inline-block bg-gradient-to-r from-pink-500 to-rose-500 text-white px-8 py-3 rounded-full font-semibold hover:from-pink-600 hover:to-rose-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
-            Ler Mensagem
-          </a>
-        </div>
-      </div>
-
-      <!-- Mensagem 02 -->
-      <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 0.2s">
-        <div class="text-center">
-          <div class="text-6xl mb-4 animate-bounce-slow">💕</div>
-          <h3 class="text-2xl font-bold text-gray-800 mb-3">Segunda Mensagem</h3>
-          <p class="text-gray-700 mb-6">Continuando nossa história com mais carinho e dedicação</p>
-          <a href="/pages/isabel/mensagem02"
-            class="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-full font-semibold hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
-            Ler Mensagem
-          </a>
-        </div>
-      </div>
-
-      <!-- Namoro Section -->
-      <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 0.3s">
-        <div class="text-center">
-          <div class="text-6xl mb-4 animate-float">💑</div>
-          <h3 class="text-2xl font-bold text-gray-800 mb-3">Nosso Namoro</h3>
-          <p class="text-gray-700 mb-6">Documentos oficiais e contagem especial do nosso amor</p>
-          <div class="space-y-3">
-            <a href="/pages/isabel/namoro/contagem"
-              class="block bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-2 rounded-full font-semibold hover:from-red-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
-              Contagem de Tempo
+    <!-- Mensagens Section -->
+    <section class="mb-16">
+      <h2 class="text-4xl font-bold text-center mb-8 section-title">💌 Nossas Mensagens</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Mensagem 01 -->
+        <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 0.1s">
+          <div class="text-center">
+            <div class="text-6xl mb-4 animate-bounce-slow">💌</div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3 card-title">Primeira Mensagem</h3>
+            <p class="text-gray-700 mb-6 font-poppins font-light">O início de tudo, onde as primeiras palavras especiais
+              foram escritas</p>
+            <a href="/pages/isabel/mensagem01/"
+              class="inline-block bg-gradient-to-r from-pink-500 to-rose-500 text-white px-8 py-3 rounded-full font-semibold hover:from-pink-600 hover:to-rose-600 transition-all duration-300 transform hover:scale-105 shadow-lg font-poppins">
+              Ler Mensagem
             </a>
-            <a href="/pages/isabel/namoro/contrato-de-namoro"
-              class="block bg-gradient-to-r from-rose-500 to-red-500 text-white px-6 py-2 rounded-full font-semibold hover:from-rose-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
-              Contrato de Namoro
+          </div>
+        </div>
+
+        <!-- Mensagem 02 -->
+        <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 0.2s">
+          <div class="text-center">
+            <div class="text-6xl mb-4 animate-bounce-slow">💕</div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3 card-title">Segunda Mensagem</h3>
+            <p class="text-gray-700 mb-6 font-poppins font-light">Continuando nossa história com mais carinho e
+              dedicação</p>
+            <a href="/pages/isabel/mensagem02"
+              class="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-full font-semibold hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg font-poppins">
+              Ler Mensagem
             </a>
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- Dois Meses -->
-      <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 0.4s">
-        <div class="text-center">
-          <div class="text-6xl mb-4 animate-pulse-slow">🎉</div>
-          <h3 class="text-2xl font-bold text-gray-800 mb-3">Dois Meses</h3>
-          <p class="text-gray-700 mb-6">Celebrando nosso segundo mês juntos com muito amor</p>
-          <a href="/pages/isabel/namoro/dois-meses"
-            class="inline-block bg-gradient-to-r from-orange-500 to-pink-500 text-white px-8 py-3 rounded-full font-semibold hover:from-orange-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
-            Ver Celebração
-          </a>
+    <!-- Nosso Namoro Section -->
+    <section class="mb-16">
+      <h2 class="text-4xl font-bold text-center mb-8 section-title">💑 Nosso Namoro</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Contagem -->
+        <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 0.3s">
+          <div class="text-center">
+            <div class="text-6xl mb-4 animate-pulse-slow">⏰</div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3 card-title">Contagem de Tempo</h3>
+            <p class="text-gray-700 mb-6 font-poppins font-light">Acompanhe o tempo que estamos juntos crescendo</p>
+            <a href="/pages/isabel/namoro/contagem"
+              class="inline-block bg-gradient-to-r from-red-500 to-pink-500 text-white px-8 py-3 rounded-full font-semibold hover:from-red-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg font-poppins">
+              Ver Contagem
+            </a>
+          </div>
+        </div>
+
+        <!-- Contrato de Namoro -->
+        <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 0.4s">
+          <div class="text-center">
+            <div class="text-6xl mb-4 animate-float">📜</div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3 card-title">Contrato de Namoro</h3>
+            <p class="text-gray-700 mb-6 font-poppins font-light">Nossos compromissos e promessas oficiais</p>
+            <a href="/pages/isabel/namoro/contrato-de-namoro"
+              class="inline-block bg-gradient-to-r from-rose-500 to-red-500 text-white px-8 py-3 rounded-full font-semibold hover:from-rose-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg font-poppins">
+              Ler Contrato
+            </a>
+          </div>
+        </div>
+
+        <!-- Orações -->
+        <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 0.5s">
+          <div class="text-center">
+            <div class="text-6xl mb-4 animate-float">🙏</div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3 card-title">Orações</h3>
+            <p class="text-gray-700 mb-6 font-poppins font-light">Momentos de gratidão e pedidos especiais para nós dois
+            </p>
+            <a href="/pages/isabel/namoro/oracoes"
+              class="inline-block bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-3 rounded-full font-semibold hover:from-blue-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-105 shadow-lg font-poppins">
+              Ver Orações
+            </a>
+          </div>
         </div>
       </div>
+    </section>
 
-      <!-- Orações -->
-      <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 0.5s">
-        <div class="text-center">
-          <div class="text-6xl mb-4 animate-float">🙏</div>
-          <h3 class="text-2xl font-bold text-gray-800 mb-3">Orações</h3>
-          <p class="text-gray-700 mb-6">Momentos de gratidão e pedidos especiais para nós dois</p>
-          <a href="/pages/isabel/namoro/oracoes"
-            class="inline-block bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-3 rounded-full font-semibold hover:from-blue-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
-            Ver Orações
-          </a>
+    <!-- Marcos Importantes Section -->
+    <section class="mb-16">
+      <h2 class="text-4xl font-bold text-center mb-8 section-title">🎉 Marcos Importantes</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Um Mês -->
+        <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 0.6s">
+          <div class="text-center">
+            <div class="text-6xl mb-4 animate-bounce-slow">🌟</div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3 card-title">Um Mês</h3>
+            <p class="text-gray-700 mb-6 font-poppins font-light">Nossa primeira marca temporal especial</p>
+            <a href="/pages/isabel/namoro/um-mes"
+              class="inline-block bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-2 rounded-full font-semibold hover:from-green-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg font-poppins text-sm">
+              Relembrar
+            </a>
+          </div>
+        </div>
+
+        <!-- Dois Meses -->
+        <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 0.7s">
+          <div class="text-center">
+            <div class="text-6xl mb-4 animate-pulse-slow">🎉</div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3 card-title">Dois Meses</h3>
+            <p class="text-gray-700 mb-6 font-poppins font-light">Celebrando nosso segundo mês juntos</p>
+            <a href="/pages/isabel/namoro/dois-meses"
+              class="inline-block bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-2 rounded-full font-semibold hover:from-orange-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg font-poppins text-sm">
+              Ver Celebração
+            </a>
+          </div>
+        </div>
+
+        <!-- Cinco Meses -->
+        <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 0.8s">
+          <div class="text-center">
+            <div class="text-6xl mb-4 animate-float">✨</div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3 card-title">Cinco Meses</h3>
+            <p class="text-gray-700 mb-6 font-poppins font-light">Meio ano se aproximando, amor crescendo</p>
+            <a href="/pages/isabel/namoro/cinco-meses"
+              class="inline-block bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-2 rounded-full font-semibold hover:from-indigo-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-105 shadow-lg font-poppins text-sm">
+              Celebrar
+            </a>
+          </div>
         </div>
       </div>
+    </section>
 
-      <!-- Um Mês -->
-      <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 0.6s">
-        <div class="text-center">
-          <div class="text-6xl mb-4 animate-bounce-slow">🌟</div>
-          <h3 class="text-2xl font-bold text-gray-800 mb-3">Um Mês</h3>
-          <p class="text-gray-700 mb-6">Nossa primeira marca temporal, o primeiro mês especial</p>
-          <a href="/pages/isabel/um-mes"
-            class="inline-block bg-gradient-to-r from-green-500 to-blue-500 text-white px-8 py-3 rounded-full font-semibold hover:from-green-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
-            Relembrar
-          </a>
+    <!-- Extras Section -->
+    <section class="mb-16">
+      <h2 class="text-4xl font-bold text-center mb-8 section-title">🎁 Seções Especiais</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Assets -->
+        <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 1.0s">
+          <div class="text-center">
+            <div class="text-6xl mb-4 animate-pulse-slow">📸</div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3 card-title">Galeria</h3>
+            <p class="text-gray-700 mb-6 font-poppins font-light">Fotos e momentos especiais capturados</p>
+            <a href="https://photos.app.goo.gl/qZsSuKMAwsuAm75FA"
+              class="inline-block bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-8 py-3 rounded-full font-semibold hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg font-poppins">
+              Ver Galeria
+            </a>
+          </div>
+        </div>
+
+        <!-- Dia dos Namorados -->
+        <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 1.1s">
+          <div class="text-center">
+            <div class="text-6xl mb-4 animate-float">💘</div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3 card-title">Dia dos Namorados</h3>
+            <p class="text-gray-700 mb-6 font-poppins font-light">Celebração especial do nosso amor em 2025</p>
+            <a href="/pages/isabel/dia-dos-namorados-2025"
+              class="inline-block bg-gradient-to-r from-red-500 to-pink-500 text-white px-8 py-3 rounded-full font-semibold hover:from-red-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg font-poppins">
+              Ver Celebração
+            </a>
+          </div>
+        </div>
+
+        <!-- Contrato Geral -->
+        <div class="glass rounded-3xl p-8 card-hover animate-slide-up" style="animation-delay: 1.2s">
+          <div class="text-center">
+            <div class="text-6xl mb-4 animate-pulse-slow">💍</div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3 card-title">Pedido de Casamento</h3>
+            <p class="text-gray-700 mb-6 font-poppins font-light">O momento mais especial das nossas vidas</p>
+            <div class="space-y-3">
+              <a href="https://youtu.be/4kyFuIkjzzg" target="_blank"
+                class="block bg-gradient-to-r from-rose-500 to-pink-500 text-white px-6 py-2 rounded-full font-semibold hover:from-rose-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg font-poppins">
+                🎥 Ver Vídeo do Pedido
+              </a>
+              <a href="https://www.canva.com/design/DAGqR6_YcLM/fThckjaikNz75DsXKm_W7Q/view?utm_content=DAGqR6_YcLM&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h5432833867"
+                class="block bg-gradient-to-r from-amber-500 to-orange-500 text-white px-6 py-2 rounded-full font-semibold hover:from-amber-600 hover:to-orange-600 transition-all duration-300 transform hover:scale-105 shadow-lg font-poppins">
+                📺 Ver Slide
+              </a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- Footer -->
     <footer class="text-center glass rounded-3xl p-8 animate-fade-in">
       <div class="text-4xl mb-4 animate-pulse-slow">💖</div>
-      <p class="text-gray-800 text-lg font-light">
+      <p class="text-gray-800 text-lg font-light romantic-script text-2xl">
         Cada página aqui é uma prova do nosso amor crescendo a cada dia
       </p>
-      <p class="text-gray-600 text-sm mt-2">
+      <p class="text-gray-600 text-sm mt-2 font-poppins">
         Feito com muito amor ❤️
       </p>
     </footer>
