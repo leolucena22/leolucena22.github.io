@@ -1,17 +1,18 @@
 // Mapeamento de termos similares
         const termMappings = {
-            'metodologia': ['metodologia', 'material e métodos', 'materiais e métodos', 'método', 'métodos', 'material e método'],
-            'objetivos': ['objetivos', 'objetivo'],
-            'introdução': ['introdução', 'introducao'],
-            'resultados': ['resultados', 'resultado'],
-            'conclusão': ['conclusão', 'conclusao', 'considerações finais', 'consideracoes finais'],
-            'relato de caso': ['relato de caso', 'relato de experiência', 'relato de experiencia', 'caso clínico', 'caso clinico'],
-            'relato de experiência': ['relato de experiência', 'relato de experiencia', 'relato de caso']
+        'metodologia': ['metodologia', 'material e métodos', 'materiais e métodos', 'método', 'métodos', 'material e método'],
+        'objetivos': ['objetivos', 'objetivo'], // Já trata singular e plural
+        'introdução': ['introdução', 'introducao'],
+        'resultados': ['resultados', 'resultado'],
+        'conclusão': ['conclusão', 'conclusao', 'considerações finais', 'consideracoes finais'],
+        'relato de caso': ['relato de caso', 'relato de experiência', 'relato de experiencia', 'caso clínico', 'caso clinico'],
+        'relato de experiência': ['relato de experiência', 'relato de experiencia', 'relato de caso']
         };
+
 
         // Estruturas padrão
         const estruturaCientifica = ['introdução', 'objetivos', 'metodologia', 'resultados', 'conclusão'];
-        const estruturaRelato = ['introdução', 'objetivo', 'relato de caso', 'conclusão'];
+        const estruturaRelato = ['introdução', 'objetivos', 'relato de caso', 'conclusão'];
 
         // Contador de palavras em tempo real
         document.getElementById('inputText').addEventListener('input', function() {
@@ -48,37 +49,74 @@
 
         function extractSections(text) {
             const sections = {};
-            const lines = text.split('\n').filter(line => line.trim());
             
-            let currentSection = '';
-            let currentContent = '';
+            // Primeira tentativa: usar regex para capturar seções com padrão mais flexível
+            // Procura por palavras-chave seguidas de dois pontos e conteúdo até a próxima seção
+            const sectionRegex = /\b(introdução|introducao|objetivos?|metodologia|material\s+e\s+métodos?|materiais\s+e\s+métodos?|métodos?|resultados?|conclusão|conclusao|considerações\s+finais|consideracoes\s+finais|relato\s+de\s+caso|relato\s+de\s+experiência|relato\s+de\s+experiencia|caso\s+clínico|caso\s+clinico):\s*(.*?)(?=\b(?:introdução|introducao|objetivos?|metodologia|material\s+e\s+métodos?|materiais\s+e\s+métodos?|métodos?|resultados?|conclusão|conclusao|considerações\s+finais|consideracoes\s+finais|relato\s+de\s+caso|relato\s+de\s+experiência|relato\s+de\s+experiencia|caso\s+clínico|caso\s+clinico):|$)/gis;
             
-            for (let line of lines) {
-                const trimmedLine = line.trim();
+            let match;
+            while ((match = sectionRegex.exec(text)) !== null) {
+                const sectionName = match[1].toLowerCase().trim();
+                let content = match[2].trim();
                 
-                // Verifica se a linha é um cabeçalho de seção
-                const colonIndex = trimmedLine.indexOf(':');
-                if (colonIndex > 0 && colonIndex < 50) {
-                    // Salva a seção anterior
-                    if (currentSection && currentContent.trim()) {
-                        sections[currentSection] = currentContent.trim();
-                    }
-                    
-                    // Inicia nova seção
-                    currentSection = trimmedLine.substring(0, colonIndex).toLowerCase().trim();
-                    currentContent = trimmedLine.substring(colonIndex + 1).trim();
-                } else {
-                    // Adiciona à seção atual
-                    if (currentContent) currentContent += ' ';
-                    currentContent += trimmedLine;
+                // Remove quebras de linha extras e normaliza espaços
+                content = content.replace(/\s+/g, ' ').trim();
+                
+                if (content && content.length > 5) {
+                    sections[sectionName] = content;
                 }
             }
             
-            // Salva a última seção
-            if (currentSection && currentContent.trim()) {
-                sections[currentSection] = currentContent.trim();
+            // Se não encontrou seções com regex, tenta método linha por linha
+            if (Object.keys(sections).length === 0) {
+                const lines = text.split('\n');
+                let currentSection = '';
+                let currentContent = '';
+                
+                for (let line of lines) {
+                    const trimmedLine = line.trim();
+                    if (!trimmedLine) continue;
+                    
+                    // Procura por títulos de seção (case insensitive)
+                    const sectionMatch = trimmedLine.match(/^(introdução|introducao|objetivos?|metodologia|material\s+e\s+métodos?|materiais\s+e\s+métodos?|métodos?|resultados?|conclusão|conclusao|considerações\s+finais|consideracoes\s+finais|relato\s+de\s+caso|relato\s+de\s+experiência|relato\s+de\s+experiencia|caso\s+clínico|caso\s+clinico):\s*(.*)/i);
+                    
+                    if (sectionMatch) {
+                        // Salva seção anterior se existir
+                        if (currentSection && currentContent.trim()) {
+                            sections[currentSection] = currentContent.trim();
+                        }
+                        
+                        // Nova seção encontrada
+                        currentSection = sectionMatch[1].toLowerCase().trim();
+                        currentContent = sectionMatch[2] || '';
+                    } else {
+                        // Verifica se é apenas um título de seção (sem dois pontos ou conteúdo)
+                        const titleMatch = trimmedLine.match(/^(introdução|introducao|objetivos?|metodologia|material\s+e\s+métodos?|materiais\s+e\s+métodos?|métodos?|resultados?|conclusão|conclusao|considerações\s+finais|consideracoes\s+finais|relato\s+de\s+caso|relato\s+de\s+experiência|relato\s+de\s+experiencia|caso\s+clínico|caso\s+clinico):?\s*$/i);
+                        
+                        if (titleMatch) {
+                            // Salva seção anterior se existir
+                            if (currentSection && currentContent.trim()) {
+                                sections[currentSection] = currentContent.trim();
+                            }
+                            
+                            // Nova seção (título apenas)
+                            currentSection = titleMatch[1].toLowerCase().trim();
+                            currentContent = '';
+                        } else if (currentSection) {
+                            // Adiciona conteúdo à seção atual
+                            if (currentContent) currentContent += ' ';
+                            currentContent += trimmedLine;
+                        }
+                    }
+                }
+                
+                // Salva última seção
+                if (currentSection && currentContent.trim()) {
+                    sections[currentSection] = currentContent.trim();
+                }
             }
             
+            console.log('Seções encontradas:', sections);
             return sections;
         }
 
