@@ -1,77 +1,467 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formatador de Resumo</title>
-    <meta name="description" content="Ferramenta inteligente que formata resumos automaticamente, garantindo títulos em negrito e estrutura correta para submissões científicas.">
-    <meta name="keywords" content="resumo científico, formatação automática, submissão acadêmica, negrito automático, estrutura de resumo, publicação científica">
-    <meta name="author" content="Leonardo Lucena">
-    <meta name="robots" content="index, follow">
-
-    <!-- Open Graph para redes sociais (Facebook, LinkedIn, etc.) -->
-    <meta property="og:title" content="Formate Resumos de Forma Automática">
-    <meta property="og:description" content="Transforme seus resumos desformatados em textos estruturados e prontos para submissão científica.">
-    <meta property="og:image" content="https://leolucena22.github.io/projects/images/formatador-resumos.webp">
-    <meta property="og:url" content="https://leolucena22.github.io/projects/formatar-resumo">
-    <meta property="og:type" content="website">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Formate Resumos de Forma Automática">
-    <meta name="twitter:description" content="Transforme seus resumos desformatados em textos estruturados e prontos para submissão científica.">
-
-    <meta name="twitter:image" content="https://leolucena22.github.io/projects/images/formatador-resumos.webp">
+    <title>Formatador de Resumos para Congressos</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>📝</text></svg>"></link>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
         body {
-            font-family: "Poppins", sans-serif;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 100%);
+            position: relative;
+        }
+        
+        .gradient-bg::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(120, 219, 226, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .glass-effect {
+            background: rgba(17, 25, 40, 0.75);
+            backdrop-filter: blur(16px);  
+            border: 1px solid rgba(255, 255, 255, 0.125);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .typing-animation {
+            animation: typing 2s steps(40, end), blink-caret 0.75s step-end infinite;
+            border-right: 3px solid #60a5fa;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #60a5fa }
+        }
+        
+        .pulse-button {
+            animation: pulse 2s infinite;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+        }
+        
+        .pulse-button:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #db2777 100%);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
+<body class="gradient-bg min-h-screen py-8">
+    <div class="container mx-auto px-4 max-w-6xl">
+        <!-- Header -->
+        <div class="text-center mb-12 fade-in">
+            <h1 class="text-5xl font-bold text-white mb-4 typing-animation">
+                Formatador de Resumos
+            </h1>
+            <p class="text-xl text-white/80 max-w-2xl mx-auto">
+                Formate seus resumos científicos de acordo com as normas dos congressos de forma rápida e profissional
+            </p>
+        </div>
 
-<body class="bg-gray-100 text-gray-900 p-6 flex flex-col items-center min-h-screen">
-
-    <div class="bg-white mb-4 p-6 rounded-lg shadow-lg w-full max-w-3xl border border-gray-300">
-        <h2 class="text-3xl font-bold text-center mb-4 text-purple-600">Formatador de Resumo</h2>
-
-        <label class="block font-semibold mb-2 text-gray-700">Cole o resumo desformatado:</label>
-        <textarea id="inputTexto"
-            class="w-full p-3 border border-purple-400 rounded-lg h-40 bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            placeholder="Cole seu resumo aqui..."></textarea>
-
-        <label class="block mt-4 font-semibold text-gray-700">Tipo de Resumo:</label>
-        <select id="tipoResumo"
-            class="w-full p-3 border border-purple-400 rounded-lg bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500">
-            <option value="pesquisa">Pesquisa</option>
-            <option value="relato">Relato de Caso/Experiência</option>
-        </select>
-
-        <button onclick="formatarTexto()"
-            class="w-full mt-4 py-3 text-lg font-semibold rounded-lg transition bg-gradient-to-r from-purple-500 to-purple-700 text-white hover:from-purple-600 hover:to-purple-800">
-            Formatar Resumo
-        </button>
-
-        <div id="resultadoContainer" class="mt-6 hidden">
-            <h3 class="text-lg font-bold mb-2 text-purple-600">Resumo Formatado:</h3>
-            <div id="outputTexto" class="bg-gray-50 p-4 border border-purple-400 rounded-lg text-justify text-gray-900">
+        <div class="grid lg:grid-cols-2 gap-8">
+            <!-- Input Section -->
+            <div class="glass-effect rounded-2xl p-8 card-shadow fade-in">
+                <div class="flex items-center mb-6">
+                    <div class="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                    <div class="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
+                    <div class="w-3 h-3 bg-green-500 rounded-full mr-4"></div>
+                    <h2 class="text-xl font-semibold text-slate-200">Texto Original</h2>
+                </div>
+                
+                <textarea 
+                    id="inputText" 
+                    placeholder="Cole aqui o seu resumo para formatação automática..."
+                    class="w-full h-96 p-4 bg-slate-900/50 border border-slate-700/50 rounded-xl text-slate-100 placeholder-slate-400 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                ></textarea>
+                
+                <div class="flex flex-col sm:flex-row gap-4 mt-6">
+                    <button 
+                        onclick="formatResume()"
+                        class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 via-pink-500 hover:from-blue-700 hover:to-purple-700 hover:via-pink-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 pulse-button shadow-lg"
+                    >
+                        ✨ Formatar Resumo
+                    </button>
+                    
+                    <button 
+                        onclick="clearAll()"
+                        class="flex-1 bg-slate-800/60 hover:bg-slate-700/60 text-slate-200 font-semibold py-3 px-6 rounded-xl transition-all duration-300 border border-slate-600/50 hover:border-slate-500/50"
+                    >
+                        🗑️ Limpar Tudo
+                    </button>
+                </div>
+                
+                <!-- Word Counter -->
+                <div class="mt-4 text-center">
+                    <span id="wordCount" class="text-slate-300 text-sm">
+                        Palavras: 0 | Caracteres: 0
+                    </span>
+                </div>
             </div>
 
-            <button onclick="copiarTexto()"
-                class="w-full mt-4 py-3 text-lg font-semibold rounded-lg transition bg-gradient-to-r from-green-500 to-green-700 text-white hover:from-green-600 hover:to-green-800">
-                Copiar Texto
-            </button>
+            <!-- Output Section -->
+            <div class="glass-effect rounded-2xl p-8 card-shadow fade-in">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                        <div class="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
+                        <div class="w-3 h-3 bg-green-500 rounded-full mr-4"></div>
+                        <h2 class="text-xl font-semibold text-slate-200">Resumo Formatado</h2>
+                    </div>
+                    
+                    <button 
+                        onclick="copyToClipboard()"
+                        class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg transition-all duration-300 text-sm font-medium shadow-lg"
+                        id="copyBtn"
+                    >
+                        📋 Copiar
+                    </button>
+                </div>
+                
+                <div 
+                    id="outputText"
+                    class="w-full h-96 p-4 bg-slate-900/50 border border-slate-700/50 rounded-xl text-slate-100 overflow-y-auto"
+                >
+                    <div class="text-slate-400 text-center italic">
+                        O resumo formatado aparecerá aqui...
+                    </div>
+                </div>
+                
+                <!-- Status Indicators -->
+                <div class="mt-4 flex justify-between items-center text-sm">
+                    <div id="statusIndicator" class="text-slate-300">
+                        Status: Aguardando texto
+                    </div>
+                    <div id="formattedWordCount" class="text-slate-300">
+                        Palavras formatadas: 0
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="mt-12 glass-effect rounded-2xl p-8 card-shadow fade-in">
+            <h3 class="text-2xl font-bold text-slate-100 mb-6 text-center">📋 Instruções de Formatação</h3>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="text-lg font-semibold text-slate-200 mb-4">🔬 Resumos Científicos</h4>
+                    <ul class="text-slate-300 space-y-2">
+                        <li>• <strong>Introdução:</strong> Contexto do estudo</li>
+                        <li>• <strong>Objetivos:</strong> Propósito da pesquisa</li>
+                        <li>• <strong>Metodologia:</strong> Métodos utilizados</li>
+                        <li>• <strong>Resultados:</strong> Principais achados</li>
+                        <li>• <strong>Conclusão:</strong> Considerações finais</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold text-slate-200 mb-4">📖 Relatos de Caso/Experiência</h4>
+                    <ul class="text-slate-300 space-y-2">
+                        <li>• <strong>Introdução:</strong> Contexto do caso</li>
+                        <li>• <strong>Objetivo:</strong> Propósito do relato</li>
+                        <li>• <strong>Relato de caso/experiência:</strong> Descrição</li>
+                        <li>• <strong>Conclusão:</strong> Considerações finais</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mt-6 p-4 bg-slate-800/40 rounded-xl border border-slate-700/50">
+                <p class="text-slate-300 text-center">
+                    <strong>📏 Requisitos:</strong> Entre 250 e 350 palavras | 
+                    <strong>✨ Funcionalidades:</strong> Correção automática de maiúsculas | Normalização de termos similares
+                </p>
+            </div>
         </div>
     </div>
 
-    <p class="text-gray-400"><a href="https://leolucena22.github.io" />&copy;leolucena22</a></p>
+    <script>
+        // Mapeamento de termos similares
+        const termMappings = {
+            'metodologia': ['metodologia', 'material e métodos', 'materiais e métodos', 'método', 'métodos', 'material e método'],
+            'objetivos': ['objetivos', 'objetivo'],
+            'introdução': ['introdução', 'introducao'],
+            'resultados': ['resultados', 'resultado'],
+            'conclusão': ['conclusão', 'conclusao', 'considerações finais', 'consideracoes finais'],
+            'relato de caso': ['relato de caso', 'relato de experiência', 'relato de experiencia', 'caso clínico', 'caso clinico'],
+            'relato de experiência': ['relato de experiência', 'relato de experiencia', 'relato de caso']
+        };
 
-    <script src="script.js"></script>
+        // Estruturas padrão
+        const estruturaCientifica = ['introdução', 'objetivos', 'metodologia', 'resultados', 'conclusão'];
+        const estruturaRelato = ['introdução', 'objetivo', 'relato de caso', 'conclusão'];
+
+        // Contador de palavras em tempo real
+        document.getElementById('inputText').addEventListener('input', function() {
+            updateWordCount();
+        });
+
+        function updateWordCount() {
+            const text = document.getElementById('inputText').value;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const chars = text.length;
+            
+            document.getElementById('wordCount').textContent = `Palavras: ${words} | Caracteres: ${chars}`;
+        }
+
+        function normalizeText(text) {
+            // Converte maiúsculas para formato normal (primeira letra maiúscula)
+            return text.split(' ').map(word => {
+                if (word.length <= 3 && !['de', 'da', 'do', 'dos', 'das', 'e', 'ou'].includes(word.toLowerCase())) {
+                    return word.toLowerCase();
+                }
+                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            }).join(' ');
+        }
+
+        function identifyStructure(text) {
+            const lowerText = text.toLowerCase();
+            
+            // Verifica se é relato de caso/experiência
+            const relatoTerms = ['relato de caso', 'relato de experiência', 'relato de experiencia', 'caso clínico'];
+            const isRelato = relatoTerms.some(term => lowerText.includes(term));
+            
+            return isRelato ? 'relato' : 'cientifico';
+        }
+
+        function extractSections(text) {
+            const sections = {};
+            const lines = text.split('\n').filter(line => line.trim());
+            
+            let currentSection = '';
+            let currentContent = '';
+            
+            for (let line of lines) {
+                const trimmedLine = line.trim();
+                
+                // Verifica se a linha é um cabeçalho de seção
+                const colonIndex = trimmedLine.indexOf(':');
+                if (colonIndex > 0 && colonIndex < 50) {
+                    // Salva a seção anterior
+                    if (currentSection && currentContent.trim()) {
+                        sections[currentSection] = currentContent.trim();
+                    }
+                    
+                    // Inicia nova seção
+                    currentSection = trimmedLine.substring(0, colonIndex).toLowerCase().trim();
+                    currentContent = trimmedLine.substring(colonIndex + 1).trim();
+                } else {
+                    // Adiciona à seção atual
+                    if (currentContent) currentContent += ' ';
+                    currentContent += trimmedLine;
+                }
+            }
+            
+            // Salva a última seção
+            if (currentSection && currentContent.trim()) {
+                sections[currentSection] = currentContent.trim();
+            }
+            
+            return sections;
+        }
+
+        function mapSectionName(sectionName) {
+            const normalizedName = sectionName.toLowerCase().trim();
+            
+            for (let [standard, variants] of Object.entries(termMappings)) {
+                if (variants.includes(normalizedName)) {
+                    return standard;
+                }
+            }
+            
+            return normalizedName;
+        }
+
+        function formatResume() {
+            const inputText = document.getElementById('inputText').value.trim();
+            
+            if (!inputText) {
+                alert('Por favor, insira um texto para formatar.');
+                return;
+            }
+
+            try {
+                // Identifica estrutura
+                const structureType = identifyStructure(inputText);
+                const targetStructure = structureType === 'relato' ? estruturaRelato : estruturaCientifica;
+                
+                // Extrai seções
+                const sections = extractSections(inputText);
+                
+                // Mapeia nomes das seções
+                const mappedSections = {};
+                for (let [key, value] of Object.entries(sections)) {
+                    const mappedKey = mapSectionName(key);
+                    mappedSections[mappedKey] = normalizeText(value);
+                }
+                
+                // Constrói o resumo formatado em texto corrido
+                let formattedText = '';
+                const missingSections = [];
+                
+                for (let section of targetStructure) {
+                    if (mappedSections[section]) {
+                        const sectionTitle = section.charAt(0).toUpperCase() + section.slice(1);
+                        if (formattedText) formattedText += ' '; // Adiciona espaço entre seções
+                        formattedText += `**${sectionTitle}:** ${mappedSections[section]}`;
+                    } else {
+                        missingSections.push(section);
+                    }
+                }
+                
+                // Adiciona seções extras encontradas
+                for (let [key, value] of Object.entries(mappedSections)) {
+                    if (!targetStructure.includes(key)) {
+                        const sectionTitle = key.charAt(0).toUpperCase() + key.slice(1);
+                        if (formattedText) formattedText += ' '; // Adiciona espaço entre seções
+                        formattedText += `**${sectionTitle}:** ${value}`;
+                    }
+                }
+                
+                // Exibe resultado em texto corrido
+                const outputDiv = document.getElementById('outputText');
+                outputDiv.innerHTML = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                
+                // Atualiza contadores e status
+                const wordCount = formattedText.split(/\s+/).filter(word => word.trim()).length;
+                document.getElementById('formattedWordCount').textContent = `Palavras formatadas: ${wordCount}`;
+                
+                let status = '';
+                if (wordCount < 250) {
+                    status = '⚠️ Abaixo do mínimo (250 palavras)';
+                } else if (wordCount > 350) {
+                    status = '⚠️ Acima do máximo (350 palavras)';
+                } else {
+                    status = '✅ Dentro do limite ideal';
+                }
+                
+                if (missingSections.length > 0) {
+                    status += ` | Seções faltantes: ${missingSections.join(', ')}`;
+                }
+                
+                document.getElementById('statusIndicator').textContent = `Status: ${status}`;
+                
+                // Animação de sucesso
+                outputDiv.classList.add('fade-in');
+                
+            } catch (error) {
+                alert('Erro na formatação. Verifique se o texto está estruturado corretamente.');
+                console.error(error);
+            }
+        }
+
+function copyToClipboard() {
+            const outputDiv = document.getElementById('outputText');
+            const outputHTML = outputDiv.innerHTML; // Pegamos o innerHTML
+
+            if (!outputHTML || outputHTML.includes('O resumo formatado aparecerá aqui')) {
+                alert('Nenhum texto formatado para copiar.');
+                return;
+            }
+
+            // Criar um elemento temporário para copiar o HTML
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = outputHTML; // Atribuir o HTML completo
+            document.body.appendChild(tempDiv); // Anexar ao body para que possa ser selecionado
+
+            // Criar um range e selecioná-lo
+            const range = document.createRange();
+            range.selectNodeContents(tempDiv);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            try {
+                // Tentar copiar o conteúdo selecionado
+                document.execCommand('copy');
+                
+                const btn = document.getElementById('copyBtn');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copiado!';
+                btn.classList.remove('bg-emerald-600');
+                btn.classList.add('bg-emerald-700');
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('bg-emerald-700');
+                    btn.classList.add('bg-emerald-600');
+                }, 2000);
+
+            } catch (err) {
+                console.error('Erro ao copiar HTML: ', err);
+                // Fallback para navegadores que não suportam document.execCommand para HTML
+                // Ou para casos onde a cópia falha (por exemplo, permissões)
+                // Neste caso, ainda podemos tentar copiar como texto puro
+                navigator.clipboard.writeText(outputDiv.innerText).then(() => {
+                    alert('Copiado como texto simples (formatação pode ser perdida).');
+                }).catch(() => {
+                    alert('Erro ao copiar. Tente selecionar o texto manualmente.');
+                });
+            } finally {
+                // Remover o elemento temporário
+                document.body.removeChild(tempDiv);
+                selection.removeAllRanges(); // Limpar a seleção
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').innerHTML = '<div class="text-slate-400 text-center italic">O resumo formatado aparecerá aqui...</div>';
+            document.getElementById('wordCount').textContent = 'Palavras: 0 | Caracteres: 0';
+            document.getElementById('formattedWordCount').textContent = 'Palavras formatadas: 0';
+            document.getElementById('statusIndicator').textContent = 'Status: Aguardando texto';
+        }
+
+        // Exemplo de uso ao carregar a página
+        window.addEventListener('load', function() {
+            // Adiciona exemplo se necessário
+            const example = `INTRODUÇÃO: A diabetes mellitus é uma condição crônica que afeta milhões de pessoas no mundo.
+OBJETIVOS: Avaliar a eficácia de um novo protocolo de tratamento.
+METODOLOGIA: Estudo randomizado controlado com 100 participantes.
+RESULTADOS: Houve redução significativa da glicemia em 85% dos casos.
+CONCLUSÃO: O protocolo mostrou-se eficaz no controle glicêmico.`;
+            
+            // Descomente a linha abaixo para carregar exemplo automaticamente
+            // document.getElementById('inputText').value = example;
+        });
+    </script>
 </body>
-
 </html>
