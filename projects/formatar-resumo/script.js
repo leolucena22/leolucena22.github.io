@@ -1,287 +1,248 @@
-function normalizarSecao(secao) {
-    const equivalencias = {
-        "introducao": "Introdução",
-        "introdução": "Introdução",
-        "objetivo": "Objetivo",
-        "objetivos": "Objetivos",
-        "metodologia": "Metodologia",
-        "metodologias": "Metodologia",
-        "material e metodos": "Material e Métodos",
-        "material e métodos": "Material e Métodos",
-        "material e metodo": "Material e Método",
-        "material e método": "Material e Método",
-        "materiais e metodos": "Materiais e Métodos",
-        "materiais e métodos": "Materiais e Métodos",
-        "metodo": "Método",
-        "método": "Método",
-        "metodos": "Métodos",
-        "métodos": "Métodos",
-        "resultado": "Resultados",
-        "resultados": "Resultados",
-        "relato de caso": "Relato",
-        "relatos de caso": "Relato",
-        "relato de experiencia": "Relato",
-        "relato de experiência": "Relato",
-        "relatos de experiencia": "Relato",
-        "relatos de experiência": "Relato",
-        "conclusao": "Conclusão",
-        "conclusão": "Conclusão",
-        "conclusoes": "Conclusão",
-        "conclusões": "Conclusão"
-    };
+// Mapeamento de termos similares
+        const termMappings = {
+            'metodologia': ['metodologia', 'material e métodos', 'materiais e métodos', 'método', 'métodos', 'material e método'],
+            'objetivos': ['objetivos', 'objetivo'],
+            'introdução': ['introdução', 'introducao'],
+            'resultados': ['resultados', 'resultado'],
+            'conclusão': ['conclusão', 'conclusao', 'considerações finais', 'consideracoes finais'],
+            'relato de caso': ['relato de caso', 'relato de experiência', 'relato de experiencia', 'caso clínico', 'caso clinico'],
+            'relato de experiência': ['relato de experiência', 'relato de experiencia', 'relato de caso']
+        };
 
-    // Normalizar texto: remover acentos, converter para minúsculo, remover caracteres especiais
-    const normalized = secao
-        .toLowerCase()
-        .normalize('NFD').replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z0-9\s]/g, "")
-        .trim();
-    
-    return equivalencias[normalized] || null;
-}
+        // Estruturas padrão
+        const estruturaCientifica = ['introdução', 'objetivos', 'metodologia', 'resultados', 'conclusão'];
+        const estruturaRelato = ['introdução', 'objetivo', 'relato de caso', 'conclusão'];
 
-function mostrarErro(mensagem) {
-    // Remove alertas anteriores se existirem
-    const alertaAnterior = document.querySelector('.alerta-erro');
-    if (alertaAnterior) {
-        alertaAnterior.remove();
-    }
-    
-    // Criar div de erro
-    const divErro = document.createElement('div');
-    divErro.className = 'alerta-erro bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mt-4';
-    divErro.innerHTML = `
-        <div class="flex items-center">
-            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
-            </svg>
-            <div>
-                <strong>Erro:</strong><br>
-                ${mensagem.replace(/\n/g, '<br>')}
-            </div>
-        </div>
-    `;
-    
-    // Inserir após o botão de formatar
-    const botaoFormatar = document.querySelector('button[onclick="formatarTexto()"]');
-    botaoFormatar.parentNode.insertBefore(divErro, botaoFormatar.nextSibling);
-    
-    // Remover após 8 segundos
-    setTimeout(() => {
-        if (divErro.parentNode) {
-            divErro.remove();
-        }
-    }, 8000);
-}
-
-function mostrarSucesso(mensagem) {
-    // Remove alertas anteriores se existirem
-    const alertaAnterior = document.querySelector('.alerta-sucesso');
-    if (alertaAnterior) {
-        alertaAnterior.remove();
-    }
-    
-    // Criar div de sucesso
-    const divSucesso = document.createElement('div');
-    divSucesso.className = 'alerta-sucesso bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mt-4';
-    divSucesso.innerHTML = `
-        <div class="flex items-center">
-            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-            </svg>
-            <span>${mensagem}</span>
-        </div>
-    `;
-    
-    // Inserir no início do resultado
-    const resultadoContainer = document.getElementById('resultadoContainer');
-    resultadoContainer.insertBefore(divSucesso, resultadoContainer.firstChild);
-    
-    // Remover após 4 segundos
-    setTimeout(() => {
-        if (divSucesso.parentNode) {
-            divSucesso.remove();
-        }
-    }, 4000);
-}
-
-function formatarTexto() {
-    // Remove alertas anteriores
-    const alertas = document.querySelectorAll('.alerta-erro, .alerta-sucesso');
-    alertas.forEach(alerta => alerta.remove());
-
-    const texto = document.getElementById("inputTexto").value.trim();
-    const tipoResumo = document.getElementById("tipoResumo").value;
-
-    if (!texto) {
-        mostrarErro("Por favor, insira um texto para formatar.");
-        return;
-    }
-
-    // Estruturas esperadas - agora aceita todas as variações
-    const estruturaPesquisa = ["Introdução", "Resultados", "Conclusão"];
-    const estruturaRelato = ["Introdução", "Relato", "Conclusão"];
-    // Adiciona objetivo/objetivos e metodologia dependendo do que foi encontrado
-    const estruturaEsperada = tipoResumo === "pesquisa" ? estruturaPesquisa : estruturaRelato;
-
-    // Regex mais abrangente para capturar títulos de seções
-    const regexTitulos = /(\b(?:INTRODU[CÇ][AÃ]O|OBJETIVO[S]?|METODOLOGIA[S]?|MATERIAL(?:IS)?\s+E\s+M[EÉ]TODO[S]?|M[EÉ]TODO[S]?|RESULTADO[S]?|RELATO[S]?\s+DE\s+(?:CASO|EXPERIÊNCIA)|CONCLUS[AÃ]O|CONCLUS[OÕ]ES))(\s*:?\s*)/gi;
-
-    // Encontrar todas as seções no texto
-    const matches = [...texto.matchAll(regexTitulos)];
-    
-    if (matches.length === 0) {
-        mostrarErro("Nenhuma seção foi identificada no texto.\n\nCertifique-se de que as seções estão claramente marcadas:\n• INTRODUÇÃO:\n• OBJETIVOS:\n• METODOLOGIA: (ou MATERIAL E MÉTODOS:)\n• RESULTADOS:\n• CONCLUSÃO:");
-        return;
-    }
-
-    // Normalizar seções encontradas
-    let secoesEncontradas = [];
-    for (let match of matches) {
-        const secaoOriginal = match[1].trim();
-        const secaoNormalizada = normalizarSecao(secaoOriginal);
-        if (secaoNormalizada && !secoesEncontradas.includes(secaoNormalizada)) {
-            secoesEncontradas.push(secaoNormalizada);
-        }
-    }
-
-    // Ajustar para estrutura esperada - mantém o original e agrupa metodologias
-    if (tipoResumo === "relato") {
-        // Para relato, metodologias vira "Relato"
-        secoesEncontradas = secoesEncontradas.map(sec => {
-            if (sec === "Metodologia" || sec === "Material e Métodos" || sec === "Material e Método" || 
-                sec === "Materiais e Métodos" || sec === "Método" || sec === "Métodos" || sec === "Resultados") {
-                return "Relato";
-            }
-            return sec;
+        // Contador de palavras em tempo real
+        document.getElementById('inputText').addEventListener('input', function() {
+            updateWordCount();
         });
-    }
 
-    // Remover duplicatas
-    secoesEncontradas = [...new Set(secoesEncontradas)];
-
-    // Verificar seções faltantes - incluindo objetivos e metodologia na validação
-    const temObjetivo = secoesEncontradas.includes("Objetivo");
-    const temObjetivos = secoesEncontradas.includes("Objetivos");
-    const temMetodologia = secoesEncontradas.includes("Metodologia");
-    const temMaterialMetodos = secoesEncontradas.includes("Material e Métodos");
-    const temMaterialMetodo = secoesEncontradas.includes("Material e Método");
-    const temMateriaisMetodos = secoesEncontradas.includes("Materiais e Métodos");
-    const temMetodo = secoesEncontradas.includes("Método");
-    const temMetodos = secoesEncontradas.includes("Métodos");
-    
-    // Adicionar objetivo/objetivos à estrutura esperada baseado no que foi encontrado
-    if (temObjetivo) {
-        estruturaEsperada.splice(1, 0, "Objetivo");
-    } else if (temObjetivos) {
-        estruturaEsperada.splice(1, 0, "Objetivos");
-    } else {
-        // Se não tem nenhum, adiciona baseado no tipo
-        estruturaEsperada.splice(1, 0, tipoResumo === "pesquisa" ? "Objetivos" : "Objetivo");
-    }
-    
-    // Para pesquisa, adicionar metodologia baseado no que foi encontrado
-    if (tipoResumo === "pesquisa") {
-        if (temMetodologia) {
-            estruturaEsperada.splice(2, 0, "Metodologia");
-        } else if (temMaterialMetodos) {
-            estruturaEsperada.splice(2, 0, "Material e Métodos");
-        } else if (temMaterialMetodo) {
-            estruturaEsperada.splice(2, 0, "Material e Método");
-        } else if (temMateriaisMetodos) {
-            estruturaEsperada.splice(2, 0, "Materiais e Métodos");
-        } else if (temMetodo) {
-            estruturaEsperada.splice(2, 0, "Método");
-        } else if (temMetodos) {
-            estruturaEsperada.splice(2, 0, "Métodos");
-        } else {
-            // Se não tem nenhum, adiciona "Metodologia" como padrão
-            estruturaEsperada.splice(2, 0, "Metodologia");
+        function updateWordCount() {
+            const text = document.getElementById('inputText').value;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const chars = text.length;
+            
+            document.getElementById('wordCount').textContent = `Palavras: ${words} | Caracteres: ${chars}`;
         }
-    }
-    
-    const secoesFaltantes = estruturaEsperada.filter(sec => !secoesEncontradas.includes(sec));
-    
-    if (secoesFaltantes.length > 0) {
-        const tipoTexto = tipoResumo === "pesquisa" ? "Pesquisa" : "Relato de Caso/Experiência";
-        mostrarErro(`Seções faltantes para o tipo "${tipoTexto}":\n• ${secoesFaltantes.join("\n• ")}\n\nEstrutura esperada:\n• ${estruturaEsperada.join("\n• ")}`);
-        return;
-    }
 
-    // Formatar o texto - mantém formato original de todas as seções
-    let textoFormatado = texto.replace(regexTitulos, (match, secao, separador) => {
-        const secaoNormalizada = normalizarSecao(secao.trim());
-        let tituloFormatado;
-        
-        if (secaoNormalizada) {
-            if (tipoResumo === "relato" && 
-                (secaoNormalizada === "Metodologia" || secaoNormalizada === "Material e Métodos" || 
-                 secaoNormalizada === "Material e Método" || secaoNormalizada === "Materiais e Métodos" || 
-                 secaoNormalizada === "Método" || secaoNormalizada === "Métodos" || secaoNormalizada === "Resultados")) {
-                tituloFormatado = "Relato";
-            } else {
-                // Mantém o formato original encontrado
-                tituloFormatado = secaoNormalizada;
+        function normalizeText(text) {
+            // Converte maiúsculas para formato normal (primeira letra maiúscula)
+            return text.split(' ').map(word => {
+                if (word.length <= 3 && !['de', 'da', 'do', 'dos', 'das', 'e', 'ou'].includes(word.toLowerCase())) {
+                    return word.toLowerCase();
+                }
+                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            }).join(' ');
+        }
+
+        function identifyStructure(text) {
+            const lowerText = text.toLowerCase();
+            
+            // Verifica se é relato de caso/experiência
+            const relatoTerms = ['relato de caso', 'relato de experiência', 'relato de experiencia', 'caso clínico'];
+            const isRelato = relatoTerms.some(term => lowerText.includes(term));
+            
+            return isRelato ? 'relato' : 'cientifico';
+        }
+
+        function extractSections(text) {
+            const sections = {};
+            const lines = text.split('\n').filter(line => line.trim());
+            
+            let currentSection = '';
+            let currentContent = '';
+            
+            for (let line of lines) {
+                const trimmedLine = line.trim();
+                
+                // Verifica se a linha é um cabeçalho de seção
+                const colonIndex = trimmedLine.indexOf(':');
+                if (colonIndex > 0 && colonIndex < 50) {
+                    // Salva a seção anterior
+                    if (currentSection && currentContent.trim()) {
+                        sections[currentSection] = currentContent.trim();
+                    }
+                    
+                    // Inicia nova seção
+                    currentSection = trimmedLine.substring(0, colonIndex).toLowerCase().trim();
+                    currentContent = trimmedLine.substring(colonIndex + 1).trim();
+                } else {
+                    // Adiciona à seção atual
+                    if (currentContent) currentContent += ' ';
+                    currentContent += trimmedLine;
+                }
             }
-        } else {
-            // Manter formatação original se não conseguir normalizar
-            tituloFormatado = secao.charAt(0).toUpperCase() + secao.slice(1).toLowerCase();
+            
+            // Salva a última seção
+            if (currentSection && currentContent.trim()) {
+                sections[currentSection] = currentContent.trim();
+            }
+            
+            return sections;
         }
-        
-        return `<strong>${tituloFormatado}:</strong> `;
-    });
 
-    // Mostrar resultado
-    document.getElementById("outputTexto").innerHTML = textoFormatado;
-    document.getElementById("resultadoContainer").classList.remove("hidden");
-    
-    // Scroll suave para o resultado
-    document.getElementById("resultadoContainer").scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start' 
-    });
-    
-    mostrarSucesso("✅ Texto formatado com sucesso!");
-}
+        function mapSectionName(sectionName) {
+            const normalizedName = sectionName.toLowerCase().trim();
+            
+            for (let [standard, variants] of Object.entries(termMappings)) {
+                if (variants.includes(normalizedName)) {
+                    return standard;
+                }
+            }
+            
+            return normalizedName;
+        }
 
-function copiarTexto() {
-    const outputDiv = document.getElementById("outputTexto");
-    
-    // Criar versão temporária
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = outputDiv.innerHTML;
+        function formatResume() {
+            const inputText = document.getElementById('inputText').value.trim();
+            
+            if (!inputText) {
+                alert('Por favor, insira um texto para formatar.');
+                return;
+            }
 
-    // Tentar copiar como HTML e texto
-    if (navigator.clipboard && navigator.clipboard.write) {
-        navigator.clipboard.write([
-            new ClipboardItem({
-                "text/html": new Blob([tempDiv.innerHTML], { type: "text/html" }),
-                "text/plain": new Blob([tempDiv.textContent], { type: "text/plain" })
-            })
-        ]).then(() => {
-            mostrarSucesso("✅ Texto formatado copiado para a área de transferência!");
-        }).catch(() => {
-            copiarTextoFallback(tempDiv.textContent);
+            try {
+                // Identifica estrutura
+                const structureType = identifyStructure(inputText);
+                const targetStructure = structureType === 'relato' ? estruturaRelato : estruturaCientifica;
+                
+                // Extrai seções
+                const sections = extractSections(inputText);
+                
+                // Mapeia nomes das seções
+                const mappedSections = {};
+                for (let [key, value] of Object.entries(sections)) {
+                    const mappedKey = mapSectionName(key);
+                    mappedSections[mappedKey] = normalizeText(value);
+                }
+                
+                // Constrói o resumo formatado em texto corrido
+                let formattedText = '';
+                const missingSections = [];
+                
+                for (let section of targetStructure) {
+                    if (mappedSections[section]) {
+                        const sectionTitle = section.charAt(0).toUpperCase() + section.slice(1);
+                        if (formattedText) formattedText += ' '; // Adiciona espaço entre seções
+                        formattedText += `**${sectionTitle}:** ${mappedSections[section]}`;
+                    } else {
+                        missingSections.push(section);
+                    }
+                }
+                
+                // Adiciona seções extras encontradas
+                for (let [key, value] of Object.entries(mappedSections)) {
+                    if (!targetStructure.includes(key)) {
+                        const sectionTitle = key.charAt(0).toUpperCase() + key.slice(1);
+                        if (formattedText) formattedText += ' '; // Adiciona espaço entre seções
+                        formattedText += `**${sectionTitle}:** ${value}`;
+                    }
+                }
+                
+                // Exibe resultado em texto corrido
+                const outputDiv = document.getElementById('outputText');
+                outputDiv.innerHTML = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                
+                // Atualiza contadores e status
+                const wordCount = formattedText.split(/\s+/).filter(word => word.trim()).length;
+                document.getElementById('formattedWordCount').textContent = `Palavras formatadas: ${wordCount}`;
+                
+                let status = '';
+                if (wordCount < 250) {
+                    status = '⚠️ Abaixo do mínimo (250 palavras)';
+                } else if (wordCount > 350) {
+                    status = '⚠️ Acima do máximo (350 palavras)';
+                } else {
+                    status = '✅ Dentro do limite ideal';
+                }
+                
+                if (missingSections.length > 0) {
+                    status += ` | Seções faltantes: ${missingSections.join(', ')}`;
+                }
+                
+                document.getElementById('statusIndicator').textContent = `Status: ${status}`;
+                
+                // Animação de sucesso
+                outputDiv.classList.add('fade-in');
+                
+            } catch (error) {
+                alert('Erro na formatação. Verifique se o texto está estruturado corretamente.');
+                console.error(error);
+            }
+        }
+
+function copyToClipboard() {
+            const outputDiv = document.getElementById('outputText');
+            const outputHTML = outputDiv.innerHTML; // Pegamos o innerHTML
+
+            if (!outputHTML || outputHTML.includes('O resumo formatado aparecerá aqui')) {
+                alert('Nenhum texto formatado para copiar.');
+                return;
+            }
+
+            // Criar um elemento temporário para copiar o HTML
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = outputHTML; // Atribuir o HTML completo
+            document.body.appendChild(tempDiv); // Anexar ao body para que possa ser selecionado
+
+            // Criar um range e selecioná-lo
+            const range = document.createRange();
+            range.selectNodeContents(tempDiv);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            try {
+                // Tentar copiar o conteúdo selecionado
+                document.execCommand('copy');
+                
+                const btn = document.getElementById('copyBtn');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copiado!';
+                btn.classList.remove('bg-emerald-600');
+                btn.classList.add('bg-emerald-700');
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('bg-emerald-700');
+                    btn.classList.add('bg-emerald-600');
+                }, 2000);
+
+            } catch (err) {
+                console.error('Erro ao copiar HTML: ', err);
+                // Fallback para navegadores que não suportam document.execCommand para HTML
+                // Ou para casos onde a cópia falha (por exemplo, permissões)
+                // Neste caso, ainda podemos tentar copiar como texto puro
+                navigator.clipboard.writeText(outputDiv.innerText).then(() => {
+                    alert('Copiado como texto simples (formatação pode ser perdida).');
+                }).catch(() => {
+                    alert('Erro ao copiar. Tente selecionar o texto manualmente.');
+                });
+            } finally {
+                // Remover o elemento temporário
+                document.body.removeChild(tempDiv);
+                selection.removeAllRanges(); // Limpar a seleção
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').innerHTML = '<div class="text-slate-400 text-center italic">O resumo formatado aparecerá aqui...</div>';
+            document.getElementById('wordCount').textContent = 'Palavras: 0 | Caracteres: 0';
+            document.getElementById('formattedWordCount').textContent = 'Palavras formatadas: 0';
+            document.getElementById('statusIndicator').textContent = 'Status: Aguardando texto';
+        }
+
+        // Exemplo de uso ao carregar a página
+        window.addEventListener('load', function() {
+            // Adiciona exemplo se necessário
+            const example = `INTRODUÇÃO: A diabetes mellitus é uma condição crônica que afeta milhões de pessoas no mundo.
+OBJETIVOS: Avaliar a eficácia de um novo protocolo de tratamento.
+METODOLOGIA: Estudo randomizado controlado com 100 participantes.
+RESULTADOS: Houve redução significativa da glicemia em 85% dos casos.
+CONCLUSÃO: O protocolo mostrou-se eficaz no controle glicêmico.`;
+            
+            // Descomente a linha abaixo para carregar exemplo automaticamente
+            // document.getElementById('inputText').value = example;
         });
-    } else {
-        copiarTextoFallback(tempDiv.textContent);
-    }
-}
-
-function copiarTextoFallback(texto) {
-    const textarea = document.createElement("textarea");
-    textarea.value = texto;
-    textarea.style.position = "fixed";
-    textarea.style.opacity = "0";
-    document.body.appendChild(textarea);
-    textarea.select();
-    
-    try {
-        document.execCommand("copy");
-        mostrarSucesso("✅ Texto copiado (formato simples)");
-    } catch (err) {
-        mostrarErro("Erro ao copiar texto. Selecione manualmente o texto formatado.");
-    }
-    
-    document.body.removeChild(textarea);
-}
