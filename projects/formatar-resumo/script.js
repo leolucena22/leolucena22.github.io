@@ -247,12 +247,54 @@ function formatResume() {
     }
 }
 
-// Função para normalizar texto (mantida igual)
+// Função para normalizar texto
 function normalizeText(text) {
-    return text.split(' ').map(word => {
-        if (word.length <= 3 && !['de', 'da', 'do', 'dos', 'das', 'e', 'ou'].includes(word.toLowerCase())) {
+    // Lista expandida de palavras que devem ficar em minúscula
+    const lowercaseWords = [
+        'a', 'an', 'and', 'as', 'at', 'by', 'for', 'in', 'of', 'on', 'or', 'the', 'to', 'up',
+        'e', 'o', 'a', 'os', 'as', 'um', 'uma', 'uns', 'umas',
+        'de', 'da', 'do', 'dos', 'das', 'em', 'na', 'no', 'nas', 'nos',
+        'para', 'por', 'com', 'sem', 'sobre', 'entre', 'contra', 'desde',
+        'até', 'ante', 'após', 'durante', 'mediante', 'segundo', 'conforme',
+        'ou', 'mas', 'porém', 'contudo', 'todavia', 'entretanto',
+        'que', 'se', 'como', 'quando', 'onde', 'quanto', 'qual', 'quais',
+        'seu', 'sua', 'seus', 'suas', 'meu', 'minha', 'meus', 'minhas',
+        'teu', 'tua', 'teus', 'tuas', 'nosso', 'nossa', 'nossos', 'nossas',
+        'vosso', 'vossa', 'vossos', 'vossas',
+        'este', 'esta', 'estes', 'estas', 'esse', 'essa', 'esses', 'essas',
+        'aquele', 'aquela', 'aqueles', 'aquelas', 'isto', 'isso', 'aquilo',
+        'me', 'te', 'se', 'nos', 'vos', 'lhe', 'lhes', 'mim', 'ti', 'si',
+        'ele', 'ela', 'eles', 'elas', 'nós', 'vós'
+    ];
+    
+    // Siglas que devem ficar em maiúscula
+    const uppercaseWords = [
+        'SUS', 'CAPS', 'RAPS', 'APS', 'CRAS', 'CREAS', 'UBS', 'NASF', 'CEO',
+        'DNA', 'RNA', 'HIV', 'AIDS', 'UTI', 'CTI', 'ECG', 'RX', 'USG',
+        'OMS', 'MS', 'CNS', 'CID', 'DSM', 'ONU', 'UNESCO', 'UNICEF'
+    ];
+    
+    return text.split(' ').map((word, index) => {
+        // Remove pontuação para verificar a palavra
+        const cleanWord = word.replace(/[.,;:!?()[\]{}'"]/g, '').toLowerCase();
+        
+        // Primeira palavra da frase sempre com maiúscula
+        if (index === 0) {
+            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        }
+        
+        // Verifica se é uma sigla que deve ficar em maiúscula
+        if (uppercaseWords.includes(cleanWord.toUpperCase())) {
+            // Mantém a pontuação original mas coloca a sigla em maiúscula
+            return word.replace(/[a-zA-Z]+/, cleanWord.toUpperCase());
+        }
+        
+        // Verifica se é uma palavra que deve ficar em minúscula
+        if (lowercaseWords.includes(cleanWord)) {
             return word.toLowerCase();
         }
+        
+        // Palavras normais: primeira letra maiúscula, resto minúscula
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }).join(' ');
 }
