@@ -1,12 +1,12 @@
-// Mapeamento de termos similares expandido
+// Mapeamento de termos expandido - mantém capitalização original
 const termMappings = {
-    'metodologia': ['metodologia', 'material e métodos', 'materiais e métodos', 'método', 'métodos', 'material e método'],
-    'objetivos': ['objetivos', 'objetivo'],
-    'introdução': ['introdução', 'introducao'],
-    'resultados': ['resultados', 'resultado'],
-    'conclusão': ['conclusão', 'conclusao', 'considerações finais', 'consideracoes finais'],
-    'relato de caso': ['relato de caso', 'caso clínico', 'caso clinico', 'descrição do caso', 'descricao do caso'],
-    'relato de experiência': ['relato de experiência', 'relato de experiencia', 'descrição da experiência', 'descricao da experiencia', 'desenvolvimento da experiência', 'desenvolvimento da experiencia']
+    'introdução': ['introdução', 'introducao', 'introdução:', 'introducao:'],
+    'objetivos': ['objetivos', 'objetivo', 'objetivos:', 'objetivo:'],
+    'metodologia': ['metodologia', 'material e métodos', 'materiais e métodos', 'métodos', 'método', 'metodologia:', 'material e métodos:', 'materiais e métodos:', 'métodos:', 'método:'],
+    'resultados': ['resultados', 'resultado', 'resultados:', 'resultado:'],
+    'conclusão': ['conclusão', 'conclusao', 'considerações finais', 'consideracoes finais', 'conclusão:', 'conclusao:', 'considerações finais:', 'consideracoes finais:'],
+    'relato de caso': ['relato de caso', 'caso clínico', 'caso clinico', 'descrição do caso', 'descricao do caso', 'relato de caso:', 'caso clínico:', 'caso clinico:', 'descrição do caso:', 'descricao do caso:'],
+    'relato de experiência': ['relato de experiência', 'relato de experiencia', 'descrição da experiência', 'descricao da experiencia', 'desenvolvimento da experiência', 'desenvolvimento da experiencia', 'relato de experiência:', 'relato de experiencia:', 'descrição da experiência:', 'descricao da experiencia:', 'desenvolvimento da experiência:', 'desenvolvimento da experiencia:']
 };
 
 // Estruturas específicas para cada tipo
@@ -48,23 +48,23 @@ function identifyStructure(text) {
     return 'cientifico'; // Estrutura científica padrão
 }
 
-// Função expandida para extração de seções
+// Função expandida para extração de seções - MANTÉM CAPITALIZAÇÃO ORIGINAL
 function extractSections(text) {
     const sections = {};
     
     // Regex expandida para incluir todos os tipos de seção
-    const sectionRegex = /\b(introdução|introducao|objetivos?|metodologia|material\s+e\s+métodos?|materiais\s+e\s+métodos?|métodos?|resultados?|conclusão|conclusao|considerações\s+finais|consideracoes\s+finais|relato\s+de\s+caso|caso\s+clínico|caso\s+clinico|descrição\s+do\s+caso|descricao\s+do\s+caso|relato\s+de\s+experiência|relato\s+de\s+experiencia|descrição\s+da\s+experiência|descricao\s+da\s+experiencia|desenvolvimento\s+da\s+experiência|desenvolvimento\s+da\s+experiencia):\s*(.*?)(?=\b(?:introdução|introducao|objetivos?|metodologia|material\s+e\s+métodos?|materiais\s+e\s+métodos?|métodos?|resultados?|conclusão|conclusao|considerações\s+finais|consideracoes\s+finais|relato\s+de\s+caso|caso\s+clínico|caso\s+clinico|descrição\s+do\s+caso|descricao\s+do\s+caso|relato\s+de\s+experiência|relato\s+de\s+experiencia|descrição\s+da\s+experiência|descricao\s+da\s+experiencia|desenvolvimento\s+da\s+experiência|desenvolvimento\s+da\s+experiencia):|$)/gis;
+    const sectionRegex = /\b(introdução|introducao|objetivos?|objetivo|metodologia|material\s+e\s+métodos?|materiais\s+e\s+métodos?|métodos?|método|resultados?|conclusão|conclusao|considerações\s+finais|consideracoes\s+finais|relato\s+de\s+caso|caso\s+clínico|caso\s+clinico|descrição\s+do\s+caso|descricao\s+do\s+caso|relato\s+de\s+experiência|relato\s+de\s+experiencia|descrição\s+da\s+experiência|descricao\s+da\s+experiencia|desenvolvimento\s+da\s+experiência|desenvolvimento\s+da\s+experiencia):\s*(.*?)(?=\b(?:introdução|introducao|objetivos?|objetivo|metodologia|material\s+e\s+métodos?|materiais\s+e\s+métodos?|métodos?|método|resultados?|conclusão|conclusao|considerações\s+finais|consideracoes\s+finais|relato\s+de\s+caso|caso\s+clínico|caso\s+clinico|descrição\s+do\s+caso|descricao\s+do\s+caso|relato\s+de\s+experiência|relato\s+de\s+experiencia|descrição\s+da\s+experiência|descricao\s+da\s+experiencia|desenvolvimento\s+da\s+experiência|desenvolvimento\s+da\s+experiencia):|$)/gis;
     
     let match;
     while ((match = sectionRegex.exec(text)) !== null) {
         const sectionName = match[1].toLowerCase().trim();
         let content = match[2].trim();
         
-        // Remove quebras de linha extras e normaliza espaços
-        content = content.replace(/\s+/g, ' ').trim();
+        // Remove quebras de linha extras mas mantém a formatação original
+        content = content.replace(/\n\s*\n/g, '\n').replace(/\s+/g, ' ').trim();
         
         if (content && content.length > 5) {
-            sections[sectionName] = content;
+            sections[sectionName] = content; // MANTÉM O CONTEÚDO ORIGINAL
         }
     }
     
@@ -79,12 +79,12 @@ function extractSections(text) {
             if (!trimmedLine) continue;
             
             // Procura por títulos de seção (case insensitive) - regex expandida
-            const sectionMatch = trimmedLine.match(/^(introdução|introducao|objetivos?|metodologia|material\s+e\s+métodos?|materiais\s+e\s+métodos?|métodos?|resultados?|conclusão|conclusao|considerações\s+finais|consideracoes\s+finais|relato\s+de\s+caso|caso\s+clínico|caso\s+clinico|descrição\s+do\s+caso|descricao\s+do\s+caso|relato\s+de\s+experiência|relato\s+de\s+experiencia|descrição\s+da\s+experiência|descricao\s+da\s+experiencia|desenvolvimento\s+da\s+experiência|desenvolvimento\s+da\s+experiencia):\s*(.*)/i);
+            const sectionMatch = trimmedLine.match(/^(introdução|introducao|objetivos?|objetivo|metodologia|material\s+e\s+métodos?|materiais\s+e\s+métodos?|métodos?|método|resultados?|conclusão|conclusao|considerações\s+finais|consideracoes\s+finais|relato\s+de\s+caso|caso\s+clínico|caso\s+clinico|descrição\s+do\s+caso|descricao\s+do\s+caso|relato\s+de\s+experiência|relato\s+de\s+experiencia|descrição\s+da\s+experiência|descricao\s+da\s+experiencia|desenvolvimento\s+da\s+experiência|desenvolvimento\s+da\s+experiencia):\s*(.*)/i);
             
             if (sectionMatch) {
                 // Salva seção anterior se existir
                 if (currentSection && currentContent.trim()) {
-                    sections[currentSection] = currentContent.trim();
+                    sections[currentSection] = currentContent.trim(); // MANTÉM O CONTEÚDO ORIGINAL
                 }
                 
                 // Nova seção encontrada
@@ -92,28 +92,28 @@ function extractSections(text) {
                 currentContent = sectionMatch[2] || '';
             } else {
                 // Verifica se é apenas um título de seção (sem dois pontos ou conteúdo)
-                const titleMatch = trimmedLine.match(/^(introdução|introducao|objetivos?|metodologia|material\s+e\s+métodos?|materiais\s+e\s+métodos?|métodos?|resultados?|conclusão|conclusao|considerações\s+finais|consideracoes\s+finais|relato\s+de\s+caso|caso\s+clínico|caso\s+clinico|descrição\s+do\s+caso|descricao\s+do\s+caso|relato\s+de\s+experiência|relato\s+de\s+experiencia|descrição\s+da\s+experiência|descricao\s+da\s+experiencia|desenvolvimento\s+da\s+experiência|desenvolvimento\s+da\s+experiencia):?\s*$/i);
+                const titleMatch = trimmedLine.match(/^(introdução|introducao|objetivos?|objetivo|metodologia|material\s+e\s+métodos?|materiais\s+e\s+métodos?|métodos?|método|resultados?|conclusão|conclusao|considerações\s+finais|consideracoes\s+finais|relato\s+de\s+caso|caso\s+clínico|caso\s+clinico|descrição\s+do\s+caso|descricao\s+do\s+caso|relato\s+de\s+experiência|relato\s+de\s+experiencia|descrição\s+da\s+experiência|descricao\s+da\s+experiencia|desenvolvimento\s+da\s+experiência|desenvolvimento\s+da\s+experiencia):?\s*$/i);
                 
                 if (titleMatch) {
                     // Salva seção anterior se existir
                     if (currentSection && currentContent.trim()) {
-                        sections[currentSection] = currentContent.trim();
+                        sections[currentSection] = currentContent.trim(); // MANTÉM O CONTEÚDO ORIGINAL
                     }
                     
                     // Nova seção (título apenas)
                     currentSection = titleMatch[1].toLowerCase().trim();
                     currentContent = '';
                 } else if (currentSection) {
-                    // Adiciona conteúdo à seção atual
+                    // Adiciona conteúdo à seção atual MANTENDO FORMATAÇÃO ORIGINAL
                     if (currentContent) currentContent += ' ';
-                    currentContent += trimmedLine;
+                    currentContent += trimmedLine; // MANTÉM O TEXTO ORIGINAL
                 }
             }
         }
         
         // Salva última seção
         if (currentSection && currentContent.trim()) {
-            sections[currentSection] = currentContent.trim();
+            sections[currentSection] = currentContent.trim(); // MANTÉM O CONTEÚDO ORIGINAL
         }
     }
     
@@ -134,7 +134,7 @@ function mapSectionName(sectionName) {
     return normalizedName;
 }
 
-// Função principal modificada
+// Função principal - MANTÉM CAPITALIZAÇÃO ORIGINAL
 function formatResume() {
     const inputText = document.getElementById('inputText').value.trim();
     
@@ -170,11 +170,11 @@ function formatResume() {
         // Extrai seções
         const sections = extractSections(inputText);
         
-        // Mapeia nomes das seções
+        // Mapeia nomes das seções - MANTÉM CONTEÚDO ORIGINAL
         const mappedSections = {};
         for (let [key, value] of Object.entries(sections)) {
             const mappedKey = mapSectionName(key);
-            mappedSections[mappedKey] = normalizeText(value);
+            mappedSections[mappedKey] = value; // MANTÉM O CONTEÚDO ORIGINAL SEM ALTERAÇÕES
         }
         
         console.log('Seções mapeadas:', mappedSections);
@@ -194,9 +194,10 @@ function formatResume() {
             }
             
             if (sectionContent) {
-                const sectionTitle = section.charAt(0).toUpperCase() + section.slice(1);
                 if (formattedText) formattedText += ' ';
-                formattedText += `**${sectionTitle}:** ${sectionContent}`;
+                // MANTÉM A CAPITALIZAÇÃO ORIGINAL DO TÍTULO DA SEÇÃO
+                const sectionTitle = section.charAt(0).toUpperCase() + section.slice(1);
+                formattedText += `**${sectionTitle}:** ${sectionContent}`; // CONTEÚDO MANTÉM FORMATAÇÃO ORIGINAL
             } else {
                 missingSections.push(section);
             }
@@ -206,9 +207,10 @@ function formatResume() {
         for (let [key, value] of Object.entries(mappedSections)) {
             // Evita duplicar "objetivo" se já foi incluído como "objetivos"
             if (!targetStructure.includes(key) && !(key === 'objetivo' && targetStructure.includes('objetivos'))) {
-                const sectionTitle = key.charAt(0).toUpperCase() + key.slice(1);
                 if (formattedText) formattedText += ' ';
-                formattedText += `**${sectionTitle}:** ${value}`;
+                // MANTÉM A CAPITALIZAÇÃO ORIGINAL DO TÍTULO DA SEÇÃO
+                const sectionTitle = key.charAt(0).toUpperCase() + key.slice(1);
+                formattedText += `**${sectionTitle}:** ${value}`; // CONTEÚDO MANTÉM FORMATAÇÃO ORIGINAL
             }
         }
         
@@ -247,59 +249,6 @@ function formatResume() {
     }
 }
 
-// Função para normalizar texto
-function normalizeText(text) {
-    // Lista expandida de palavras que devem ficar em minúscula
-    const lowercaseWords = [
-        'a', 'an', 'and', 'as', 'at', 'by', 'for', 'in', 'of', 'on', 'or', 'the', 'to', 'up',
-        'e', 'o', 'a', 'os', 'as', 'um', 'uma', 'uns', 'umas',
-        'de', 'da', 'do', 'dos', 'das', 'em', 'na', 'no', 'nas', 'nos',
-        'para', 'por', 'com', 'sem', 'sobre', 'entre', 'contra', 'desde',
-        'até', 'ante', 'após', 'durante', 'mediante', 'segundo', 'conforme',
-        'ou', 'mas', 'porém', 'contudo', 'todavia', 'entretanto',
-        'que', 'se', 'como', 'quando', 'onde', 'quanto', 'qual', 'quais',
-        'seu', 'sua', 'seus', 'suas', 'meu', 'minha', 'meus', 'minhas',
-        'teu', 'tua', 'teus', 'tuas', 'nosso', 'nossa', 'nossos', 'nossas',
-        'vosso', 'vossa', 'vossos', 'vossas',
-        'este', 'esta', 'estes', 'estas', 'esse', 'essa', 'esses', 'essas',
-        'aquele', 'aquela', 'aqueles', 'aquelas', 'isto', 'isso', 'aquilo',
-        'me', 'te', 'se', 'nos', 'vos', 'lhe', 'lhes', 'mim', 'ti', 'si',
-        'ele', 'ela', 'eles', 'elas', 'nós', 'vós'
-    ];
-    
-    // Siglas que devem ficar em maiúscula
-    const uppercaseWords = [
-        'SUS', 'CAPS', 'RAPS', 'APS', 'CRAS', 'CREAS', 'UBS', 'NASF', 'CEO',
-        'DNA', 'RNA', 'HIV', 'AIDS', 'UTI', 'CTI', 'ECG', 'RX', 'USG',
-        'OMS', 'MS', 'CNS', 'CID', 'DSM', 'ONU', 'UNESCO', 'UNICEF'
-    ];
-    
-    return text.split(' ').map((word, index) => {
-        // Remove pontuação para verificar a palavra
-        const cleanWord = word.replace(/[.,;:!?()[\]{}'"]/g, '').toLowerCase();
-        
-        // Primeira palavra da frase sempre com maiúscula
-        if (index === 0) {
-            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-        }
-        
-        // Verifica se é uma sigla que deve ficar em maiúscula
-        if (uppercaseWords.includes(cleanWord.toUpperCase())) {
-            // Mantém a pontuação original mas coloca a sigla em maiúscula
-            return word.replace(/[a-zA-Z]+/, cleanWord.toUpperCase());
-        }
-        
-        // Verifica se é uma palavra que deve ficar em minúscula
-        if (lowercaseWords.includes(cleanWord)) {
-            return word.toLowerCase();
-        }
-        
-        // Palavras normais: primeira letra maiúscula, resto minúscula
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    }).join(' ');
-}
-
-// Resto das funções permanecem iguais
 function updateWordCount() {
     const text = document.getElementById('inputText').value;
     const words = text.trim() ? text.trim().split(/\s+/).length : 0;
@@ -366,8 +315,4 @@ function clearAll() {
 // Event listeners
 document.getElementById('inputText').addEventListener('input', function() {
     updateWordCount();
-});
-
-window.addEventListener('load', function() {
-    // Exemplo pode ser adicionado aqui se necessário
 });
