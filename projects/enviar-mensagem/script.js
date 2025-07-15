@@ -203,21 +203,38 @@
                 const jaEnviado = enviados.includes(telefone);
                 const saudacaoEnviada = saudacoesEnviadas.includes(telefone);
                 
-                const statusClass = jaEnviado ? 'status-sent' : 'status-pending';
-                const statusIcon = jaEnviado ? '✅' : '⏳';
-                const statusText = jaEnviado ? 'Enviado' : 'Pendente';
+                let statusClass, statusIcon, statusText, mensagemButton;
+
+                if (jaEnviado) {
+                    statusClass = 'status-sent';
+                    statusIcon = '✅';
+                    statusText = 'Enviado';
+                    mensagemButton = `<button onclick="enviarMensagem(${index})"
+                        class="btn-primary text-white px-3 py-1 rounded-lg text-xs font-medium shadow-md opacity-70 cursor-not-allowed"
+                        disabled>
+                        ✅ Enviada
+                    </button>`;
+                } else {
+                    statusClass = 'status-pending';
+                    statusIcon = '⏳';
+                    statusText = 'Pendente';
+                    mensagemButton = `<button onclick="enviarMensagem(${index})"
+                        class="btn-primary text-white px-3 py-1 rounded-lg text-xs font-medium shadow-md">
+                        📱 Mensagem
+                    </button>`;
+                }
 
                 html += `
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ${jaEnviado ? 'bg-green-50 dark:bg-green-900/20' : ''}">
-                        <td class="px-4 py-3 font-medium text-gray-900 dark:text-gray-100">${row.nome}</td>
-                        <td class="px-4 py-3 text-gray-700 dark:text-gray-300">${row.telefone}</td>
-                        <td class="px-4 py-3 text-gray-700 dark:text-gray-300">${row.email}</td>
-                        <td class="px-4 py-3 text-gray-700 dark:text-gray-300">${row.titulo}</td>
-                        <td class="px-4 py-3 text-gray-700 dark:text-gray-300">${row.tipo}</td>
-                        <td class="px-4 py-3 text-gray-700 dark:text-gray-300">${row.apresentacao}</td>
-                        <td class="px-4 py-3 text-gray-700 dark:text-gray-300">${row.produto}</td>
+                    <tr class="${jaEnviado ? 'row-sent hover:bg-green-100 dark:hover:bg-green-800/30 transition-all duration-300' : 'hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'}">
+                        <td class="px-4 py-3 font-${jaEnviado ? 'bold text-green-800 dark:text-green-100' : 'medium text-gray-900 dark:text-gray-100'}">${row.nome}</td>
+                        <td class="px-4 py-3 ${jaEnviado ? 'font-medium text-green-700 dark:text-green-200' : 'text-gray-700 dark:text-gray-300'}">${row.telefone}</td>
+                        <td class="px-4 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}">${row.email}</td>
+                        <td class="px-4 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}">${row.titulo}</td>
+                        <td class="px-4 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}">${row.tipo}</td>
+                        <td class="px-4 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}">${row.apresentacao}</td>
+                        <td class="px-4 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}">${row.produto}</td>
                         <td class="px-4 py-3 text-center">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${statusClass}">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-${jaEnviado ? 'bold' : 'medium'} ${statusClass} ${jaEnviado ? 'pulse-animation' : ''}">
                                 ${statusIcon} ${statusText}
                             </span>
                         </td>
@@ -228,10 +245,7 @@
                                     ${saudacaoEnviada ? 'disabled' : ''}>
                                     ${saudacaoEnviada ? '👋 Enviada' : '👋 Saudar'}
                                 </button>
-                                <button onclick="enviarMensagem(${index})"
-                                    class="btn-primary text-white px-3 py-1 rounded-lg text-xs font-medium shadow-md">
-                                    📱 Mensagem
-                                </button>
+                                ${mensagemButton}
                             </div>
                         </td>
                     </tr>
