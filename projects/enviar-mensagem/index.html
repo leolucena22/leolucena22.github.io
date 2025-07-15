@@ -1,70 +1,200 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <title>Submissões - Mensagens Dinâmicas</title>
-        <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>📞</text></svg>">
-        </link>
-        <!-- Meta Title -->
-        <title>Mensagens Dinâmicas - Sistema de Contato via WhatsApp</title>
-        <meta name="title" content="Mensagens Dinâmicas - Sistema de Contato via WhatsApp">
-        <!-- Meta Description -->
-        <meta name="description" content="Gerencie contatos de eventos científicos com eficiência! Envie mensagens personalizadas via WhatsApp diretamente a partir de uma planilha Excel.">
-        <!-- Open Graph / Facebook -->
-        <meta property="og:type" content="website">
-        <meta property="og:url" content="https://leolucena22.github.io/projects/enviar-mensagem">
-        <meta property="og:title" content="Mensagens Dinâmicas - Sistema de Contato via WhatsApp">
-        <meta property="og:description" content="Gerencie contatos de eventos científicos com eficiência! Envie mensagens personalizadas via WhatsApp diretamente a partir de uma planilha Excel.">
-        <meta property="og:image" content="https://leolucena22.github.io/projects/images/sistema-mensagens.webp">
-        <!-- Twitter -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:url" content="https://leolucena22.github.io/projects/enviar-mensagem">
-        <meta name="twitter:title" content="Mensagens Dinâmicas - Sistema de Contato via WhatsApp">
-        <meta name="twitter:description" content="Gerencie contatos de eventos científicos com eficiência! Envie mensagens personalizadas via WhatsApp diretamente a partir de uma planilha Excel.">
-        <meta name="twitter:image" content="https://leolucena22.github.io/projects/images/sistema-mensagens.webp">
-        <style>
-            body {
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Mensagens Dinâmicas - Melhorado</title>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>📞</text></svg>">
+    <style>
+        body {
             font-family: 'Inter', sans-serif;
-            }
-            .whatsapp-bg {
-            background-color: #25D366;
-            }
-            .highlighted-row {
-            background-color: #E6F4EA !important; /* verde claro */
-            }
-            .dark .highlighted-row {
-            background-color: #1c3f30 !important;
-            }
-        </style>
-    </head>
-    <body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors">
-        <button id="themeToggle"
-  class="fixed top-4 right-4 z-50 text-xl p-2 rounded-full bg-gray-200 dark:bg-gray-800 shadow-md hover:scale-105 transition-transform duration-200"
-  title="Alternar tema">
-  🌙
-</button>
-        <div class="container mx-auto px-4 py-8">
-            <h1 class="text-3xl font-bold text-center mb-6">📋 Sistema de Mensagens Dinâmicas</h1>
-            <div class="flex flex-col items-center gap-4 mb-6">
-                <input type="file" id="fileInput" accept=".xlsx"
-                    class="text-sm bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 p-2 rounded shadow" />
-                <input type="text" id="nomeEvento" placeholder="Digite o nome do evento"
-                    class="w-full max-w-2xl p-2 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-sm" />
-                <div class="w-full max-w-2xl flex flex-wrap gap-2">
-                    <button onclick="insertTag('{{nome}}')" class="bg-emerald-600 text-white px-3 py-1 rounded text-xs hover:bg-emerald-700">+ {{nome}}</button>
-                    <button onclick="insertTag('{{titulo}}')" class="bg-emerald-600 text-white px-3 py-1 rounded text-xs hover:bg-emerald-700">+ {{titulo}}</button>
-                    <button onclick="insertTag('{{evento}}')" class="bg-emerald-600 text-white px-3 py-1 rounded text-xs hover:bg-emerald-700">+ {{evento}}</button>
-                </div>
-                <textarea id="mensagemPersonalizada" rows="4" placeholder="Digite várias mensagens, uma por linha..."
-                    class="w-full max-w-2xl p-3 rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-sm"></textarea>
-            </div>
-            <div id="tableContainer" class="overflow-x-auto"></div>
-            <p class="text-gray-400 text-center mt-2"><a href="https://leolucena22.github.io"/>&copy;leolucena22</a></p>
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .dark .glass-effect {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+        }
+        .btn-greeting {
+            background: linear-gradient(135deg, #F59E0B 0%, #EF4444 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-greeting:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+        }
+        .floating-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .status-sent {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+        }
+        .status-pending {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            color: white;
+        }
+        .modern-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        .modern-input:focus {
+            border-color: #25D366;
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+        }
+        .dark .modern-input {
+            background: rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900 dark:to-indigo-900 text-gray-800 dark:text-gray-100 transition-all duration-500 min-h-screen">
+    
+    <!-- Theme Toggle -->
+    <button id="themeToggle"
+        class="fixed top-6 right-6 z-50 text-2xl p-3 rounded-full glass-effect shadow-lg hover:scale-110 transition-all duration-300 floating-animation"
+        title="Alternar tema">
+        🌙
+    </button>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent leading-tight">
+                Sistema de Mensagens Dinâmicas
+            </h1>
+            <p class="text-xl text-gray-600 dark:text-gray-300 font-light">
+                Gerencie e envie mensagens personalizadas via WhatsApp
+            </p>
         </div>
-        <script src="script.js"></script>
-    </body>
+
+        <!-- Main Control Panel -->
+        <div class="max-w-4xl mx-auto mb-8">
+            <div class="glass-effect rounded-3xl p-8 card-shadow">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- File Upload Section -->
+                    <div class="space-y-4">
+                        <h3 class="text-2xl font-semibold mb-4 text-gray-700 dark:text-gray-200">📁 Carregar Planilha</h3>
+                        <div class="relative">
+                            <input type="file" id="fileInput" accept=".xlsx"
+                                class="hidden" />
+                            <label for="fileInput" 
+                                class="flex items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-2">📄</div>
+                                    <p class="text-gray-600 dark:text-gray-300">Clique para selecionar arquivo Excel</p>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <input type="text" id="nomeEvento" placeholder="Nome do evento"
+                            class="w-full p-4 rounded-xl modern-input text-gray-700 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400" />
+                    </div>
+
+                    <!-- Message Template Section -->
+                    <div class="space-y-4">
+                        <h3 class="text-2xl font-semibold mb-4 text-gray-700 dark:text-gray-200">💬 Mensagens Personalizadas</h3>
+                        
+                        <!-- Tag Buttons -->
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <button onclick="insertTag('{{nome}}')" 
+                                class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105">
+                                + {{nome}}
+                            </button>
+                            <button onclick="insertTag('{{titulo}}')" 
+                                class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105">
+                                + {{titulo}}
+                            </button>
+                            <button onclick="insertTag('{{evento}}')" 
+                                class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105">
+                                + {{evento}}
+                            </button>
+                        </div>
+
+                        <textarea id="mensagemPersonalizada" rows="6" 
+                            placeholder="Digite suas mensagens personalizadas, uma por linha..."
+                            class="w-full p-4 rounded-xl modern-input text-gray-700 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 resize-none"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div id="statsContainer" class="max-w-4xl mx-auto mb-8 hidden">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-effect rounded-2xl p-6 text-center">
+                    <div class="text-3xl mb-2">📊</div>
+                    <h3 class="text-lg font-semibold mb-1">Total de Contatos</h3>
+                    <p id="totalContatos" class="text-2xl font-bold text-blue-600 dark:text-blue-400">0</p>
+                </div>
+                <div class="glass-effect rounded-2xl p-6 text-center">
+                    <div class="text-3xl mb-2">✅</div>
+                    <h3 class="text-lg font-semibold mb-1">Mensagens Enviadas</h3>
+                    <p id="mensagensEnviadas" class="text-2xl font-bold text-green-600 dark:text-green-400">0</p>
+                </div>
+                <div class="glass-effect rounded-2xl p-6 text-center">
+                    <div class="text-3xl mb-2">⏳</div>
+                    <h3 class="text-lg font-semibold mb-1">Pendentes</h3>
+                    <p id="mensagensPendentes" class="text-2xl font-bold text-orange-600 dark:text-orange-400">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Container -->
+        <div id="tableContainer" class="max-w-full mx-auto"></div>
+
+        <!-- Footer -->
+        <div class="text-center mt-12">
+            <p class="text-gray-500 dark:text-gray-400">
+                <a href="https://leolucena22.github.io" class="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                    &copy; leolucena22
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
