@@ -167,100 +167,94 @@
             reader.readAsArrayBuffer(file);
         }
 
-        function renderTable(data) {
-            const enviados = getEnviados().map(t => t.replace(/\D/g, ''));
-            const saudacoesEnviadas = getSaudacoesEnviadas().map(t => t.replace(/\D/g, ''));
-            const container = document.getElementById('tableContainer');
+function renderTable(data) {
+    const enviados = getEnviados().map(t => t.replace(/\D/g, ''));
+    const saudacoesEnviadas = getSaudacoesEnviadas().map(t => t.replace(/\D/g, ''));
+    const container = document.getElementById('tableContainer');
 
-            if (data.length === 0) {
-                container.innerHTML = '';
-                return;
-            }
+    if (data.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
 
-            let html = `
-                <div class="glass-effect rounded-3xl p-6 card-shadow">
-                    <h3 class="text-2xl font-semibold mb-6 text-gray-700 dark:text-gray-200">📋 Lista de Contatos</h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm">
-                            <thead class="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
-                                <tr>
-                                    <th class="px-4 py-3 text-left font-semibold rounded-tl-xl">Nome</th>
-                                    <th class="px-4 py-3 text-left font-semibold">Telefone</th>
-                                    <th class="px-4 py-3 text-left font-semibold">E-mail</th>
-                                    <th class="px-4 py-3 text-left font-semibold">Título</th>
-                                    <th class="px-4 py-3 text-left font-semibold">Tipo</th>
-                                    <th class="px-4 py-3 text-left font-semibold">Apresentação</th>
-                                    <th class="px-4 py-3 text-left font-semibold">Produto</th>
-                                    <th class="px-4 py-3 text-center font-semibold">Status</th>
-                                    <th class="px-4 py-3 text-center font-semibold rounded-tr-xl">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-            `;
+    let html = `
+        <div class="glass-effect rounded-3xl p-6 card-shadow">
+            <h3 class="text-2xl font-semibold mb-6 text-gray-700 dark:text-gray-200">📋 Lista de Contatos</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm table-auto"> <thead class="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+                        <tr>
+                            <th class="px-4 py-3 text-left font-semibold rounded-tl-xl min-w-[120px]">Nome</th>
+                            <th class="px-4 py-3 text-left font-semibold min-w-[120px]">Telefone</th>
+                            <th class="px-4 py-3 text-left font-semibold min-w-[150px]">E-mail</th>
+                            <th class="px-4 py-3 text-left font-semibold min-w-[200px]">Título</th> <th class="px-4 py-3 text-left font-semibold min-w-[80px]">Tipo</th>
+                            <th class="px-4 py-3 text-left font-semibold min-w-[120px]">Apresentação</th>
+                            <th class="px-4 py-3 text-left font-semibold min-w-[100px]">Produto</th>
+                            <th class="px-4 py-3 text-center font-semibold min-w-[100px]">Status</th>
+                            <th class="px-4 py-3 text-center font-semibold rounded-tr-xl min-w-[180px]">Ações</th> </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+    `;
 
-            data.forEach((row, index) => {
-                const telefone = row.telefone.replace(/\D/g, '');
-                const jaEnviado = enviados.includes(telefone);
-                const saudacaoEnviada = saudacoesEnviadas.includes(telefone);
-                
-                let statusClass, statusIcon, statusText, mensagemButton;
+    data.forEach((row, index) => {
+        const telefone = row.telefone.replace(/\D/g, '');
+        const jaEnviado = enviados.includes(telefone);
+        const saudacaoEnviada = saudacoesEnviadas.includes(telefone);
 
-                if (jaEnviado) {
-                    statusClass = 'status-sent';
-                    statusIcon = '✅';
-                    statusText = 'Enviado';
-                    mensagemButton = `<button onclick="enviarMensagem(${index})"
-                        class="btn-primary text-white px-3 py-1 rounded-lg text-xs font-medium shadow-md opacity-70 cursor-not-allowed"
-                        disabled>
-                        ✅ Enviada
-                    </button>`;
-                } else {
-                    statusClass = 'status-pending';
-                    statusIcon = '⏳';
-                    statusText = 'Pendente';
-                    mensagemButton = `<button onclick="enviarMensagem(${index})"
-                        class="btn-primary text-white px-3 py-1 rounded-lg text-xs font-medium shadow-md">
-                        📱 Mensagem
-                    </button>`;
-                }
+        let statusClass, statusIcon, statusText, mensagemButton;
 
-                html += `
-                    <tr class="${jaEnviado ? 'row-sent hover:bg-green-100 dark:hover:bg-green-800/30 transition-all duration-300' : 'hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'}">
-                        <td class="px-4 py-3 font-${jaEnviado ? 'bold text-green-800 dark:text-green-100' : 'medium text-gray-900 dark:text-gray-100'}">${row.nome}</td>
-                        <td class="px-4 py-3 ${jaEnviado ? 'font-medium text-green-700 dark:text-green-200' : 'text-gray-700 dark:text-gray-300'}">${row.telefone}</td>
-                        <td class="px-4 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}">${row.email}</td>
-                        <td class="px-4 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}">${row.titulo}</td>
-                        <td class="px-4 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}">${row.tipo}</td>
-                        <td class="px-4 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}">${row.apresentacao}</td>
-                        <td class="px-4 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}">${row.produto}</td>
-                        <td class="px-4 py-3 text-center">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-${jaEnviado ? 'bold' : 'medium'} ${statusClass} ${jaEnviado ? 'pulse-animation' : ''}">
-                                ${statusIcon} ${statusText}
-                            </span>
-                        </td>
-                        <td class="px-4 py-3 text-center">
-                            <div class="flex justify-center space-x-2">
-                                <button onclick="enviarSaudacao(${index})"
-                                    class="btn-greeting text-white px-3 py-1 rounded-lg text-xs font-medium shadow-md ${saudacaoEnviada ? 'opacity-50 cursor-not-allowed' : ''}"
-                                    ${saudacaoEnviada ? 'disabled' : ''}>
-                                    ${saudacaoEnviada ? '👋 Enviada' : '👋 Saudar'}
-                                </button>
-                                ${mensagemButton}
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            });
-
-            html += `
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-            container.innerHTML = html;
+        if (jaEnviado) {
+            statusClass = 'status-sent';
+            statusIcon = '✅';
+            statusText = 'Enviado';
+            mensagemButton = `<button onclick="enviarMensagem(${index})"
+                class="btn-primary text-white px-2 py-0.5 rounded-md text-xs font-medium shadow-md opacity-70 cursor-not-allowed"
+                disabled>
+                ✅ Enviada
+            </button>`;
+        } else {
+            statusClass = 'status-pending';
+            statusIcon = '⏳';
+            statusText = 'Pendente';
+            mensagemButton = `<button onclick="enviarMensagem(${index})"
+                class="btn-primary text-white px-2 py-0.5 rounded-md text-xs font-medium shadow-md">
+                📱 Mensagem
+            </button>`;
         }
 
+        html += `
+            <tr class="${jaEnviado ? 'row-sent hover:bg-green-100 dark:hover:bg-green-800/30 transition-all duration-300' : 'hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'}">
+                <td class="px-4 py-3 font-${jaEnviado ? 'bold text-green-800 dark:text-green-100' : 'medium text-gray-900 dark:text-gray-100'}">${row.nome}</td>
+                <td class="px-4 py-3 ${jaEnviado ? 'font-medium text-green-700 dark:text-green-200' : 'text-gray-700 dark:text-gray-300'}">${row.telefone}</td>
+                <td class="px-4 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}">${row.email}</td>
+                <td class="px-4 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'} text-wrap">${row.titulo}</td> <td class="px-4 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}">${row.tipo}</td>
+                <td class="px-4 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}">${row.apresentacao}</td>
+                <td class="px-4 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}">${row.produto}</td>
+                <td class="px-4 py-3 text-center">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-${jaEnviado ? 'bold' : 'medium'} ${statusClass} ${jaEnviado ? 'pulse-animation' : ''}">
+                        ${statusIcon} ${statusText}
+                    </span>
+                </td>
+                <td class="px-4 py-3 text-center">
+                    <div class="flex flex-col sm:flex-row justify-center space-y-1 sm:space-y-0 sm:space-x-2"> <button onclick="enviarSaudacao(${index})"
+                            class="btn-greeting text-white px-2 py-0.5 rounded-md text-xs font-medium shadow-md ${saudacaoEnviada ? 'opacity-50 cursor-not-allowed' : ''}"
+                            ${saudacaoEnviada ? 'disabled' : ''}>
+                            ${saudacaoEnviada ? '👋 Enviada' : '👋 Saudar'}
+                        </button>
+                        ${mensagemButton}
+                    </div>
+                </td>
+            </tr>
+        `;
+    });
+
+    html += `
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+    container.innerHTML = html;
+}
         // Theme Toggle
         tailwind.config = {
             darkMode: 'class',
