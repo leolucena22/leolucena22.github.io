@@ -98,6 +98,138 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
+
+        /* Melhorias para responsividade da tabela */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            min-height: 0;
+        }
+
+        .table-responsive::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .table-responsive::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            border-radius: 4px;
+        }
+
+        .compact-table {
+            min-width: 800px;
+        }
+
+        .mobile-card {
+            display: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 120px;
+        }
+
+        .action-buttons button {
+            white-space: nowrap;
+            font-size: 11px;
+            padding: 6px 10px;
+            border-radius: 6px;
+        }
+
+        /* Cards para mobile */
+        @media (max-width: 768px) {
+            .desktop-table {
+                display: none;
+            }
+            
+            .mobile-card {
+                display: block;
+            }
+            
+            .mobile-card-item {
+                background: rgba(255, 255, 255, 0.95);
+                border-radius: 16px;
+                padding: 16px;
+                margin-bottom: 12px;
+                border-left: 4px solid #9333ea;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+            }
+            
+            .dark .mobile-card-item {
+                background: rgba(31, 41, 55, 0.95);
+                border-left-color: #a855f7;
+            }
+            
+            .mobile-card-item.sent {
+                border-left-color: #10B981;
+                background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+            }
+            
+            .dark .mobile-card-item.sent {
+                background: linear-gradient(135deg, #064E3B 0%, #065F46 100%);
+            }
+            
+            .mobile-card-item:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            }
+            
+            .mobile-buttons {
+                display: flex;
+                gap: 8px;
+                margin-top: 12px;
+                flex-wrap: wrap;
+            }
+            
+            .mobile-buttons button {
+                flex: 1;
+                min-width: 80px;
+                font-size: 12px;
+                padding: 8px 12px;
+                border-radius: 8px;
+                font-weight: 600;
+            }
+        }
+
+        /* Melhorias para tablets */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .action-buttons {
+                flex-direction: row;
+                gap: 6px;
+                min-width: 140px;
+            }
+            
+            .action-buttons button {
+                font-size: 10px;
+                padding: 4px 8px;
+            }
+        }
+
+        /* Campo de informação responsivo */
+        .field-label {
+            font-weight: 600;
+            color: #6B7280;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+        
+        .dark .field-label {
+            color: #9CA3AF;
+        }
+        
+        .field-value {
+            font-weight: 500;
+            word-break: break-word;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900 dark:to-indigo-900 text-gray-800 dark:text-gray-100 transition-all duration-500 min-h-screen">
