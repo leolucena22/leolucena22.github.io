@@ -1,7 +1,8 @@
 // Mapeamento de termos expandido - mantém capitalização original
 const termMappings = {
     'introdução': ['introdução', 'introducao', 'introdução:', 'introducao:'],
-    'objetivos': ['objetivos', 'objetivo', 'objetivos:', 'objetivo:'],
+    'objetivos': ['objetivos', 'objetivos:'],
+    'objetivo': ['objetivo', 'objetivo:'],
     'metodologia': ['metodologia', 'material e métodos', 'materiais e métodos', 'métodos', 'método', 'metodologia:', 'material e métodos:', 'materiais e métodos:', 'métodos:', 'método:'],
     'resultados': ['resultados', 'resultado', 'resultados:', 'resultado:'],
     'conclusão': ['conclusão', 'conclusao', 'considerações finais', 'consideracoes finais', 'conclusão:', 'conclusao:', 'considerações finais:', 'consideracoes finais:'],
@@ -9,10 +10,10 @@ const termMappings = {
     'relato de experiência': ['relato de experiência', 'relato de experiencia', 'descrição da experiência', 'descricao da experiencia', 'desenvolvimento da experiência', 'desenvolvimento da experiencia', 'relato de experiência:', 'relato de experiencia:', 'descrição da experiência:', 'descricao da experiencia:', 'desenvolvimento da experiência:', 'desenvolvimento da experiencia:']
 };
 
-// Estruturas específicas para cada tipo
-const estruturaCientifica = ['introdução', 'objetivos', 'metodologia', 'resultados', 'conclusão'];
-const estruturaRelatoCaso = ['introdução', 'objetivos', 'relato de caso', 'conclusão'];
-const estruturaRelatoExperiencia = ['introdução', 'objetivos', 'relato de experiência', 'conclusão'];
+// Estruturas específicas para cada tipo - incluindo ambas as formas
+const estruturaCientifica = ['introdução', ['objetivos', 'objetivo'], 'metodologia', 'resultados', 'conclusão'];
+const estruturaRelatoCaso = ['introdução', ['objetivos', 'objetivo'], 'relato de caso', 'conclusão'];
+const estruturaRelatoExperiencia = ['introdução', ['objetivos', 'objetivo'], 'relato de experiência', 'conclusão'];
 
 // Função melhorada para identificar estrutura
 function identifyStructure(text) {
@@ -48,23 +49,26 @@ function identifyStructure(text) {
     return 'cientifico'; // Estrutura científica padrão
 }
 
-// Função expandida para extração de seções - MANTÉM CAPITALIZAÇÃO ORIGINAL
+// Função expandida para extração de seções - MANTÉM CAPITALIZAÇÃO ORIGINAL E FORMA ORIGINAL
 function extractSections(text) {
     const sections = {};
+    const originalTitles = {}; // Para guardar os títulos originais
     
     // Regex expandida para incluir todos os tipos de seção
     const sectionRegex = /\b(introdução|introducao|objetivos?|objetivo|metodologia|material\s+e\s+métodos?|materiais\s+e\s+métodos?|métodos?|método|resultados?|conclusão|conclusao|considerações\s+finais|consideracoes\s+finais|relato\s+de\s+caso|caso\s+clínico|caso\s+clinico|descrição\s+do\s+caso|descricao\s+do\s+caso|relato\s+de\s+experiência|relato\s+de\s+experiencia|descrição\s+da\s+experiência|descricao\s+da\s+experiencia|desenvolvimento\s+da\s+experiência|desenvolvimento\s+da\s+experiencia):\s*(.*?)(?=\b(?:introdução|introducao|objetivos?|objetivo|metodologia|material\s+e\s+métodos?|materiais\s+e\s+métodos?|métodos?|método|resultados?|conclusão|conclusao|considerações\s+finais|consideracoes\s+finais|relato\s+de\s+caso|caso\s+clínico|caso\s+clinico|descrição\s+do\s+caso|descricao\s+do\s+caso|relato\s+de\s+experiência|relato\s+de\s+experiencia|descrição\s+da\s+experiência|descricao\s+da\s+experiencia|desenvolvimento\s+da\s+experiência|desenvolvimento\s+da\s+experiencia):|$)/gis;
     
     let match;
     while ((match = sectionRegex.exec(text)) !== null) {
-        const sectionName = match[1].toLowerCase().trim();
+        const originalSectionName = match[1].trim(); // MANTÉM ORIGINAL
+        const sectionName = originalSectionName.toLowerCase().trim();
         let content = match[2].trim();
         
         // Remove quebras de linha extras mas mantém a formatação original
         content = content.replace(/\n\s*\n/g, '\n').replace(/\s+/g, ' ').trim();
         
         if (content && content.length > 5) {
-            sections[sectionName] = content; // MANTÉM O CONTEÚDO ORIGINAL
+            sections[sectionName] = content;
+            originalTitles[sectionName] = originalSectionName; // GUARDA O TÍTULO ORIGINAL
         }
     }
     
@@ -72,6 +76,7 @@ function extractSections(text) {
     if (Object.keys(sections).length === 0) {
         const lines = text.split('\n');
         let currentSection = '';
+        let currentOriginalTitle = '';
         let currentContent = '';
         
         for (let line of lines) {
@@ -84,11 +89,13 @@ function extractSections(text) {
             if (sectionMatch) {
                 // Salva seção anterior se existir
                 if (currentSection && currentContent.trim()) {
-                    sections[currentSection] = currentContent.trim(); // MANTÉM O CONTEÚDO ORIGINAL
+                    sections[currentSection] = currentContent.trim();
+                    originalTitles[currentSection] = currentOriginalTitle; // GUARDA TÍTULO ORIGINAL
                 }
                 
                 // Nova seção encontrada
-                currentSection = sectionMatch[1].toLowerCase().trim();
+                currentOriginalTitle = sectionMatch[1].trim(); // TÍTULO ORIGINAL
+                currentSection = currentOriginalTitle.toLowerCase().trim();
                 currentContent = sectionMatch[2] || '';
             } else {
                 // Verifica se é apenas um título de seção (sem dois pontos ou conteúdo)
@@ -97,28 +104,32 @@ function extractSections(text) {
                 if (titleMatch) {
                     // Salva seção anterior se existir
                     if (currentSection && currentContent.trim()) {
-                        sections[currentSection] = currentContent.trim(); // MANTÉM O CONTEÚDO ORIGINAL
+                        sections[currentSection] = currentContent.trim();
+                        originalTitles[currentSection] = currentOriginalTitle; // GUARDA TÍTULO ORIGINAL
                     }
                     
                     // Nova seção (título apenas)
-                    currentSection = titleMatch[1].toLowerCase().trim();
+                    currentOriginalTitle = titleMatch[1].trim(); // TÍTULO ORIGINAL
+                    currentSection = currentOriginalTitle.toLowerCase().trim();
                     currentContent = '';
                 } else if (currentSection) {
                     // Adiciona conteúdo à seção atual MANTENDO FORMATAÇÃO ORIGINAL
                     if (currentContent) currentContent += ' ';
-                    currentContent += trimmedLine; // MANTÉM O TEXTO ORIGINAL
+                    currentContent += trimmedLine;
                 }
             }
         }
         
         // Salva última seção
         if (currentSection && currentContent.trim()) {
-            sections[currentSection] = currentContent.trim(); // MANTÉM O CONTEÚDO ORIGINAL
+            sections[currentSection] = currentContent.trim();
+            originalTitles[currentSection] = currentOriginalTitle; // GUARDA TÍTULO ORIGINAL
         }
     }
     
     console.log('Seções encontradas:', sections);
-    return sections;
+    console.log('Títulos originais:', originalTitles);
+    return { sections, originalTitles };
 }
 
 // Função de mapeamento expandida
@@ -134,7 +145,7 @@ function mapSectionName(sectionName) {
     return normalizedName;
 }
 
-// Função principal - MANTÉM CAPITALIZAÇÃO ORIGINAL
+// Função principal - MANTÉM CAPITALIZAÇÃO ORIGINAL E FORMA ORIGINAL
 function formatResume() {
     const inputText = document.getElementById('inputText').value.trim();
     
@@ -168,49 +179,78 @@ function formatResume() {
         console.log(`Estrutura identificada: ${structureLabel}`, targetStructure);
         
         // Extrai seções
-        const sections = extractSections(inputText);
+        const { sections, originalTitles } = extractSections(inputText);
         
         // Mapeia nomes das seções - MANTÉM CONTEÚDO ORIGINAL
         const mappedSections = {};
+        const mappedOriginalTitles = {};
         for (let [key, value] of Object.entries(sections)) {
             const mappedKey = mapSectionName(key);
-            mappedSections[mappedKey] = value; // MANTÉM O CONTEÚDO ORIGINAL SEM ALTERAÇÕES
+            mappedSections[mappedKey] = value;
+            mappedOriginalTitles[mappedKey] = originalTitles[key] || key;
         }
         
         console.log('Seções mapeadas:', mappedSections);
+        console.log('Títulos originais mapeados:', mappedOriginalTitles);
         
         // Constrói o resumo formatado
         let formattedText = '';
         const missingSections = [];
         
         for (let section of targetStructure) {
-            // Verifica se a seção existe diretamente ou se é "objetivos" e existe "objetivo"
-            let sectionContent = null;
+            let foundSection = null;
+            let foundTitle = null;
             
-            if (mappedSections[section]) {
-                sectionContent = mappedSections[section];
-            } else if (section === 'objetivos' && mappedSections['objetivo']) {
-                sectionContent = mappedSections['objetivo'];
+            if (Array.isArray(section)) {
+                // Para casos como ['objetivos', 'objetivo'] - procura qualquer uma das opções
+                for (let sectionOption of section) {
+                    if (mappedSections[sectionOption]) {
+                        foundSection = mappedSections[sectionOption];
+                        foundTitle = mappedOriginalTitles[sectionOption];
+                        break;
+                    }
+                }
+                if (!foundSection) {
+                    missingSections.push(section.join(' ou '));
+                }
+            } else {
+                // Seção única
+                if (mappedSections[section]) {
+                    foundSection = mappedSections[section];
+                    foundTitle = mappedOriginalTitles[section];
+                } else {
+                    missingSections.push(section);
+                }
             }
             
-            if (sectionContent) {
+            if (foundSection && foundTitle) {
                 if (formattedText) formattedText += ' ';
-                // MANTÉM A CAPITALIZAÇÃO ORIGINAL DO TÍTULO DA SEÇÃO
-                const sectionTitle = section.charAt(0).toUpperCase() + section.slice(1);
-                formattedText += `**${sectionTitle}:** ${sectionContent}`; // CONTEÚDO MANTÉM FORMATAÇÃO ORIGINAL
-            } else {
-                missingSections.push(section);
+                // USA O TÍTULO ORIGINAL ENCONTRADO NO TEXTO
+                formattedText += `**${foundTitle}:** ${foundSection}`;
             }
         }
         
         // Adiciona seções extras encontradas que não estão na estrutura padrão
         for (let [key, value] of Object.entries(mappedSections)) {
-            // Evita duplicar "objetivo" se já foi incluído como "objetivos"
-            if (!targetStructure.includes(key) && !(key === 'objetivo' && targetStructure.includes('objetivos'))) {
+            // Verifica se a seção já foi incluída
+            let alreadyIncluded = false;
+            for (let section of targetStructure) {
+                if (Array.isArray(section)) {
+                    if (section.includes(key)) {
+                        alreadyIncluded = true;
+                        break;
+                    }
+                } else if (section === key) {
+                    alreadyIncluded = true;
+                    break;
+                }
+            }
+            
+            if (!alreadyIncluded) {
                 if (formattedText) formattedText += ' ';
-                // MANTÉM A CAPITALIZAÇÃO ORIGINAL DO TÍTULO DA SEÇÃO
-                const sectionTitle = key.charAt(0).toUpperCase() + key.slice(1);
-                formattedText += `**${sectionTitle}:** ${value}`; // CONTEÚDO MANTÉM FORMATAÇÃO ORIGINAL
+                // USA O TÍTULO ORIGINAL
+                const originalTitle = mappedOriginalTitles[key];
+                formattedText += `**${originalTitle}:** ${value}`;
             }
         }
         
