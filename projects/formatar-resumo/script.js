@@ -15,6 +15,19 @@ const estruturaCientifica = ['introdução', ['objetivos', 'objetivo'], 'metodol
 const estruturaRelatoCaso = ['introdução', ['objetivos', 'objetivo'], 'relato de caso', 'conclusão'];
 const estruturaRelatoExperiencia = ['introdução', ['objetivos', 'objetivo'], 'relato de experiência', 'conclusão'];
 
+// Função para formatar título com apenas primeira letra maiúscula
+function formatTitle(title) {
+    if (!title) return title;
+    
+    // Remove dois pontos no final se existir
+    const cleanTitle = title.replace(/:$/, '').trim();
+    
+    // Converte para minúsculo e depois coloca primeira letra maiúscula
+    const formattedTitle = cleanTitle.toLowerCase().replace(/^\w/, c => c.toUpperCase());
+    
+    return formattedTitle;
+}
+
 // Função melhorada para identificar estrutura
 function identifyStructure(text) {
     const lowerText = text.toLowerCase();
@@ -49,18 +62,19 @@ function identifyStructure(text) {
     return 'cientifico'; // Estrutura científica padrão
 }
 
-// Função expandida para extração de seções - MANTÉM CAPITALIZAÇÃO ORIGINAL E FORMA ORIGINAL
+// Função expandida para extração de seções - FORMATA TÍTULOS COM APENAS PRIMEIRA LETRA MAIÚSCULA
 function extractSections(text) {
     const sections = {};
-    const originalTitles = {}; // Para guardar os títulos originais
+    const originalTitles = {}; // Para guardar os títulos formatados
     
     // Regex expandida para incluir todos os tipos de seção
     const sectionRegex = /\b(introdução|introducao|objetivos?|objetivo|metodologia|material\s+e\s+métodos?|materiais\s+e\s+métodos?|métodos?|método|resultados?|conclusão|conclusao|considerações\s+finais|consideracoes\s+finais|relato\s+de\s+caso|caso\s+clínico|caso\s+clinico|descrição\s+do\s+caso|descricao\s+do\s+caso|relato\s+de\s+experiência|relato\s+de\s+experiencia|descrição\s+da\s+experiência|descricao\s+da\s+experiencia|desenvolvimento\s+da\s+experiência|desenvolvimento\s+da\s+experiencia):\s*(.*?)(?=\b(?:introdução|introducao|objetivos?|objetivo|metodologia|material\s+e\s+métodos?|materiais\s+e\s+métodos?|métodos?|método|resultados?|conclusão|conclusao|considerações\s+finais|consideracoes\s+finais|relato\s+de\s+caso|caso\s+clínico|caso\s+clinico|descrição\s+do\s+caso|descricao\s+do\s+caso|relato\s+de\s+experiência|relato\s+de\s+experiencia|descrição\s+da\s+experiência|descricao\s+da\s+experiencia|desenvolvimento\s+da\s+experiência|desenvolvimento\s+da\s+experiencia):|$)/gis;
     
     let match;
     while ((match = sectionRegex.exec(text)) !== null) {
-        const originalSectionName = match[1].trim(); // MANTÉM ORIGINAL
-        const sectionName = originalSectionName.toLowerCase().trim();
+        const rawSectionName = match[1].trim();
+        const formattedSectionName = formatTitle(rawSectionName); // FORMATA O TÍTULO
+        const sectionName = rawSectionName.toLowerCase().trim();
         let content = match[2].trim();
         
         // Remove quebras de linha extras mas mantém a formatação original
@@ -68,7 +82,7 @@ function extractSections(text) {
         
         if (content && content.length > 5) {
             sections[sectionName] = content;
-            originalTitles[sectionName] = originalSectionName; // GUARDA O TÍTULO ORIGINAL
+            originalTitles[sectionName] = formattedSectionName; // GUARDA O TÍTULO FORMATADO
         }
     }
     
@@ -76,7 +90,7 @@ function extractSections(text) {
     if (Object.keys(sections).length === 0) {
         const lines = text.split('\n');
         let currentSection = '';
-        let currentOriginalTitle = '';
+        let currentFormattedTitle = '';
         let currentContent = '';
         
         for (let line of lines) {
@@ -90,12 +104,13 @@ function extractSections(text) {
                 // Salva seção anterior se existir
                 if (currentSection && currentContent.trim()) {
                     sections[currentSection] = currentContent.trim();
-                    originalTitles[currentSection] = currentOriginalTitle; // GUARDA TÍTULO ORIGINAL
+                    originalTitles[currentSection] = currentFormattedTitle; // GUARDA TÍTULO FORMATADO
                 }
                 
                 // Nova seção encontrada
-                currentOriginalTitle = sectionMatch[1].trim(); // TÍTULO ORIGINAL
-                currentSection = currentOriginalTitle.toLowerCase().trim();
+                const rawTitle = sectionMatch[1].trim();
+                currentFormattedTitle = formatTitle(rawTitle); // FORMATA O TÍTULO
+                currentSection = rawTitle.toLowerCase().trim();
                 currentContent = sectionMatch[2] || '';
             } else {
                 // Verifica se é apenas um título de seção (sem dois pontos ou conteúdo)
@@ -105,12 +120,13 @@ function extractSections(text) {
                     // Salva seção anterior se existir
                     if (currentSection && currentContent.trim()) {
                         sections[currentSection] = currentContent.trim();
-                        originalTitles[currentSection] = currentOriginalTitle; // GUARDA TÍTULO ORIGINAL
+                        originalTitles[currentSection] = currentFormattedTitle; // GUARDA TÍTULO FORMATADO
                     }
                     
                     // Nova seção (título apenas)
-                    currentOriginalTitle = titleMatch[1].trim(); // TÍTULO ORIGINAL
-                    currentSection = currentOriginalTitle.toLowerCase().trim();
+                    const rawTitle = titleMatch[1].trim();
+                    currentFormattedTitle = formatTitle(rawTitle); // FORMATA O TÍTULO
+                    currentSection = rawTitle.toLowerCase().trim();
                     currentContent = '';
                 } else if (currentSection) {
                     // Adiciona conteúdo à seção atual MANTENDO FORMATAÇÃO ORIGINAL
@@ -123,12 +139,12 @@ function extractSections(text) {
         // Salva última seção
         if (currentSection && currentContent.trim()) {
             sections[currentSection] = currentContent.trim();
-            originalTitles[currentSection] = currentOriginalTitle; // GUARDA TÍTULO ORIGINAL
+            originalTitles[currentSection] = currentFormattedTitle; // GUARDA TÍTULO FORMATADO
         }
     }
     
     console.log('Seções encontradas:', sections);
-    console.log('Títulos originais:', originalTitles);
+    console.log('Títulos formatados:', originalTitles);
     return { sections, originalTitles };
 }
 
@@ -145,7 +161,7 @@ function mapSectionName(sectionName) {
     return normalizedName;
 }
 
-// Função principal - MANTÉM CAPITALIZAÇÃO ORIGINAL E FORMA ORIGINAL
+// Função principal - USA TÍTULOS FORMATADOS COM APENAS PRIMEIRA LETRA MAIÚSCULA
 function formatResume() {
     const inputText = document.getElementById('inputText').value.trim();
     
@@ -181,17 +197,17 @@ function formatResume() {
         // Extrai seções
         const { sections, originalTitles } = extractSections(inputText);
         
-        // Mapeia nomes das seções - MANTÉM CONTEÚDO ORIGINAL
+        // Mapeia nomes das seções - MANTÉM CONTEÚDO ORIGINAL E TÍTULOS FORMATADOS
         const mappedSections = {};
         const mappedOriginalTitles = {};
         for (let [key, value] of Object.entries(sections)) {
             const mappedKey = mapSectionName(key);
             mappedSections[mappedKey] = value;
-            mappedOriginalTitles[mappedKey] = originalTitles[key] || key;
+            mappedOriginalTitles[mappedKey] = originalTitles[key] || formatTitle(key);
         }
         
         console.log('Seções mapeadas:', mappedSections);
-        console.log('Títulos originais mapeados:', mappedOriginalTitles);
+        console.log('Títulos formatados mapeados:', mappedOriginalTitles);
         
         // Constrói o resumo formatado
         let formattedText = '';
@@ -225,7 +241,7 @@ function formatResume() {
             
             if (foundSection && foundTitle) {
                 if (formattedText) formattedText += ' ';
-                // USA O TÍTULO ORIGINAL ENCONTRADO NO TEXTO
+                // USA O TÍTULO FORMATADO (apenas primeira letra maiúscula)
                 formattedText += `**${foundTitle}:** ${foundSection}`;
             }
         }
@@ -248,9 +264,9 @@ function formatResume() {
             
             if (!alreadyIncluded) {
                 if (formattedText) formattedText += ' ';
-                // USA O TÍTULO ORIGINAL
-                const originalTitle = mappedOriginalTitles[key];
-                formattedText += `**${originalTitle}:** ${value}`;
+                // USA O TÍTULO FORMATADO
+                const formattedTitle = mappedOriginalTitles[key];
+                formattedText += `**${formattedTitle}:** ${value}`;
             }
         }
         
