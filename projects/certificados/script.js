@@ -39,56 +39,56 @@ document.getElementById("gerarCertificado").addEventListener("click", () => {
             if (tipoExibicaoSelecionado === 'primeira') {
                 texto = `Certificamos para os devidos fins que :nome participou do <strong>${nomeEvento}</strong>, na modalidade on-line, no período de <strong>${dataEvento}</strong>, com carga horária total de 40 horas.`;
             } else { // Retransmissão
-                texto = `Certificamos para os devidos fins que :nome participou da retransmissão do <strong>${nomeEvento}</strong>, na modalidade on-line, com carga horária total de 40 horas.`;
+                texto = `Certificamos para os devidos fins que :nome participou da retransmissão do <strong>${nomeEvento}</strong>, na modalidade on-line, no período de <strong>${dataEvento}</strong>, com carga horária total de 40 horas.`;
             }
             break;
         case "participacaoAtividades":
             if (tipoExibicaoSelecionado === 'primeira') {
-                texto = `Certificamos para os devidos fins que :nome, participou do minicurso :atividade, ofertado durante o evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 4 horas.`;
+                texto = `Certificamos para os devidos fins que :nome, participou do minicurso :atividade, ofertado durante o evento <strong>${nomeEvento}</strong>, na modalidade on-line, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 4 horas.`;
             } else { // Retransmissão
-                texto = `Certificamos para os devidos fins que :nome, participou do minicurso :atividade, ofertado durante a retransmissão do evento <strong>${nomeEvento}</strong>. Carga horária: 4 horas.`;
+                texto = `Certificamos para os devidos fins que :nome, participou do minicurso :atividade, ofertado durante a retransmissão do evento <strong>${nomeEvento}</strong>, na modalidade on-line, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 4 horas.`;
             }
             break;
         case "apresentacao":
             if (tipoExibicaoSelecionado === 'primeira') {
-                texto = `Certificamos para os devidos fins que o trabalho intitulado ":resumo_titulo", de autoria de :nome, :coautor foi apresentado na modalidade ":modalidade_de_apresentacao" durante o evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>.`;
+                texto = `Certificamos para os devidos fins que o trabalho intitulado ":resumo_titulo", de autoria de :nome, :coautor foi apresentado na modalidade ":modalidade_de_apresentacao" durante o evento <strong>${nomeEvento}</strong>, na modalidade on-line, realizado no período de <strong>${dataEvento}</strong>.`;
             } else { // Retransmissão
-                texto = `Certificamos para os devidos fins que o trabalho intitulado ":resumo_titulo", de autoria de :nome, :coautor foi apresentado na modalidade ":modalidade_de_apresentacao" durante a retransmissão do evento <strong>${nomeEvento}</strong>.`;
+                texto = `Certificamos para os devidos fins que o trabalho intitulado ":resumo_titulo", de autoria de :nome, :coautor foi apresentado na modalidade ":modalidade_de_apresentacao" durante a retransmissão do evento <strong>${nomeEvento}</strong>,na modalidade on-line, realizado no período de <strong>${dataEvento}</strong>.`;
             }
             break;
         case "publicacao":
             if (tipoExibicaoSelecionado === 'primeira') {
-                texto = `Certificamos que o trabalho intitulado :resumo_titulo do tipo :tipo_resumo de autoria de :nome, :coautor foi aprovado e publicado nos anais do evento <strong>${nomeEvento}</strong>, através da ${nomeRevista} (ISSN: XXXX-XXXX) no seu Volume X, número X, sob registro DOI :doi_ref.`;
+                texto = `Certificamos que o trabalho intitulado :resumo_titulo do tipo :tipo_resumo de autoria de :nome, :coautor foi aprovado e publicado nos anais do evento <strong>${nomeEvento}</strong>, na modalidade on-line, realizado no período de <strong>${dataEvento}</strong>, através da ${nomeRevista} (ISSN: XXXX-XXXX) no seu Volume X, número X, sob registro DOI :doi_ref.`;
             } else { // Retransmissão
-                texto = `Certificamos que o trabalho intitulado :resumo_titulo do tipo :tipo_resumo de autoria de :nome, :coautor foi aprovado e publicado nos anais do evento <strong>${nomeEvento}</strong>, através da ${nomeRevista} (ISSN: XXXX-XXXX) no seu Volume X, número X, sob registro DOI :doi_ref.`;
+                texto = `Certificamos que o trabalho intitulado :resumo_titulo do tipo :tipo_resumo de autoria de :nome, :coautor foi aprovado e publicado nos anais do evento <strong>${nomeEvento}</strong>, na modalidade on-line, realizado no período de <strong>${dataEvento}</strong>, através da ${nomeRevista} (ISSN: XXXX-XXXX) no seu Volume X, número X, sob registro DOI :doi_ref.`;
             }
             break;
         case "aceiteSubmissao":
             if (tipoExibicaoSelecionado === 'primeira') {
                 texto = `Certificamos para os devidos fins que a submissão do trabalho intitulado :resumo_titulo do tipo :tipo_resumo de autoria de :nome, :coautor foi aprovado no <strong>${nomeEvento}</strong>, na modalidade on-line, que irá ocorrer no período de <strong>${dataEvento}</strong>.`
             } else { // Retransmissão
-                texto = `Certificamos para os devidos fins que a submissão do trabalho intitulado :resumo_titulo do tipo :tipo_resumo de autoria de :nome, :coautor foi aprovado na retransmissão do <strong>${nomeEvento}</strong>, na modalidade on-line.`
+                texto = `Certificamos para os devidos fins que a submissão do trabalho intitulado :resumo_titulo do tipo :tipo_resumo de autoria de :nome, :coautor foi aprovado na retransmissão do <strong>${nomeEvento}</strong>, na modalidade on-line, que irá ocorrer no período de <strong>${dataEvento}</strong>.`
             }
             break;
         case "revisor":
             if (tipoExibicaoSelecionado === 'primeira') {
                 texto = `Certificamos para os devidos fins que :nome participou como membro da Comissão Científica na categoria de Revisor(a) dos trabalhos submetidos ao evento <strong>${nomeEvento}</strong>, na modalidade on-line, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 80 horas.`;
             } else { // Retransmissão
-                texto = `Certificamos para os devidos fins que :nome participou como membro da Comissão Científica na categoria de Revisor(a) dos trabalhos submetidos à retransmissão do evento <strong>${nomeEvento}</strong>, na modalidade on-line. Carga horária: 80 horas.`;
+                texto = `Certificamos para os devidos fins que :nome participou como membro da Comissão Científica na categoria de Revisor(a) dos trabalhos submetidos à retransmissão do evento <strong>${nomeEvento}</strong>, na modalidade on-line, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 80 horas.`;
             }
             break;
         case "ministrante":
             if (tipoExibicaoSelecionado === 'primeira') {
-                texto = `Certificamos para os devidos fins que :nome ministrou o minicurso ":atividade", com carga horária de 4 horas, durante o evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>.`;
+                texto = `Certificamos para os devidos fins que :nome ministrou o minicurso ":atividade", com carga horária de 4 horas, durante o evento <strong>${nomeEvento}</strong>, na modalidade on-line, realizado no período de <strong>${dataEvento}</strong>.`;
             } else { // Retransmissão
-                texto = `Certificamos para os devidos fins que :nome ministrou o minicurso ":atividade", com carga horária de 4 horas, durante a retransmissão do evento <strong>${nomeEvento}</strong>.`;
+                texto = `Certificamos para os devidos fins que :nome ministrou o minicurso ":atividade", com carga horária de 4 horas, durante a retransmissão do evento <strong>${nomeEvento}</strong>, na modalidade on-line, realizado no período de <strong>${dataEvento}</strong>.`;
             }
             break;
         case "palestrante":
             if (tipoExibicaoSelecionado === 'primeira') {
-                texto = `Certificamos para os devidos fins que :nome ministrou a palestra intitulada ":palestra", durante o evento <strong>${nomeEvento}</strong>, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 2 horas.`;
+                texto = `Certificamos para os devidos fins que :nome ministrou a palestra intitulada ":palestra", durante o evento <strong>${nomeEvento}</strong>, na modalidade on-line, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 2 horas.`;
             } else { // Retransmissão
-                texto = `Certificamos para os devidos fins que :nome ministrou a palestra intitulada ":palestra", durante a retransmissão do evento <strong>${nomeEvento}</strong>. Carga horária: 2 horas.`;
+                texto = `Certificamos para os devidos fins que :nome ministrou a palestra intitulada ":palestra", durante a retransmissão do evento <strong>${nomeEvento}</strong>, na modalidade on-line, realizado no período de <strong>${dataEvento}</strong>. Carga horária: 2 horas.`;
             }
             break;
     }
