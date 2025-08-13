@@ -7,187 +7,514 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-        <link rel="icon" type="image/svg+xml"
-    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✅</text></svg>">
+    <link rel="icon" type="image/svg+xml"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Estilos para o modal */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover:before {
+            left: 100%;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(56, 239, 125, 0.3);
+        }
+
+        .btn-tertiary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-tertiary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .upload-area {
+            border: 2px dashed #667eea;
+            background: rgba(102, 126, 234, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: rgba(118, 75, 162, 0.05);
+        }
+
+        .input-field {
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .input-field:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .progress-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+        }
+
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1000; /* Sit on top */
+            display: none;
+            position: fixed;
+            z-index: 1000;
             left: 0;
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
             justify-content: center;
             align-items: center;
         }
+
         .modal-content {
-            background-color: #fefefe;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
             margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             width: 80%;
-            max-width: 700px; /* Aumentado para acomodar mais campos */
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            max-height: 90vh; /* Para garantir que o modal não exceda a altura da tela */
-            overflow-y: auto; /* Adiciona scroll se o conteúdo for muito longo */
+            max-width: 700px;
+            border-radius: 20px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
         }
+
         .close-button {
-            color: #aaa;
+            color: #667eea;
             float: right;
             font-size: 28px;
             font-weight: bold;
+            transition: all 0.3s ease;
         }
-        .close-button:hover,
-        .close-button:focus {
-            color: black;
-            text-decoration: none;
+
+        .close-button:hover {
+            color: #764ba2;
+            transform: scale(1.1);
             cursor: pointer;
+        }
+
+        .data-table {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .floating-icon {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .step-indicator {
+            position: relative;
+        }
+
+        .step-indicator:not(:last-child):after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -20px;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: translateY(-50%);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hover-lift {
+            transition: all 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body class="min-h-screen">
+    <!-- Floating Icons -->
+    <div class="floating-icon" style="top: 10%; left: 5%;"><i class="fas fa-file-pdf text-6xl text-purple-500"></i></div>
+    <div class="floating-icon" style="top: 20%; right: 10%;"><i class="fas fa-chart-bar text-5xl text-blue-500"></i></div>
+    <div class="floating-icon" style="bottom: 20%; left: 8%;"><i class="fas fa-cogs text-4xl text-indigo-500"></i></div>
+
     <div class="container mx-auto px-4 py-8">
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h1 class="text-3xl font-bold text-gray-800 mb-2">Gerador de PDFs - Termo de Autorização e Ficha de Cadastro</h1>
-            <p class="text-gray-600">Sistema para gerar termos de autorização e fichas de cadastro individuais a partir de planilha XLSX</p>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">1. Upload da Planilha XLSX e Configurações</h2>
-            <div class="mb-4">
-                <label for="eventName" class="block text-sm font-medium text-gray-700 mb-2">
-                    Nome do Evento:
-                </label>
-                <input type="text" id="eventName" placeholder="Ex: CONASC - Congresso Nacional Interdisciplinar de Saúde Coletiva"
-                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+        <!-- Header Section -->
+        <div class="glass-card rounded-3xl p-8 mb-8 text-center hover-lift fade-in">
+            <div class="flex items-center justify-center mb-6">
+                <i class="fas fa-file-pdf text-5xl gradient-text mr-4"></i>
+                <h1 class="text-4xl font-bold gradient-text">Gerador de PDFs</h1>
             </div>
-            <div class="mb-4">
-                <label for="xlsxFile" class="block text-sm font-medium text-gray-700 mb-2">
-                    Selecione o arquivo XLSX com os dados dos palestrantes:
-                </label>
-                <input type="file" id="xlsxFile" accept=".xlsx,.xls"
-                       class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-            </div>
-            <div class="text-sm text-gray-600">
-                <p class="mb-2">Colunas esperadas na planilha (verifique nomes similares se a sua for diferente):</p>
-                <div class="bg-gray-100 p-3 rounded text-xs">
-                    <p>• Carimbo de data/hora</p>
-                    <p>• Nome completo</p>
-                    <p>• CPF</p>
-                    <p>• E-mail</p>
-                    <p>• Endereço completo (rua, nº, bairro, cidade, estado)</p>
-                    <p>• CEP</p>
-                    <p>• Telefone</p>
-                    <p>• Mini currículo (breve descrição das titulações e experiências de trabalho)</p>
-                    <p>• Título da palestra/minicurso</p>
-                    <p>• Redes sociais (Instagram, Facebook, YouTube)</p>
-                    <p>• Link do Lattes ou Linkedin</p>
-                    <p>• Anexe sua foto (apenas texto/link no PDF, foto não incorporada diretamente)</p>
+            <p class="text-gray-600 text-lg">Sistema inteligente para gerar termos de autorização e fichas de cadastro a partir de planilha XLSX</p>
+            <div class="flex justify-center mt-6 space-x-4">
+                <div class="bg-gradient-to-r from-blue-100 to-purple-100 px-4 py-2 rounded-full">
+                    <i class="fas fa-check text-green-500 mr-2"></i>
+                    <span class="text-sm font-medium text-gray-700">Automatização completa</span>
+                </div>
+                <div class="bg-gradient-to-r from-green-100 to-blue-100 px-4 py-2 rounded-full">
+                    <i class="fas fa-lightning-bolt text-yellow-500 mr-2"></i>
+                    <span class="text-sm font-medium text-gray-700">Geração em lote</span>
                 </div>
             </div>
         </div>
 
-        <div id="previewSection" class="bg-white rounded-lg shadow-md p-6 mb-6 hidden">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">2. Dados Carregados</h2>
-            <div id="dataPreview" class="overflow-x-auto">
-                </div>
-        </div>
-
-        <div id="generateSection" class="bg-white rounded-lg shadow-md p-6 hidden">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">3. Gerar PDFs</h2>
-            <div class="flex flex-wrap gap-4 mb-4">
-                <button id="generateAllBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Gerar Todos os PDFs (Termo)
-                </button>
-                <button id="generateSampleBtn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                    Gerar PDF de Exemplo (Termo)
-                </button>
-                <button id="generateAllCadastroBtn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
-                    Gerar Fichas de Cadastro (PDF)
-                </button>
+        <!-- Step 1: Upload and Configuration -->
+        <div class="glass-card rounded-3xl p-8 mb-8 hover-lift fade-in">
+            <div class="flex items-center mb-6">
+                <div class="bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold mr-4 step-indicator">1</div>
+                <h2 class="text-2xl font-bold text-gray-800">Upload da Planilha e Configurações</h2>
             </div>
-            <div id="progressSection" class="hidden">
-                <div class="mb-2">
-                    <div class="flex justify-between text-sm text-gray-600">
-                        <span>Progresso:</span>
-                        <span id="progressText">0/0</span>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label for="eventName" class="block text-sm font-semibold text-gray-700 mb-3">
+                        <i class="fas fa-calendar-alt text-blue-500 mr-2"></i>Nome do Evento
+                    </label>
+                    <input type="text" id="eventName" 
+                           placeholder="Ex: CONASC - Congresso Nacional Interdisciplinar de Saúde Coletiva"
+                           class="input-field w-full rounded-xl p-4 outline-none">
+                </div>
+
+                <div>
+                    <label for="xlsxFile" class="block text-sm font-semibold text-gray-700 mb-3">
+                        <i class="fas fa-file-excel text-green-500 mr-2"></i>Arquivo XLSX
+                    </label>
+                    <div class="upload-area rounded-xl p-6 text-center">
+                        <input type="file" id="xlsxFile" accept=".xlsx,.xls" class="hidden">
+                        <div class="cursor-pointer" onclick="document.getElementById('xlsxFile').click()">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-blue-500 mb-3"></i>
+                            <p class="text-gray-600 font-medium">Clique para selecionar ou arraste o arquivo</p>
+                            <p class="text-gray-400 text-sm mt-1">Formatos: .xlsx, .xls</p>
+                        </div>
                     </div>
                 </div>
-                <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div id="progressBar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+
+            <div class="mt-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6">
+                <h4 class="font-semibold text-gray-800 mb-3 flex items-center">
+                    <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                    Estrutura da Planilha
+                </h4>
+                <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-600">
+                    <div class="space-y-2">
+                        <p><i class="fas fa-dot-circle text-xs text-blue-400 mr-2"></i>Carimbo de data/hora</p>
+                        <p><i class="fas fa-dot-circle text-xs text-blue-400 mr-2"></i>Nome completo</p>
+                        <p><i class="fas fa-dot-circle text-xs text-blue-400 mr-2"></i>CPF</p>
+                        <p><i class="fas fa-dot-circle text-xs text-blue-400 mr-2"></i>E-mail</p>
+                        <p><i class="fas fa-dot-circle text-xs text-blue-400 mr-2"></i>Endereço completo</p>
+                        <p><i class="fas fa-dot-circle text-xs text-blue-400 mr-2"></i>CEP</p>
+                    </div>
+                    <div class="space-y-2">
+                        <p><i class="fas fa-dot-circle text-xs text-purple-400 mr-2"></i>Telefone</p>
+                        <p><i class="fas fa-dot-circle text-xs text-purple-400 mr-2"></i>Mini currículo</p>
+                        <p><i class="fas fa-dot-circle text-xs text-purple-400 mr-2"></i>Título da palestra/minicurso</p>
+                        <p><i class="fas fa-dot-circle text-xs text-purple-400 mr-2"></i>Redes sociais</p>
+                        <p><i class="fas fa-dot-circle text-xs text-purple-400 mr-2"></i>Link do Lattes ou LinkedIn</p>
+                        <p><i class="fas fa-dot-circle text-xs text-purple-400 mr-2"></i>Anexe sua foto</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div id="statusSection" class="mt-6">
+        <!-- Step 2: Data Preview -->
+        <div id="previewSection" class="glass-card rounded-3xl p-8 mb-8 hover-lift fade-in hidden">
+            <div class="flex items-center mb-6">
+                <div class="bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold mr-4 step-indicator">2</div>
+                <h2 class="text-2xl font-bold text-gray-800">Dados Carregados</h2>
+                <div class="ml-auto">
+                    <span class="bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+                        <i class="fas fa-check-circle mr-1"></i>Carregado com sucesso
+                    </span>
+                </div>
             </div>
+            <div id="dataPreview" class="data-table rounded-xl overflow-hidden shadow-lg">
+            </div>
+        </div>
+
+        <!-- Step 3: Generate PDFs -->
+        <div id="generateSection" class="glass-card rounded-3xl p-8 hover-lift fade-in hidden">
+            <div class="flex items-center mb-6">
+                <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold mr-4 step-indicator">3</div>
+                <h2 class="text-2xl font-bold text-gray-800">Gerar PDFs</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-4 mb-8">
+                <button id="generateAllBtn" class="btn-primary text-white font-bold py-4 px-6 rounded-xl relative overflow-hidden group">
+                    <i class="fas fa-file-pdf mr-2"></i>
+                    Gerar Todos os Termos
+                    <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
+                </button>
+                <button id="generateSampleBtn" class="btn-secondary text-white font-bold py-4 px-6 rounded-xl">
+                    <i class="fas fa-eye mr-2"></i>
+                    PDF de Exemplo
+                </button>
+                <button id="generateAllCadastroBtn" class="btn-tertiary text-white font-bold py-4 px-6 rounded-xl">
+                    <i class="fas fa-id-card mr-2"></i>
+                    Fichas de Cadastro
+                </button>
+            </div>
+
+            <div id="progressSection" class="hidden">
+                <div class="bg-gray-100 rounded-xl p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-semibold text-gray-700">
+                            <i class="fas fa-cog fa-spin text-blue-500 mr-2"></i>
+                            Gerando PDFs...
+                        </span>
+                        <span id="progressText" class="text-sm font-medium text-gray-600">0/0</span>
+                    </div>
+                    <div class="w-full bg-gray-300 rounded-full h-3 overflow-hidden">
+                        <div id="progressBar" class="progress-bar h-3 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Section -->
+        <div id="statusSection" class="mt-8">
+        </div>
     </div>
 
+    <!-- Enhanced Modal -->
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
-            <h3 class="text-lg font-bold mb-4">Editar Registro</h3>
-            <form id="editForm" class="grid grid-cols-1 gap-4">
+            <h3 class="text-2xl font-bold mb-6 gradient-text flex items-center">
+                <i class="fas fa-edit mr-3"></i>
+                Editar Registro
+            </h3>
+            <form id="editForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <input type="hidden" id="editIndex">
-                <div>
-                    <label for="editNome" class="block text-sm font-medium text-gray-700">Nome Completo</label>
-                    <input type="text" id="editNome" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                
+                <div class="md:col-span-2">
+                    <label for="editNome" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-user text-blue-500 mr-2"></i>Nome Completo
+                    </label>
+                    <input type="text" id="editNome" class="input-field w-full rounded-xl p-3 outline-none">
                 </div>
+
                 <div>
-                    <label for="editCpf" class="block text-sm font-medium text-gray-700">CPF</label>
-                    <input type="text" id="editCpf" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                    <label for="editCpf" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-id-card text-green-500 mr-2"></i>CPF
+                    </label>
+                    <input type="text" id="editCpf" class="input-field w-full rounded-xl p-3 outline-none">
                 </div>
+
                 <div>
-                    <label for="editEmail" class="block text-sm font-medium text-gray-700">E-mail</label>
-                    <input type="email" id="editEmail" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                    <label for="editEmail" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-envelope text-red-500 mr-2"></i>E-mail
+                    </label>
+                    <input type="email" id="editEmail" class="input-field w-full rounded-xl p-3 outline-none">
                 </div>
+
+                <div class="md:col-span-2">
+                    <label for="editEndereco" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-map-marker-alt text-purple-500 mr-2"></i>Endereço Completo
+                    </label>
+                    <input type="text" id="editEndereco" class="input-field w-full rounded-xl p-3 outline-none">
+                </div>
+
                 <div>
-                    <label for="editEndereco" class="block text-sm font-medium text-gray-700">Endereço Completo</label>
-                    <input type="text" id="editEndereco" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                    <label for="editCep" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-mail-bulk text-indigo-500 mr-2"></i>CEP
+                    </label>
+                    <input type="text" id="editCep" class="input-field w-full rounded-xl p-3 outline-none">
                 </div>
+
                 <div>
-                    <label for="editCep" class="block text-sm font-medium text-gray-700">CEP</label>
-                    <input type="text" id="editCep" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                    <label for="editTelefone" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-phone text-orange-500 mr-2"></i>Telefone
+                    </label>
+                    <input type="text" id="editTelefone" class="input-field w-full rounded-xl p-3 outline-none">
                 </div>
+
+                <div class="md:col-span-2">
+                    <label for="editMiniCurriculo" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-graduation-cap text-teal-500 mr-2"></i>Mini Currículo
+                    </label>
+                    <textarea id="editMiniCurriculo" rows="4" class="input-field w-full rounded-xl p-3 outline-none resize-none"></textarea>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label for="editTitulo" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-presentation text-pink-500 mr-2"></i>Título da Palestra/Minicurso
+                    </label>
+                    <input type="text" id="editTitulo" class="input-field w-full rounded-xl p-3 outline-none">
+                </div>
+
                 <div>
-                    <label for="editTelefone" class="block text-sm font-medium text-gray-700">Telefone</label>
-                    <input type="text" id="editTelefone" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                    <label for="editRedesSociais" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-share-alt text-cyan-500 mr-2"></i>Redes Sociais
+                    </label>
+                    <input type="text" id="editRedesSociais" class="input-field w-full rounded-xl p-3 outline-none">
                 </div>
+
                 <div>
-                    <label for="editMiniCurriculo" class="block text-sm font-medium text-gray-700">Mini Currículo</label>
-                    <textarea id="editMiniCurriculo" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"></textarea>
+                    <label for="editLinkLattesLinkedin" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-link text-yellow-500 mr-2"></i>Link Lattes/LinkedIn
+                    </label>
+                    <input type="text" id="editLinkLattesLinkedin" class="input-field w-full rounded-xl p-3 outline-none">
                 </div>
+
                 <div>
-                    <label for="editTitulo" class="block text-sm font-medium text-gray-700">Título da Palestra/Minicurso</label>
-                    <input type="text" id="editTitulo" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                    <label for="editFoto" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-image text-violet-500 mr-2"></i>Foto (referência)
+                    </label>
+                    <input type="text" id="editFoto" class="input-field w-full rounded-xl p-3 outline-none">
                 </div>
+
                 <div>
-                    <label for="editRedesSociais" class="block text-sm font-medium text-gray-700">Redes Sociais</label>
-                    <input type="text" id="editRedesSociais" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                    <label for="editCarimbo" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-clock text-gray-500 mr-2"></i>Data/Hora (Aceite)
+                    </label>
+                    <input type="text" id="editCarimbo" class="input-field w-full rounded-xl p-3 outline-none bg-gray-100" readonly>
                 </div>
-                <div>
-                    <label for="editLinkLattesLinkedin" class="block text-sm font-medium text-gray-700">Link Lattes/Linkedin</label>
-                    <input type="text" id="editLinkLattesLinkedin" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+
+                <div class="md:col-span-2 mt-6">
+                    <button type="submit" class="btn-primary text-white font-bold py-4 px-8 rounded-xl w-full relative overflow-hidden">
+                        <i class="fas fa-save mr-2"></i>
+                        Salvar Alterações
+                    </button>
                 </div>
-                <div>
-                    <label for="editFoto" class="block text-sm font-medium text-gray-700">Anexe sua Foto (apenas referência)</label>
-                    <input type="text" id="editFoto" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
-                </div>
-                <div>
-                    <label for="editCarimbo" class="block text-sm font-medium text-gray-700">Carimbo de Data/Hora (Aceite)</label>
-                    <input type="text" id="editCarimbo" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" readonly>
-                </div>
-                <button type="submit" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Salvar Alterações
-                </button>
             </form>
         </div>
     </div>
     <script src="script.js"></script>
+    <script>
+        // Enhanced file input functionality
+        document.getElementById('xlsxFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const uploadArea = document.querySelector('.upload-area');
+                uploadArea.innerHTML = `
+                    <div class="text-center">
+                        <i class="fas fa-check-circle text-4xl text-green-500 mb-3"></i>
+                        <p class="text-gray-600 font-medium">${file.name}</p>
+                        <p class="text-gray-400 text-sm mt-1">Arquivo carregado com sucesso</p>
+                    </div>
+                `;
+                uploadArea.classList.add('bg-green-50');
+                uploadArea.style.borderColor = '#10b981';
+            }
+        });
+
+        // Add smooth scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('editModal');
+        const closeButton = document.querySelector('.close-button');
+
+        closeButton.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
