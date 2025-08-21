@@ -1,4 +1,4 @@
-let currentData = [];
+        let currentData = [];
 
         // Mensagens de saudação aleatórias
         const saudacoes = [
@@ -198,7 +198,7 @@ let currentData = [];
                 <div class="glass-effect rounded-3xl p-6 card-shadow desktop-table">
                     <h3 class="text-2xl font-semibold mb-6 text-gray-700 dark:text-gray-200">📋 Lista de Contatos</h3>
                     <div class="table-responsive">
-                        <table class="w-full text-sm compact-table">
+                        <table class="w-full compact-table">
                             <thead class="bg-gradient-to-r from-purple-600 to-pink-600 text-white sticky top-0 z-10">
                                 <tr>
                                     <th class="px-3 py-3 text-left font-semibold rounded-tl-xl">Nome</th>
@@ -227,7 +227,7 @@ let currentData = [];
                 const saudacaoEnviada = saudacoesEnviadas.includes(telefone);
 
                 // Desktop row
-                let statusClass, statusIcon, statusText, mensagemButton;
+                let statusClass, statusIcon, statusText, mensagemButton, saudacaoButton;
 
                 if (jaEnviado) {
                     statusClass = 'status-sent';
@@ -243,51 +243,50 @@ let currentData = [];
                     statusIcon = '⏳';
                     statusText = 'Pendente';
                     mensagemButton = `<button onclick="enviarMensagem(${index})"
-                        class="btn-primary text-white px-2 py-1 rounded-md text-xs font-medium shadow-md">
+                        class="btn-primary text-white px-2 py-1 rounded-md text-xs font-medium shadow-md hover:scale-105 transition-transform">
                         📱 Mensagem
                     </button>`;
                 }
 
                 // Botão de saudação
-                let saudacaoButton;
                 if (saudacaoEnviada) {
                     saudacaoButton = `<button onclick="enviarSaudacao(${index})"
-                        class="btn-secondary text-white px-2 py-1 rounded-md text-xs font-medium shadow-md opacity-70 cursor-not-allowed ml-1"
+                        class="btn-secondary text-white px-2 py-1 rounded-md text-xs font-medium shadow-md opacity-70 cursor-not-allowed"
                         disabled>
                         👋 Enviada
                     </button>`;
                 } else {
                     saudacaoButton = `<button onclick="enviarSaudacao(${index})"
-                        class="btn-secondary text-white px-2 py-1 rounded-md text-xs font-medium shadow-md ml-1">
+                        class="btn-secondary text-white px-2 py-1 rounded-md text-xs font-medium shadow-md hover:scale-105 transition-transform">
                         👋 Saudação
                     </button>`;
                 }
 
                 desktopHtml += `
                     <tr class="${jaEnviado ? 'row-sent hover:bg-green-100 dark:hover:bg-green-800/30 transition-all duration-300' : 'hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'}">
-                        <td class="px-3 py-3 font-${jaEnviado ? 'bold text-green-800 dark:text-green-100' : 'medium text-gray-900 dark:text-gray-100'} max-w-[120px] truncate">${row.nome}</td>
+                        <td class="px-3 py-3 font-${jaEnviado ? 'bold text-green-800 dark:text-green-100' : 'medium text-gray-900 dark:text-gray-100'} field-truncate" title="${row.nome}">${row.nome}</td>
                         <td class="px-3 py-3 ${jaEnviado ? 'font-medium text-green-700 dark:text-green-200' : 'text-gray-700 dark:text-gray-300'}">${row.telefone}</td>
-                        <td class="px-3 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'} max-w-[150px] truncate">${row.email}</td>
-                        <td class="px-3 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'} max-w-[200px] truncate" title="${row.titulo}">${row.titulo}</td>
+                        <td class="px-3 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'} field-truncate" title="${row.email}">${row.email}</td>
+                        <td class="px-3 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'} field-truncate" title="${row.titulo}">${row.titulo}</td>
                         <td class="px-3 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}">${row.tipo}</td>
-                        <td class="px-3 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'} max-w-[120px] truncate">${row.apresentacao}</td>
-                        <td class="px-3 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'} max-w-[100px] truncate">${row.produto}</td>
+                        <td class="px-3 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'} field-truncate" title="${row.apresentacao}">${row.apresentacao}</td>
+                        <td class="px-3 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'} field-truncate" title="${row.produto}">${row.produto}</td>
                         <td class="px-3 py-3 text-center">
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-${jaEnviado ? 'bold' : 'medium'} ${statusClass} ${jaEnviado ? 'pulse-animation' : ''}">
+                            <span class="status-badge ${statusClass} ${jaEnviado ? 'pulse-animation' : ''}">
                                 ${statusIcon} ${statusText}
                             </span>
                         </td>
                         <td class="px-3 py-3 text-center">
-                            <div class="flex justify-center items-center space-x-1">
+                            <div class="action-buttons">
                                 ${mensagemButton}
                                 ${saudacaoButton}
                                 <button onclick="editarContato(${index})" 
-                                    class="btn-edit text-blue-600 hover:text-blue-800 px-2 py-1 rounded-md text-xs font-medium">
-                                    ✏️
+                                    class="mobile-btn-edit text-xs font-medium hover:scale-105 transition-transform">
+                                    ✏️ Editar
                                 </button>
                                 <button onclick="excluirContato(${index})" 
-                                    class="btn-delete text-red-600 hover:text-red-800 px-2 py-1 rounded-md text-xs font-medium">
-                                    🗑️
+                                    class="mobile-btn-delete text-xs font-medium hover:scale-105 transition-transform">
+                                    🗑️ Excluir
                                 </button>
                             </div>
                         </td>
@@ -296,43 +295,68 @@ let currentData = [];
 
                 // Mobile card
                 mobileHtml += `
-                    <div class="glass-effect rounded-2xl p-4 mb-4 card-shadow ${jaEnviado ? 'border-l-4 border-green-500' : ''}">
-                        <div class="flex justify-between items-start mb-3">
-                            <div class="flex-1">
-                                <h4 class="font-semibold text-lg ${jaEnviado ? 'text-green-800 dark:text-green-100' : 'text-gray-900 dark:text-gray-100'}">${row.nome}</h4>
-                                <p class="text-sm ${jaEnviado ? 'text-green-700 dark:text-green-200' : 'text-gray-600 dark:text-gray-400'}">${row.telefone}</p>
+                    <div class="mobile-card-item ${jaEnviado ? 'sent' : ''}">
+                        <div class="mobile-header">
+                            <div>
+                                <h4 class="mobile-name ${jaEnviado ? 'sent' : ''}">${row.nome}</h4>
+                                <p class="mobile-phone">${row.telefone}</p>
                             </div>
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-${jaEnviado ? 'bold' : 'medium'} ${statusClass} ${jaEnviado ? 'pulse-animation' : ''}">
+                            <span class="status-badge ${statusClass} ${jaEnviado ? 'pulse-animation' : ''}">
                                 ${statusIcon} ${statusText}
                             </span>
                         </div>
                         
-                        <div class="space-y-2 text-sm">
-                            <div class="flex flex-wrap gap-2">
-                                <span class="inline-block bg-gray-100 dark:bg-gray-700 rounded-lg px-2 py-1">
-                                    <strong>E-mail:</strong> ${row.email}
-                                </span>
-                                <span class="inline-block bg-gray-100 dark:bg-gray-700 rounded-lg px-2 py-1">
-                                    <strong>Tipo:</strong> ${row.tipo}
-                                </span>
+                        <div class="mobile-details">
+                            <div class="mobile-detail-item">
+                                <div class="mobile-detail-label">E-mail</div>
+                                <div class="mobile-detail-value">${row.email || 'Não informado'}</div>
                             </div>
                             
-                            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-2">
-                                <p><strong>Título:</strong> ${row.titulo}</p>
-                                <p><strong>Apresentação:</strong> ${row.apresentacao}</p>
-                                <p><strong>Produto:</strong> ${row.produto}</p>
+                            <div class="mobile-detail-item">
+                                <div class="mobile-detail-label">Título do Trabalho</div>
+                                <div class="mobile-detail-value">${row.titulo || 'Não informado'}</div>
+                            </div>
+                            
+                            <div class="mobile-detail-item">
+                                <div class="mobile-detail-label">Tipo</div>
+                                <div class="mobile-detail-value">${row.tipo || 'Não informado'}</div>
+                            </div>
+                            
+                            <div class="mobile-detail-item">
+                                <div class="mobile-detail-label">Apresentação</div>
+                                <div class="mobile-detail-value">${row.apresentacao || 'Não informado'}</div>
+                            </div>
+                            
+                            <div class="mobile-detail-item">
+                                <div class="mobile-detail-label">Produto</div>
+                                <div class="mobile-detail-value">${row.produto || 'Não informado'}</div>
                             </div>
                         </div>
                         
-                        <div class="flex flex-wrap gap-2 mt-4">
-                            ${mensagemButton}
-                            ${saudacaoButton}
-                            <button onclick="editarContato(${index})" 
-                                class="btn-edit text-blue-600 hover:text-blue-800 px-3 py-2 rounded-md text-xs font-medium border border-blue-300">
+                        <div class="mobile-buttons">
+                            ${jaEnviado ? 
+                                `<button onclick="enviarMensagem(${index})" class="mobile-btn btn-primary opacity-70 cursor-not-allowed" disabled>
+                                    ✅ Mensagem Enviada
+                                </button>` :
+                                `<button onclick="enviarMensagem(${index})" class="mobile-btn btn-primary">
+                                    📱 Enviar Mensagem
+                                </button>`
+                            }
+                            ${saudacaoEnviada ?
+                                `<button onclick="enviarSaudacao(${index})" class="mobile-btn btn-secondary opacity-70 cursor-not-allowed" disabled>
+                                    👋 Saudação Enviada
+                                </button>` :
+                                `<button onclick="enviarSaudacao(${index})" class="mobile-btn btn-secondary">
+                                    👋 Enviar Saudação
+                                </button>`
+                            }
+                        </div>
+                        
+                        <div class="mobile-buttons-secondary">
+                            <button onclick="editarContato(${index})" class="mobile-btn mobile-btn-edit">
                                 ✏️ Editar
                             </button>
-                            <button onclick="excluirContato(${index})" 
-                                class="btn-delete text-red-600 hover:text-red-800 px-3 py-2 rounded-md text-xs font-medium border border-red-300">
+                            <button onclick="excluirContato(${index})" class="mobile-btn mobile-btn-delete">
                                 🗑️ Excluir
                             </button>
                         </div>
@@ -355,14 +379,6 @@ let currentData = [];
 
             // Combinar HTML final
             container.innerHTML = desktopHtml + mobileHtml;
-
-            // Atualizar contadores
-            updateCounters();
-        }
-
-        // Atualiza os contadores de contatos na tabela (opcional, caso queira mostrar no topo da tabela)
-        function updateCounters() {
-            // Exemplo: pode ser expandido para mostrar contadores em outros lugares
         }
 
         // Editar contato

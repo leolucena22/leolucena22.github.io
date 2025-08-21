@@ -1,0 +1,310 @@
+# GUIA DE CONFIGURAÇÕES DEBIAN - SIMPLIFICADO
+# =====================================================
+
+# 1. CONFIGURAÇÃO DE IP ESTÁTICO (/etc/network/interfaces)
+# ========================================================
+
+# Exemplo de configuração de IP estático:
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+    address 192.168.1.100
+    netmask 255.255.255.0
+    gateway 192.168.1.1
+    dns-nameservers 8.8.8.8 8.8.4.4
+
+# 1.2. CONFIGURAÇÃO DE IP DINÂMICO (/etc/network/interfaces)
+# ==========================================================
+# Exemplo de configuração de IP Dinâmico:
+auto lo
+iface lo inet loopback
+
+# The primary network interface - usando DHCP
+auto eth0
+iface eth0 inet dhcp
+
+# Wi-fi
+auto wlan0
+iface wlan0 inet dhcp
+    wpa-ssid "SUA_REDE"
+    wpa-psk "SENHA_DA_REDE"
+
+# Para aplicar as configurações:
+# systemctl restart networking
+# ou
+# ifdown eth0 && ifup eth0
+
+# 2. CONFIGURAÇÃO DO SERVIDOR DHCP (ISC-DHCP-SERVER)
+# ==================================================
+
+# Instalar: apt install isc-dhcp-server
+
+# Arquivo: /etc/dhcp/dhcpd.conf
+default-lease-time 600;
+max-lease-time 7200;
+authoritative;
+
+subnet 192.168.1.0 netmask 255.255.255.0 {
+    range 192.168.1.10 192.168.1.100;
+    option domain-name-servers 8.8.8.8, 8.8.4.4;
+    option domain-name "meudominio.local";
+    option routers 192.168.1.1;
+    option broadcast-address 192.168.1.255;
+    
+    # Reserva de IP para um dispositivo específico
+    host servidor-web {
+        hardware ethernet 08:00:27:a1:b2:c3;  # Endereço MAC do dispositivo
+        fixed-address 192.168.1.50;           # IP fixo a ser atribuído
+    }
+    
+    # Outra reserva de IP
+    host impressora {
+        hardware ethernet 08:00:27:d4:e5:f6;
+        fixed-address 192.168.1.60;
+    }
+}
+
+# Arquivo: /etc/default/isc-dhcp-server
+INTERFACESv4="eth0"
+
+# Iniciar serviço:
+# systemctl enable isc-dhcp-server
+# systemctl start isc-dhcp-server
+
+
+# 3. CONFIGURAÇÃO SSH
+# ===================
+
+# Arquivo: /etc/ssh/sshd_config (configurações principais)
+Port 22
+Protocol 2
+PermitRootLogin no
+PasswordAuthentication yes
+PubkeyAuthentication yes
+X11Forwarding no
+MaxAuthTries 3
+ClientAliveInterval 300
+ClientAliveCountMax 2
+
+# Reiniciar SSH:
+# systemctl restart ssh
+
+# Para gerar chaves SSH (cliente):
+# ssh-keygen -t rsa -b 4096
+
+
+# 4. CONFIGURAÇÃO SQUID PROXY
+# ============================
+
+# Instalar: apt install squid
+
+# Arquivo: /etc/squid/squid.conf (configuração básica)
+http_port 3128
+
+# ACL - Controle de Acesso
+acl localnet src 192.168.1.0/24
+acl SSL_ports port 443
+acl Safe_ports port 80
+acl Safe_ports port 443
+acl Safe_ports port 8080
+acl CONNECT method CONNECT
+
+# Regras de acesso
+http_access deny !Safe_ports
+http_access deny CONNECT !SSL_ports
+http_access allow localhost manager
+http_access deny manager
+http_access allow localnet
+http_access allow localhost
+http_access deny all
+
+# Definir horários de acesso
+acl horario_trabalho time MTWHF 08:00-18:00
+acl horario_livre time S 00:00-23:59
+
+# Permitir acesso apenas em horário comercial
+http_access allow localnet horario_trabalho
+http_access deny localnet
+
+# Lista de sites bloqueados
+acl sites_bloqueados url_regex -i "/etc/squid/sites_bloqueados.lst"
+http_access deny sites_bloqueados
+
+# Bloqueio por palavras-chave
+acl palavras_chave url_regex -i "/etc/squid/palavras_chave.lst"
+http_access deny palavras_chave
+
+# Arquivo /etc/squid/sites_bloqueados.lst:
+.facebook.com
+.twitter.com
+.youtube.com
+.netflix.com
+
+# Arquivo /etc/squid/palavras_chave.lst:
+porn
+torrent
+hack
+warez
+
+# Cache
+cache_dir ufs /var/spool/squid 1000 16 256
+cache_mem 64 MB
+maximum_object_size 10 MB
+
+# Logs
+access_log /var/log/squid/access.log squid
+
+# Reiniciar Squid:
+# systemctl restart squid
+
+# Testar configuração
+squid -k parse
+
+# Recarregar configuração
+squid -k reconfigure
+
+# Verificar status
+systemctl status squid
+
+# Monitorar logs em tempo real
+tail -f /var/log/squid/access.log
+
+# 5. CONFIGURAÇÃO CRON
+# ====================
+
+# Editar crontab do usuário:
+# crontab -e
+
+# Exemplos de entradas cron:
+# Executar todo dia às 2h da manhã
+0 2 * * * /caminho/para/script.sh
+
+# Executar a cada 5 minutos
+*/5 * * * * /caminho/para/backup.sh
+
+# Executar toda segunda-feira às 10h
+0 10 * * 1 /caminho/para/manutencao.sh
+
+# Executar no primeiro dia de cada mês às 3h
+0 3 1 * * /caminho/para/relatorio.sh
+
+# Formato: minuto hora dia mês dia_semana comando
+# * * * * * comando
+# | | | | |
+# | | | | +-- Dia da semana (0-7, sendo 0 e 7 = domingo)
+# | | | +---- Mês (1-12)
+# | | +------ Dia do mês (1-31)
+# | +-------- Hora (0-23)
+# +---------- Minuto (0-59)
+
+# Listar cron jobs:
+# crontab -l
+
+# Cron do sistema: /etc/crontab
+
+
+# 6. EXEMPLOS DE SHELL SCRIPTS
+# =============================
+
+# Exemplo 1: Script de Backup
+#!/bin/bash
+# backup.sh - Script de backup simples
+
+DATA=$(date +%Y%m%d_%H%M%S)
+ORIGEM="/home/usuario/documentos"
+DESTINO="/backup"
+ARQUIVO="backup_$DATA.tar.gz"
+
+echo "Iniciando backup em $(date)"
+tar -czf $DESTINO/$ARQUIVO $ORIGEM
+
+if [ $? -eq 0 ]; then
+    echo "Backup concluído: $ARQUIVO"
+else
+    echo "Erro no backup!"
+    exit 1
+fi
+
+# Exemplo 2: Script de Monitoramento do Sistema
+#!/bin/bash
+# monitor.sh - Monitoramento básico
+
+LOG="/var/log/monitor.log"
+
+echo "=== RELATÓRIO DO SISTEMA - $(date) ===" >> $LOG
+echo "CPU:" >> $LOG
+top -bn1 | grep "Cpu(s)" >> $LOG
+
+echo "MEMÓRIA:" >> $LOG
+free -h >> $LOG
+
+echo "DISCO:" >> $LOG
+df -h >> $LOG
+
+echo "PROCESSOS:" >> $LOG
+ps aux --sort=-%cpu | head -10 >> $LOG
+echo "" >> $LOG
+
+# Exemplo 3: Script de Limpeza de Logs
+#!/bin/bash
+# limpar_logs.sh - Limpeza de logs antigos
+
+find /var/log -name "*.log" -mtime +30 -delete
+echo "Logs antigos removidos em $(date)" >> /var/log/limpeza.log
+
+# Exemplo 4: Script de Verificação de Serviços
+#!/bin/bash
+# check_services.sh - Verificar status dos serviços
+
+SERVICOS=("ssh" "squid" "isc-dhcp-server")
+
+for SERVICO in "${SERVICOS[@]}"; do
+    if systemctl is-active --quiet $SERVICO; then
+        echo "$SERVICO: ATIVO"
+    else
+        echo "$SERVICO: INATIVO - Tentando reiniciar..."
+        systemctl restart $SERVICO
+    fi
+done
+
+# Tornar scripts executáveis:
+# chmod +x script.sh
+
+
+# COMANDOS ÚTEIS ADICIONAIS
+# =========================
+
+# Verificar status dos serviços:
+# systemctl status ssh
+# systemctl status squid
+# systemctl status isc-dhcp-server
+
+# Ver logs dos serviços:
+# journalctl -u ssh
+# journalctl -u squid
+# journalctl -u isc-dhcp-server
+
+# Testar configurações:
+# Squid: squid -k parse
+# SSH: sshd -t
+# DHCP: dhcpd -t
+
+# Monitorar logs em tempo real:
+# tail -f /var/log/syslog
+# tail -f /var/log/squid/access.log
+
+# Verificar conexões de rede:
+# netstat -tuln
+# ss -tuln
+
+# Testar conectividade:
+# ping 8.8.8.8
+# telnet servidor 22
+
+# OBSERVAÇÕES IMPORTANTES:
+# - Sempre fazer backup das configurações antes de alterar
+# - Testar as configurações antes de aplicar em produção
+# - Verificar logs regularmente para identificar problemas
+# - Manter o sistema sempre atualizado: apt update && apt upgrade
