@@ -1,4 +1,4 @@
-        let currentData = [];
+let currentData = [];
 
         // Mensagens de saudação aleatórias
         const saudacoes = [
@@ -43,29 +43,37 @@
         }
 
         function getEnviados() {
-            return JSON.parse(localStorage.getItem("contatosEnviados") || "[]");
+            return JSON.parse(localStorage.getItem("contatosEnviados") || "{}");
         }
 
         function getSaudacoesEnviadas() {
-            return JSON.parse(localStorage.getItem("saudacoesEnviadas") || "[]");
+            return JSON.parse(localStorage.getItem("saudacoesEnviadas") || "{}");
         }
 
         function salvarEnviado(telefone) {
             const normalizado = telefone.replace(/\D/g, '');
             const enviados = getEnviados();
-            if (!enviados.includes(normalizado)) {
-                enviados.push(normalizado);
-                localStorage.setItem("contatosEnviados", JSON.stringify(enviados));
-            }
+            enviados[normalizado] = (enviados[normalizado] || 0) + 1;
+            localStorage.setItem("contatosEnviados", JSON.stringify(enviados));
         }
 
         function salvarSaudacaoEnviada(telefone) {
             const normalizado = telefone.replace(/\D/g, '');
             const saudacoesEnviadas = getSaudacoesEnviadas();
-            if (!saudacoesEnviadas.includes(normalizado)) {
-                saudacoesEnviadas.push(normalizado);
-                localStorage.setItem("saudacoesEnviadas", JSON.stringify(saudacoesEnviadas));
-            }
+            saudacoesEnviadas[normalizado] = (saudacoesEnviadas[normalizado] || 0) + 1;
+            localStorage.setItem("saudacoesEnviadas", JSON.stringify(saudacoesEnviadas));
+        }
+
+        function getContadorEnvios(telefone) {
+            const normalizado = telefone.replace(/\D/g, '');
+            const enviados = getEnviados();
+            return enviados[normalizado] || 0;
+        }
+
+        function getContadorSaudacoes(telefone) {
+            const normalizado = telefone.replace(/\D/g, '');
+            const saudacoesEnviadas = getSaudacoesEnviadas();
+            return saudacoesEnviadas[normalizado] || 0;
         }
 
         function getRandomGreeting(row) {
@@ -129,9 +137,10 @@
         function updateStats() {
             const enviados = getEnviados();
             const total = currentData.length;
-            const enviadosCount = currentData.filter(row => 
-                enviados.includes(row.telefone.replace(/\D/g, ''))
-            ).length;
+            const enviadosCount = currentData.filter(row => {
+                const telefone = row.telefone.replace(/\D/g, '');
+                return enviados[telefone] && enviados[telefone] > 0;
+            }).length;
             const pendentes = total - enviadosCount;
 
             document.getElementById('totalContatos').textContent = total;
@@ -183,9 +192,45 @@
             reader.readAsArrayBuffer(file);
         }
 
+        // Função para truncar texto (mantida para compatibilidade)
+        function truncateText(text, maxLength = 15) {
+            if (!text) return '';
+            return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+        }
+
+        // Função para quebrar texto em múltiplas linhas
+        function breakLongText(text, maxLineLength = 20) {
+            if (!text) return '';
+            
+            const words = text.split(' ');
+            const lines = [];
+            let currentLine = '';
+            
+            words.forEach(word => {
+                if ((currentLine + word).length > maxLineLength && currentLine.length > 0) {
+                    lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            });
+            
+            if (currentLine.trim().length > 0) {
+                lines.push(currentLine.trim());
+            }
+            
+            // Limitar a 2 linhas para não ocupar muito espaço
+            const displayLines = lines.slice(0, 2);
+            if (lines.length > 2) {
+                displayLines[1] = displayLines[1].substring(0, 15) + '...';
+            }
+            
+            return displayLines.join('<br>');
+        }
+
         function renderTable(data) {
-            const enviados = getEnviados().map(t => t.replace(/\D/g, ''));
-            const saudacoesEnviadas = getSaudacoesEnviadas().map(t => t.replace(/\D/g, ''));
+            const enviados = getEnviados();
+            const saudacoesEnviadas = getSaudacoesEnviadas();
             const container = document.getElementById('tableContainer');
 
             if (data.length === 0) {
@@ -193,23 +238,20 @@
                 return;
             }
 
-            // Desktop Table
+            // Desktop Table - Layout mais compacto
             let desktopHtml = `
-                <div class="glass-effect rounded-3xl p-6 card-shadow desktop-table">
-                    <h3 class="text-2xl font-semibold mb-6 text-gray-700 dark:text-gray-200">📋 Lista de Contatos</h3>
-                    <div class="table-responsive">
-                        <table class="w-full compact-table">
+                <div class="glass-effect rounded-3xl p-4 card-shadow desktop-table">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">📋 Lista de Contatos</h3>
+                    <div class="table-responsive overflow-x-auto">
+                        <table class="w-full text-xs compact-table">
                             <thead class="bg-gradient-to-r from-purple-600 to-pink-600 text-white sticky top-0 z-10">
                                 <tr>
-                                    <th class="px-3 py-3 text-left font-semibold rounded-tl-xl">Nome</th>
-                                    <th class="px-3 py-3 text-left font-semibold">Telefone</th>
-                                    <th class="px-3 py-3 text-left font-semibold">E-mail</th>
-                                    <th class="px-3 py-3 text-left font-semibold">Título</th>
-                                    <th class="px-3 py-3 text-left font-semibold">Tipo</th>
-                                    <th class="px-3 py-3 text-left font-semibold">Apresentação</th>
-                                    <th class="px-3 py-3 text-left font-semibold">Produto</th>
-                                    <th class="px-3 py-3 text-center font-semibold">Status</th>
-                                    <th class="px-3 py-3 text-center font-semibold rounded-tr-xl">Ações</th>
+                                    <th class="px-2 py-2 text-left font-medium rounded-tl-xl min-w-[100px]">Nome</th>
+                                    <th class="px-2 py-2 text-left font-medium min-w-[90px]">Telefone</th>
+                                    <th class="px-2 py-2 text-left font-medium min-w-[80px]">Título</th>
+                                    <th class="px-2 py-2 text-left font-medium min-w-[60px]">Tipo</th>
+                                    <th class="px-2 py-2 text-center font-medium min-w-[70px]">Status</th>
+                                    <th class="px-2 py-2 text-center font-medium rounded-tr-xl min-w-[140px]">Ações</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -218,13 +260,15 @@
             // Mobile Cards
             let mobileHtml = `
                 <div class="mobile-card">
-                    <h3 class="text-2xl font-semibold mb-6 text-gray-700 dark:text-gray-200 text-center">📋 Lista de Contatos</h3>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200 text-center">📋 Lista de Contatos</h3>
             `;
 
             data.forEach((row, index) => {
                 const telefone = row.telefone.replace(/\D/g, '');
-                const jaEnviado = enviados.includes(telefone);
-                const saudacaoEnviada = saudacoesEnviadas.includes(telefone);
+                const contadorMensagens = getContadorEnvios(telefone);
+                const contadorSaudacoes = getContadorSaudacoes(telefone);
+                const jaEnviado = contadorMensagens > 0;
+                const saudacaoEnviada = contadorSaudacoes > 0;
 
                 // Desktop row
                 let statusClass, statusIcon, statusText, mensagemButton, saudacaoButton;
@@ -232,61 +276,81 @@
                 if (jaEnviado) {
                     statusClass = 'status-sent';
                     statusIcon = '✅';
-                    statusText = 'Enviado';
+                    statusText = `${contadorMensagens}x`;
                     mensagemButton = `<button onclick="enviarMensagem(${index})"
-                        class="btn-primary text-white px-2 py-1 rounded-md text-xs font-medium shadow-md opacity-70 cursor-not-allowed"
-                        disabled>
-                        ✅ Enviada
+                        class="btn-primary text-white px-1 py-1 rounded text-xs font-medium shadow-sm hover:scale-105 transition-transform"
+                        title="Enviar mensagem (já enviou ${contadorMensagens}x)">
+                        📱${contadorMensagens > 0 ? contadorMensagens : ''}
                     </button>`;
                 } else {
                     statusClass = 'status-pending';
                     statusIcon = '⏳';
-                    statusText = 'Pendente';
+                    statusText = 'Pend';
                     mensagemButton = `<button onclick="enviarMensagem(${index})"
-                        class="btn-primary text-white px-2 py-1 rounded-md text-xs font-medium shadow-md hover:scale-105 transition-transform">
-                        📱 Mensagem
+                        class="btn-primary text-white px-1 py-1 rounded text-xs font-medium shadow-sm hover:scale-105 transition-transform"
+                        title="Enviar mensagem">
+                        📱
                     </button>`;
                 }
 
-                // Botão de saudação
-                if (saudacaoEnviada) {
-                    saudacaoButton = `<button onclick="enviarSaudacao(${index})"
-                        class="btn-secondary text-white px-2 py-1 rounded-md text-xs font-medium shadow-md opacity-70 cursor-not-allowed"
-                        disabled>
-                        👋 Enviada
-                    </button>`;
-                } else {
-                    saudacaoButton = `<button onclick="enviarSaudacao(${index})"
-                        class="btn-secondary text-white px-2 py-1 rounded-md text-xs font-medium shadow-md hover:scale-105 transition-transform">
-                        👋 Saudação
-                    </button>`;
-                }
+                // Botão de saudação sempre ativo
+                saudacaoButton = `<button onclick="enviarSaudacao(${index})"
+                    class="btn-secondary text-white px-1 py-1 rounded text-xs font-medium shadow-sm hover:scale-105 transition-transform"
+                    title="Enviar saudação${contadorSaudacoes > 0 ? ` (já enviou ${contadorSaudacoes}x)` : ''}">
+                    👋${contadorSaudacoes > 0 ? contadorSaudacoes : ''}
+                </button>`;
 
                 desktopHtml += `
                     <tr class="${jaEnviado ? 'row-sent hover:bg-green-100 dark:hover:bg-green-800/30 transition-all duration-300' : 'hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors'}">
-                        <td class="px-3 py-3 font-${jaEnviado ? 'bold text-green-800 dark:text-green-100' : 'medium text-gray-900 dark:text-gray-100'} field-truncate" title="${row.nome}">${row.nome}</td>
-                        <td class="px-3 py-3 ${jaEnviado ? 'font-medium text-green-700 dark:text-green-200' : 'text-gray-700 dark:text-gray-300'}">${row.telefone}</td>
-                        <td class="px-3 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'} field-truncate" title="${row.email}">${row.email}</td>
-                        <td class="px-3 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'} field-truncate" title="${row.titulo}">${row.titulo}</td>
-                        <td class="px-3 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}">${row.tipo}</td>
-                        <td class="px-3 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'} field-truncate" title="${row.apresentacao}">${row.apresentacao}</td>
-                        <td class="px-3 py-3 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'} field-truncate" title="${row.produto}">${row.produto}</td>
-                        <td class="px-3 py-3 text-center">
-                            <span class="status-badge ${statusClass} ${jaEnviado ? 'pulse-animation' : ''}">
-                                ${statusIcon} ${statusText}
+                        <td class="px-2 py-2 font-${jaEnviado ? 'bold text-green-800 dark:text-green-100' : 'medium text-gray-900 dark:text-gray-100'} leading-tight relative group" title="${row.nome}">
+                            <div class="break-words hyphens-auto">
+                                ${breakLongText(row.nome, 25)}
+                            </div>
+                            ${row.nome && row.nome.length > 25 ? `
+                                <div class="absolute z-50 invisible group-hover:visible bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs rounded px-2 py-1 -top-8 left-0 whitespace-nowrap shadow-lg">
+                                    ${row.nome}
+                                </div>
+                            ` : ''}
+                        </td>
+                        <td class="px-2 py-2 ${jaEnviado ? 'font-medium text-green-700 dark:text-green-200' : 'text-gray-700 dark:text-gray-300'}">${row.telefone}</td>
+                        <td class="px-2 py-2 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'} leading-tight relative group" title="${row.titulo}">
+                            <div class="break-words hyphens-auto">
+                                ${breakLongText(row.titulo, 30)}
+                            </div>
+                            ${row.titulo && row.titulo.length > 30 ? `
+                                <div class="absolute z-50 invisible group-hover:visible bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs rounded px-2 py-1 -top-8 left-0 max-w-xs break-words shadow-lg">
+                                    ${row.titulo}
+                                </div>
+                            ` : ''}
+                        </td>
+                        <td class="px-2 py-2 ${jaEnviado ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'} leading-tight relative group" title="${row.tipo}">
+                            <div class="break-words hyphens-auto">
+                                ${breakLongText(row.tipo, 15)}
+                            </div>
+                            ${row.tipo && row.tipo.length > 15 ? `
+                                <div class="absolute z-50 invisible group-hover:visible bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs rounded px-2 py-1 -top-8 left-0 whitespace-nowrap shadow-lg">
+                                    ${row.tipo}
+                                </div>
+                            ` : ''}
+                        </td>
+                        <td class="px-2 py-2 text-center">
+                            <span class="status-badge ${statusClass} text-xs px-2 py-1 rounded-full ${jaEnviado ? 'pulse-animation' : ''}" title="${jaEnviado ? `Enviado ${contadorMensagens} vez(es)` : 'Pendente'}">
+                                ${statusIcon}${statusText !== 'Pend' ? ' ' + statusText : ''}
                             </span>
                         </td>
-                        <td class="px-3 py-3 text-center">
-                            <div class="action-buttons">
+                        <td class="px-2 py-2 text-center">
+                            <div class="flex gap-1 justify-center items-center">
                                 ${mensagemButton}
                                 ${saudacaoButton}
                                 <button onclick="editarContato(${index})" 
-                                    class="mobile-btn-edit text-xs font-medium hover:scale-105 transition-transform">
-                                    ✏️ Editar
+                                    class="text-blue-600 hover:text-blue-800 p-1 rounded hover:scale-105 transition-transform text-xs"
+                                    title="Editar contato">
+                                    ✏️
                                 </button>
                                 <button onclick="excluirContato(${index})" 
-                                    class="mobile-btn-delete text-xs font-medium hover:scale-105 transition-transform">
-                                    🗑️ Excluir
+                                    class="text-red-600 hover:text-red-800 p-1 rounded hover:scale-105 transition-transform text-xs"
+                                    title="Excluir contato">
+                                    🗑️
                                 </button>
                             </div>
                         </td>
@@ -297,59 +361,49 @@
                 mobileHtml += `
                     <div class="mobile-card-item ${jaEnviado ? 'sent' : ''}">
                         <div class="mobile-header">
-                            <div>
-                                <h4 class="mobile-name ${jaEnviado ? 'sent' : ''}">${row.nome}</h4>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="mobile-name ${jaEnviado ? 'sent' : ''} break-words leading-tight">${row.nome}</h4>
                                 <p class="mobile-phone">${row.telefone}</p>
                             </div>
-                            <span class="status-badge ${statusClass} ${jaEnviado ? 'pulse-animation' : ''}">
-                                ${statusIcon} ${statusText}
+                            <span class="status-badge ${statusClass} ${jaEnviado ? 'pulse-animation' : ''} flex-shrink-0 ml-2">
+                                ${statusIcon} ${jaEnviado ? `Enviado ${contadorMensagens}x` : 'Pendente'}
                             </span>
                         </div>
                         
                         <div class="mobile-details">
                             <div class="mobile-detail-item">
                                 <div class="mobile-detail-label">E-mail</div>
-                                <div class="mobile-detail-value">${row.email || 'Não informado'}</div>
+                                <div class="mobile-detail-value break-words">${row.email || 'Não informado'}</div>
                             </div>
                             
                             <div class="mobile-detail-item">
                                 <div class="mobile-detail-label">Título do Trabalho</div>
-                                <div class="mobile-detail-value">${row.titulo || 'Não informado'}</div>
+                                <div class="mobile-detail-value break-words leading-tight">${row.titulo || 'Não informado'}</div>
                             </div>
                             
                             <div class="mobile-detail-item">
                                 <div class="mobile-detail-label">Tipo</div>
-                                <div class="mobile-detail-value">${row.tipo || 'Não informado'}</div>
+                                <div class="mobile-detail-value break-words">${row.tipo || 'Não informado'}</div>
                             </div>
                             
                             <div class="mobile-detail-item">
                                 <div class="mobile-detail-label">Apresentação</div>
-                                <div class="mobile-detail-value">${row.apresentacao || 'Não informado'}</div>
+                                <div class="mobile-detail-value break-words leading-tight">${row.apresentacao || 'Não informado'}</div>
                             </div>
                             
                             <div class="mobile-detail-item">
                                 <div class="mobile-detail-label">Produto</div>
-                                <div class="mobile-detail-value">${row.produto || 'Não informado'}</div>
+                                <div class="mobile-detail-value break-words">${row.produto || 'Não informado'}</div>
                             </div>
                         </div>
                         
                         <div class="mobile-buttons">
-                            ${jaEnviado ? 
-                                `<button onclick="enviarMensagem(${index})" class="mobile-btn btn-primary opacity-70 cursor-not-allowed" disabled>
-                                    ✅ Mensagem Enviada
-                                </button>` :
-                                `<button onclick="enviarMensagem(${index})" class="mobile-btn btn-primary">
-                                    📱 Enviar Mensagem
-                                </button>`
-                            }
-                            ${saudacaoEnviada ?
-                                `<button onclick="enviarSaudacao(${index})" class="mobile-btn btn-secondary opacity-70 cursor-not-allowed" disabled>
-                                    👋 Saudação Enviada
-                                </button>` :
-                                `<button onclick="enviarSaudacao(${index})" class="mobile-btn btn-secondary">
-                                    👋 Enviar Saudação
-                                </button>`
-                            }
+                            <button onclick="enviarMensagem(${index})" class="mobile-btn btn-primary">
+                                📱 ${contadorMensagens > 0 ? `Mensagem (${contadorMensagens}x)` : 'Enviar Mensagem'}
+                            </button>
+                            <button onclick="enviarSaudacao(${index})" class="mobile-btn btn-secondary">
+                                👋 ${contadorSaudacoes > 0 ? `Saudação (${contadorSaudacoes}x)` : 'Enviar Saudação'}
+                            </button>
                         </div>
                         
                         <div class="mobile-buttons-secondary">
@@ -379,6 +433,104 @@
 
             // Combinar HTML final
             container.innerHTML = desktopHtml + mobileHtml;
+            
+            // Adicionar estilos CSS customizados para tooltips e responsividade
+            if (!document.getElementById('custom-responsive-styles')) {
+                const style = document.createElement('style');
+                style.id = 'custom-responsive-styles';
+                style.textContent = `
+                    .break-words {
+                        word-wrap: break-word;
+                        word-break: break-word;
+                        overflow-wrap: break-word;
+                        hyphens: auto;
+                        -webkit-hyphens: auto;
+                        -moz-hyphens: auto;
+                        -ms-hyphens: auto;
+                    }
+                    
+                    .group:hover .group-hover\\:visible {
+                        visibility: visible !important;
+                    }
+                    
+                    .leading-tight {
+                        line-height: 1.25;
+                    }
+                    
+                    /* Tooltip personalizado */
+                    .tooltip-hover {
+                        position: relative;
+                    }
+                    
+                    .tooltip-hover:hover::after {
+                        content: attr(data-tooltip);
+                        position: absolute;
+                        z-index: 1000;
+                        bottom: 125%;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        background-color: rgba(0, 0, 0, 0.9);
+                        color: white;
+                        padding: 8px 12px;
+                        border-radius: 6px;
+                        font-size: 12px;
+                        white-space: pre-wrap;
+                        max-width: 300px;
+                        word-wrap: break-word;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                        animation: fadeIn 0.3s ease-in-out;
+                    }
+                    
+                    .tooltip-hover:hover::before {
+                        content: '';
+                        position: absolute;
+                        z-index: 1001;
+                        bottom: 120%;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        border: 5px solid transparent;
+                        border-top-color: rgba(0, 0, 0, 0.9);
+                    }
+                    
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    
+                    /* Melhorar responsividade da tabela */
+                    .table-responsive {
+                        overflow-x: auto;
+                        -webkit-overflow-scrolling: touch;
+                    }
+                    
+                    .compact-table td {
+                        vertical-align: top;
+                        min-height: 40px;
+                    }
+                    
+                    /* Mobile adjustments */
+                    .mobile-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: flex-start;
+                        gap: 8px;
+                    }
+                    
+                    .mobile-name {
+                        font-size: 16px;
+                        font-weight: 600;
+                        margin: 0;
+                        word-break: break-word;
+                    }
+                    
+                    .mobile-detail-value {
+                        word-break: break-word;
+                        overflow-wrap: break-word;
+                        hyphens: auto;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
         }
 
         // Editar contato
