@@ -5,47 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar conversa no WhatsApp</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link type="image/png" sizes="16x16" rel="icon" href="assets/icons8-whatsapp-ios-17-filled-16.png"> 
-    <link type="image/png" sizes="32x32" rel="icon" href="assets/icons8-whatsapp-ios_filled-32.png"> 
-    <link type="image/png" sizes="96x96" rel="icon" href="assets/icons8-whatsapp-ios_filled-96.png"> 
-    <link type="image/png" sizes="120x120" rel="icon" href="assets/icons8-whatsapp-ios_filled-120.png"> 
-    <link type="image/png" sizes="72x72" rel="icon" href="assets/icons8-whatsapp-ios_filled-72.png"> 
-    <link type="image/png" sizes="96x96" rel="icon" href="assets/icons8-whatsapp-ios_filled-96.png"> 
-    <link type="image/png" sizes="144x144" rel="icon" href="assets/icons8-whatsapp-ios_filled-144.png"> 
-    <link type="image/png" sizes="192x192" rel="icon" href="assets/icons8-whatsapp-ios_filled-192.png"> 
-    <link type="image/png" sizes="512x512" rel="icon" href="assets/icons8-whatsapp-ios_filled-512.png"> 
-    <link rel="apple-touch-icon" type="image/png" sizes="57x57" href="assets/icons8-whatsapp-ios_filled-57.png"> 
-    <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="assets/icons8-whatsapp-ios_filled-60.png"> 
-    <link rel="apple-touch-icon" type="image/png" sizes="72x72" href="assets/icons8-whatsapp-ios_filled-72.png"> 
-    <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="assets/icons8-whatsapp-ios_filled-76.png"> 
-    <link rel="apple-touch-icon" type="image/png" sizes="114x114" href="assets/icons8-whatsapp-ios_filled-114.png"> 
-    <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="assets/icons8-whatsapp-ios_filled-120.png"> 
-    <link rel="apple-touch-icon" type="image/png" sizes="144x144" href="assets/icons8-whatsapp-ios_filled-144.png"> 
-    <link rel="apple-touch-icon" type="image/png" sizes="152x152" href="assets/icons8-whatsapp-ios_filled-152.png"> 
-    <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="assets/icons8-whatsapp-ios_filled-180.png"> 
-    <link color="#26E07F" rel="mask-icon" href="assets/icons8-whatsapp-ios_filled-50.svg"> 
-    <meta name="msapplication-square70x70logo" content="assets/icons8-whatsapp-ios_filled-70.png"> 
-    <meta name="msapplication-TileImage" content="assets/icons8-whatsapp-ios_filled-144.png"> 
-    <meta name="msapplication-square150x150logo" content="assets/icons8-whatsapp-ios_filled-150.png"> 
-    <meta name="msapplication-square310x310logo" content="assets/icons8-whatsapp-ios_filled-310.png">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
-    <div class="bg-white shadow-lg rounded-lg p-8 w-96 text-center">
-        <h2 class="text-2xl font-bold mb-4">Iniciar Contato com WhatsApp</h2>
-        <input 
-          type="text" 
-          id="whatsappNumber" 
-          placeholder="Digite o número com DDD"
-          class="w-full border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-green-500"
-        />
-        <button
-          onclick="startWhatsAppChat()"
-          class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
-          Iniciar Conversa
-        </button>
-      </div>
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+    <!-- Particles Background -->
+    <div class="particles">
+        <div class="particle w-2 h-2" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle w-3 h-3" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle w-1 h-1" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle w-2 h-2" style="left: 40%; animation-delay: 6s;"></div>
+        <div class="particle w-1 h-1" style="left: 50%; animation-delay: 8s;"></div>
+        <div class="particle w-3 h-3" style="left: 60%; animation-delay: 10s;"></div>
+        <div class="particle w-2 h-2" style="left: 70%; animation-delay: 12s;"></div>
+        <div class="particle w-1 h-1" style="left: 80%; animation-delay: 14s;"></div>
+        <div class="particle w-2 h-2" style="left: 90%; animation-delay: 16s;"></div>
+    </div>
 
-      <script src="script.js"></script>
+    <!-- Main Card -->
+    <div class="glass-card rounded-3xl p-8 w-full max-w-md mx-4 floating-animation relative z-10">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-green-600 mb-4 pulse-animation">
+                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893A11.821 11.821 0 0020.051 3.488"/>
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">WhatsApp Direct</h1>
+            <p class="text-gray-600 font-medium">Inicie uma conversa rapidamente</p>
+        </div>
+
+        <!-- Input Section -->
+        <div class="space-y-6">
+            <div class="relative">
+                <label for="whatsappNumber" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Número do WhatsApp
+                </label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">
+                        🇧🇷 +55
+                    </span>
+                    <input 
+                        type="text" 
+                        id="whatsappNumber" 
+                        placeholder="(11) 99999-9999"
+                        class="input-focus w-full pl-20 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-100 text-gray-800 font-medium"
+                        maxlength="15"
+                    />
+                </div>
+                <p class="text-xs text-gray-500 mt-2">Digite apenas números, incluindo DDD</p>
+            </div>
+
+            <!-- Action Button -->
+            <button
+                onclick="startWhatsAppChat()"
+                class="scale-hover w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 px-6 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-green-200 active:scale-95 transition-all duration-200 flex items-center justify-center gap-3">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd"/>
+                </svg>
+                Iniciar Conversa
+            </button>
+
+            <!-- Info Card -->
+            <div class="bg-gradient-to-r from-blue-50 to-green-50 rounded-xl p-4 border border-blue-100">
+                <div class="flex items-start gap-3">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-gray-800 text-sm mb-1">Como funciona</h3>
+                        <p class="text-gray-600 text-sm">Digite o número com DDD (ex: 11999999999) e clique para abrir o WhatsApp Web automaticamente.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-6 text-center">
+            <p class="text-xs text-gray-500">
+                Pressione <kbd class="px-2 py-1 bg-gray-100 rounded text-xs">Enter</kbd> para iniciar rapidamente
+            </p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
