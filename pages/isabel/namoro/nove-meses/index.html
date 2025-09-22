@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>9 Meses de Amor ❤️</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Partículas flutuantes */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .particle:nth-child(odd) {
+      background: rgba(255, 182, 193, 0.6);
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 1;
+      }
+
+      50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 0.8;
+      }
+    }
+
+    /* Container principal */
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Header com contador */
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    .counter {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+      margin-bottom: 20px;
+    }
+
+    .counter h1 {
+      font-size: 3.5em;
+      color: #e91e63;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .counter .subtitle {
+      font-size: 1.3em;
+      color: #555;
+      font-style: italic;
+    }
+
+    /* Card principal */
+    .love-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 25px;
+      padding: 40px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: fadeInUp 1s ease-out 0.3s both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .love-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #e91e63, #9c27b0, #3f51b5);
+    }
+
+    /* Texto principal */
+    .love-text {
+      line-height: 1.8;
+      font-size: 1.1em;
+      color: #333;
+      text-align: justify;
+      margin-bottom: 30px;
+    }
+
+    .love-text p {
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-out forwards;
+      opacity: 0;
+    }
+
+    .love-text p:nth-child(1) {
+      animation-delay: 0.6s;
+    }
+
+    .love-text p:nth-child(2) {
+      animation-delay: 0.9s;
+    }
+
+    .love-text p:nth-child(3) {
+      animation-delay: 1.2s;
+    }
+
+    /* Assinatura */
+    .signature {
+      text-align: right;
+      font-style: italic;
+      font-size: 1.2em;
+      color: #e91e63;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px solid rgba(233, 30, 99, 0.3);
+      animation: fadeIn 1s ease-out 1.5s both;
+    }
+
+    /* Corações flutuantes */
+    .heart {
+      position: absolute;
+      color: #e91e63;
+      font-size: 20px;
+      animation: heartFloat 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes heartFloat {
+
+      0%,
+      100% {
+        transform: translateY(0px) scale(1);
+        opacity: 0.7;
+      }
+
+      50% {
+        transform: translateY(-30px) scale(1.2);
+        opacity: 1;
+      }
+    }
+
+    /* Botão interativo */
+    .interactive-btn {
+      text-align: center;
+      margin-top: 30px;
+      animation: fadeIn 1s ease-out 1.8s both;
+    }
+
+    .btn {
+      background: linear-gradient(45deg, #e91e63, #9c27b0);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.1em;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(233, 30, 99, 0.3);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(233, 30, 99, 0.4);
+    }
+
+    /* Animações */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Responsivo */
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+
+      .counter h1 {
+        font-size: 2.5em;
+      }
+
+      .love-card {
+        padding: 25px;
+      }
+
+      .love-text {
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Partículas de fundo -->
+  <div class="particles" id="particles"></div>
+
+  <div class="container">
+    <!-- Header com contador -->
+    <div class="header">
+      <div class="counter">
+        <h1>9 MESES</h1>
+        <div class="subtitle">de amor infinito</div>
+      </div>
+    </div>
+
+    <!-- Card principal -->
+    <div class="love-card">
+      <!-- Corações decorativos -->
+      <div class="heart" style="top: 20px; right: 30px;">❤️</div>
+      <div class="heart" style="top: 60px; left: 50px; animation-delay: 1s;">💖</div>
+      <div class="heart" style="bottom: 100px; right: 80px; animation-delay: 2s;">💕</div>
+
+      <div class="love-text">
+        <p>Mais um mês completado, nosso nono mês juntos, meu amor. São meses mágicos e únicos que jamais sonhei em
+          viver na minha vida. Quando te encontrei, demorei para acreditar que você era real, afinal, até hoje só
+          enxerguei quantidades em ti, nas infinitas que possui, escreveria milhares de livros na expectativa de atingir
+          1% delas. Com o poder da oração e do presente do senhor, te conquistei, minha joia rara.</p>
+
+        <p>Hoje sou um novo homem, seu noivo, completamente seu, completamente apaixonado por você, à espera do tão
+          sonhado momento de ter fisicamente por todos os dias da minha vida. À espera de acordar e dormir todos os dias
+          do seu lado, te falar eu te amo todos os dias no seu ouvido, de beijar essa boca gostosa sempre, de olhar olho
+          no olho e dizer o quanto eu sou apaixonado por você. À espera para compartilhar a vida inteira ao seu lado.
+        </p>
+
+        <p>Que possamos sempre ser esse casal que somos, unidos, recíprocos, amorosos, fiéis, respeitosos e acima de
+          tudo, um casal de fé. Que possamos conviver em paz e harmonia. Nesse último mês antes de casar, que possamos
+          enxergar ainda mais a beleza da vida e do sentido de viver e amar um ao outro.</p>
+
+        <p>Obrigado por compartilhar a vida comigo, eu sou o homem mais feliz do mundo. <strong>Feliz 9 meses, meu
+            amor.</strong></p>
+
+        <p style="text-align: center; font-size: 1.3em; color: #e91e63; font-weight: bold;">💕 EU TE AMO PRA SEMPRE! 💕
+        </p>
+      </div>
+
+      <div class="signature">
+        Ass.: Leonardo Lucena ❤️
+      </div>
+
+      <div class="interactive-btn">
+        <button class="btn" onclick="createMagic()">✨ Clique aqui para mais amor ✨</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Criar partículas de fundo
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+
+        // Tamanho aleatório
+        const size = Math.random() * 4 + 2;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+
+        // Posição aleatória
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+
+        // Delay de animação aleatório
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Função interativa do botão
+    function createMagic() {
+      // Criar corações explosivos
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.innerHTML = ['❤️', '💖', '💕', '💗', '💘'][Math.floor(Math.random() * 5)];
+          heart.style.position = 'fixed';
+          heart.style.left = Math.random() * window.innerWidth + 'px';
+          heart.style.top = window.innerHeight + 'px';
+          heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+          heart.style.zIndex = '1000';
+          heart.style.pointerEvents = 'none';
+          heart.style.animation = 'heartExplosion 3s ease-out forwards';
+
+          // Adicionar animação CSS dinamicamente
+          if (!document.querySelector('#heartExplosion')) {
+            const style = document.createElement('style');
+            style.id = 'heartExplosion';
+            style.innerHTML = `
+                            @keyframes heartExplosion {
+                                0% { transform: translateY(0) scale(0); opacity: 1; }
+                                50% { transform: translateY(-${window.innerHeight}px) scale(1); opacity: 1; }
+                                100% { transform: translateY(-${window.innerHeight * 1.5}px) scale(0); opacity: 0; }
+                            }
+                        `;
+            document.head.appendChild(style);
+          }
+
+          document.body.appendChild(heart);
+
+          // Remover coração após animação
+          setTimeout(() => {
+            heart.remove();
+          }, 3000);
+        }, i * 100);
+      }
+
+      // Alterar cor de fundo temporariamente
+      document.body.style.background = 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%)';
+      setTimeout(() => {
+        document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)';
+      }, 2000);
+
+      // Mostrar mensagem especial
+      const btn = document.querySelector('.btn');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '💕 Você é incrível! 💕';
+      btn.style.background = 'linear-gradient(45deg, #ff6b6b, #ee5a24)';
+
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.style.background = 'linear-gradient(45deg, #e91e63, #9c27b0)';
+      }, 3000);
+    }
+
+    // Inicializar partículas quando a página carregar
+    window.addEventListener('load', () => {
+      createParticles();
+
+      // Adicionar mais interatividade
+      document.addEventListener('mousemove', (e) => {
+        if (Math.random() < 0.05) { // 5% de chance a cada movimento
+          const sparkle = document.createElement('div');
+          sparkle.innerHTML = '✨';
+          sparkle.style.position = 'fixed';
+          sparkle.style.left = e.clientX + 'px';
+          sparkle.style.top = e.clientY + 'px';
+          sparkle.style.pointerEvents = 'none';
+          sparkle.style.zIndex = '1000';
+          sparkle.style.animation = 'fadeOut 1s ease-out forwards';
+
+          if (!document.querySelector('#fadeOut')) {
+            const style = document.createElement('style');
+            style.id = 'fadeOut';
+            style.innerHTML = `
+                            @keyframes fadeOut {
+                                0% { opacity: 1; transform: scale(1); }
+                                100% { opacity: 0; transform: scale(0); }
+                            }
+                        `;
+            document.head.appendChild(style);
+          }
+
+          document.body.appendChild(sparkle);
+          setTimeout(() => sparkle.remove(), 1000);
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
