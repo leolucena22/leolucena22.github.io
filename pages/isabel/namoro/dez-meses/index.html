@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10 Meses de Amor 💕</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Courier Prime', monospace;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+
+        .typewriter-text {
+            display: inline;
+            border-right: 3px solid #fff;
+            animation: blink 0.7s step-end infinite;
+        }
+
+        @keyframes blink {
+
+            from,
+            to {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: #fff;
+            }
+        }
+
+        .paper {
+            background: #f8f8f0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        @media (max-width: 640px) {
+            .paper {
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                border-radius: 0 !important;
+                min-height: 100vh;
+            }
+        }
+
+        .paper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 40px;
+            width: 2px;
+            height: 100%;
+            background: #ff6b9d;
+            opacity: 0.3;
+        }
+
+        @media (max-width: 640px) {
+            .paper::before {
+                left: 20px;
+            }
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            animation: fall linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .finished {
+            border-right: none !important;
+        }
+
+        @media (max-width: 640px) {
+            .heart {
+                font-size: 18px !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center p-0 sm:p-4">
+    <div class="hearts" id="hearts"></div>
+
+    <div class="paper max-w-3xl w-full rounded-none sm:rounded-lg p-6 sm:p-8 md:p-12 relative z-10">
+        <div class="text-center mb-6 sm:mb-8">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-pink-600 mb-2">💕 10 Meses 💕</h1>
+            <p class="text-gray-600 text-base sm:text-lg">21 de Outubro de 2025</p>
+        </div>
+
+        <div class="space-y-4 sm:space-y-6 text-gray-800 text-base sm:text-lg leading-relaxed pl-8 sm:pl-12">
+            <p id="text" class="typewriter-text"></p>
+        </div>
+
+        <div class="mt-10 text-center opacity-0">
+            <button id="muteBtn"
+                class="bg-pink-500 hover:bg-pink-600 text-white px-6 py-2 rounded-full transition-all duration-300 shadow-lg">
+                🔊 Som Ligado
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
