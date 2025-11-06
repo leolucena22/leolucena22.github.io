@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leonardo & Isabel - Nosso Tempo Juntos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #f0e68c 0%, #e6d77a 100%);
+    }
+
+    .heart-beat {
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      25% {
+        transform: scale(1.1);
+      }
+
+      50% {
+        transform: scale(1);
+      }
+    }
+
+    .photo-frame {
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      border: 8px solid white;
+    }
+
+    .time-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-4">
+  <div class="max-w-4xl w-full">
+    <!-- Cabeçalho -->
+    <div class="text-center mb-8">
+      <h1 class="text-5xl md:text-6xl font-bold text-gray-800 mb-4">
+        Leonardo <span class="heart-beat inline-block text-red-500">♥</span> Isabel
+      </h1>
+      <p class="text-xl text-gray-700">Casados desde 31 de Outubro de 2025</p>
+    </div>
+
+    <!-- Espaço para Foto -->
+    <div class="flex justify-center mb-8">
+      <div class="photo-frame rounded-lg overflow-hidden w-full max-w-md">
+        <img src="imagem.jpg" alt="Leonardo & Isabel" class="w-full h-full object-cover">
+      </div>
+    </div>
+
+    <!-- Contador -->
+    <div class="time-card rounded-2xl shadow-2xl p-8 mb-8">
+      <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">
+        Nosso Tempo Juntos
+      </h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="text-center p-4 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-xl">
+          <div id="years" class="text-4xl font-bold text-gray-800">0</div>
+          <div class="text-sm text-gray-600 mt-2">Anos</div>
+        </div>
+        <div class="text-center p-4 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-xl">
+          <div id="months" class="text-4xl font-bold text-gray-800">0</div>
+          <div class="text-sm text-gray-600 mt-2">Meses</div>
+        </div>
+        <div class="text-center p-4 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-xl">
+          <div id="days" class="text-4xl font-bold text-gray-800">0</div>
+          <div class="text-sm text-gray-600 mt-2">Dias</div>
+        </div>
+        <div class="text-center p-4 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-xl">
+          <div id="hours" class="text-4xl font-bold text-gray-800">0</div>
+          <div class="text-sm text-gray-600 mt-2">Horas</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="text-center p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl">
+          <div id="minutes" class="text-3xl font-bold text-gray-800">0</div>
+          <div class="text-xs text-gray-600 mt-2">Minutos</div>
+        </div>
+        <div class="text-center p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl">
+          <div id="seconds" class="text-3xl font-bold text-gray-800">0</div>
+          <div class="text-xs text-gray-600 mt-2">Segundos</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensagem -->
+    <div class="text-center text-gray-700">
+      <p class="text-lg italic">"Cada segundo ao seu lado é um presente precioso"</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
