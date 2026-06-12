@@ -4,14 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>leolucena22 - Projects</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Projetos — Leonardo Lucena</title>
+  <meta name="description" content="Projetos e ferramentas desenvolvidos por Leonardo Lucena. Simuladores, geradores, calculadoras e mais.">
   <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22><text y=%22.90em%22 font-size=%2290%22>👨‍💻</text></svg>">
+    href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%2210 0 100 100%22%3E%3Ctext y=%22.90em%22 font-size=%2290%22%3E👨‍💻%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+  <!-- Scroll Progress -->
+  <div id="scroll-progress" class="scroll-progress" style="width: 0%;"></div>
 
+  <!-- Cursor Glow -->
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <!-- Navigation -->
   <nav>
     <div class="logo">
       <h3>leolucena22</h3>
@@ -33,132 +41,165 @@
 
   <div class="overlay"></div>
 
-  <main>
-    <div class="container">
-      <div class="cards">
+  <!-- Page Header -->
+  <section class="page-header">
+    <span class="section-label">Portfólio</span>
+    <h1 class="section-title page-title">Projetos</h1>
+    <p class="page-subtitle">Ferramentas e aplicações web que desenvolvi para resolver problemas reais.</p>
+  </section>
 
-        <div class="card">
-          <h4>Sistema de Termo de Autorização</h4>
-          <div class="imagem">
-            <img src="images/termo.png" alt="Ilustração do Sistema de Termo de Autorização">
-          </div>
-          <span>
-            Plataforma para gerar, enviar e registrar termos de autorização de forma rápida e segura. 
-            Permite personalização do documento, coleta de aceite/assinatura digital e padronização do processo.
-            Ideal para escolas, eventos, pesquisas e equipes que precisam de consentimentos organizados e rastreáveis.
-          </span>
-          <a class="botao" href="https://leolucena22.github.io/projects/termo-autorizacao/">Acessar</a>
+  <!-- Projects Grid -->
+  <section class="projects-section">
+    <div class="projects-grid stagger-children">
+
+      <div class="project-card reveal">
+        <div class="project-card__icon">
+          <i class="fa-solid fa-file-signature"></i>
         </div>
-
-        <div class="card">
-          <h4>Sistema de Mensagens Dinâmicas</h4>
-          <div class="imagem">
-            <img src="images/sistema-mensagens.webp">
-          </div>
-          <span>Ferramenta desenvolvida para agilizar o envio de mensagens personalizadas via WhatsApp a partir de planilhas Excel. Ideal para organizadores de eventos, professores e equipes de atendimento que desejam entrar em contato com diversos participantes de forma rápida, eficiente e com comunicação padronizada.
-
-          </span>
-          <a class="botao" href="https://leolucena22.github.io/projects/enviar-mensagem/">Acessar</a>
-        </div>
-
-        <div class="card">
-          <h4>Simulador CDI</h4>
-          <div class="imagem">
-            <img src="calculadora-cdi/images/imagem.png">
-          </div>
-          <span>Ferramenta desenvolvida para facilitar o cálculo de investimentos atrelados ao CDI. Ideal para
-            investidores,
-            analistas e estudantes que desejam simular rendimentos de forma prática e rápida, com base em taxas
-            atualizadas
-            e parâmetros personalizados.</span>
-          <a class="botao" href="https://leolucena22.github.io/projects/calculadora-cdi">Acessar</a>
-        </div>
-
-        <div class="card">
-          <h4>Formatador de resumos</h4>
-          <div class="imagem">
-            <img src="images/formatador-resumos.webp">
-          </div>
-          <span>Ferramenta desenvolvida para automatizar a formatação de resumos científicos. Permite que pesquisadores
-            e acadêmicos padronizem seus textos rapidamente, garantindo uma estrutura correta, títulos destacados e um
-            conteúdo pronto para submissão.</span>
-          <a class="botao" href="https://leolucena22.github.io/projects/formatar-resumo">Acessar</a>
-        </div>
-
-        <div class="card">
-          <h4>Calculadora de Metas</h4>
-          <div class="imagem">
-            <img src="images/calculadora-meta.webp" alt="">
-          </div>
-          <span>ferramenta desenvolvida para auxiliar no acompanhamento de metas financeiras dentro de eventos. Ele
-            permite que organizadores e equipes monitorem o progresso em tempo real, garantindo uma visão clara sobre o
-            atingimento de objetivos e as recompensas conquistadas.</span>
-          <a class="botao" href="https://leolucena22.github.io/projects/meta-sabado">Acessar</a>
-        </div>
-
-        <div class="card">
-          <h4>Calculadora IMC</h4>
-          <div class="imagem">
-            <img src="images/imc.webp" alt="">
-          </div>
-          <span>Oferece uma calculadora de Índice de Massa Corporal (IMC). O IMC é uma medida que relaciona o peso e a
-            altura de uma pessoa para avaliar se ela está abaixo do peso, com peso normal, sobrepeso ou obesidade. Ao
-            inserir seu peso e altura nos campos fornecidos e clicar em "Calcular", a ferramenta calcula seu IMC e exibe
-            a classificação correspondente.</span>
-          <a class="botao" href="https://leolucena22.github.io/projects/imc/">Acessar</a>
-        </div>
-
-        <div class="card">
-          <h4>Gerador de textos certificados</h4>
-          <div class="imagem">
-            <img src="images/certificado.webp" alt="">
-          </div>
-          <span>Ferramenta prática que permite a criação automática de textos para diversos tipos de certificados, como
-            participação, apresentação de trabalho, revisão e mais. O usuário preenche campos como nome do evento, data
-            e tipo de certificado, gerando rapidamente um texto personalizado para copiar e utilizar.</span>
-          <a class="botao" href="https://leolucena22.github.io/projects/certificados/">Acessar</a>
-        </div>
-
-        <div class="card">
-          <h4>Gerador de Links Diretos</h4>
-          <div class="imagem">
-            <img src="https://leolucena22.github.io/projects/gerador-links-anexos/images/imagem.webp" alt="">
-          </div>
-          <span>Ferramenta que facilita a criação de links diretos para diferentes modelos de documentos, como resumos
-            expandidos (com e sem identificação dos autores), apresentações orais e e-banners. O usuário pode gerar
-            links rapidamente para acessar esses modelos. A interface é simples e objetiva, permitindo copiar os links
-            gerados de forma fácil.</span>
-          <a class="botao" href="https://leolucena22.github.io/projects/gerador-links-anexos">Acessar</a>
-        </div>
-
-        <div class="card">
-          <h4>Iniciar Conversa no WhatsApp</h4>
-          <div class="imagem">
-            <img src="images/whatsapp.webp" alt="">
-          </div>
-          <span>Ferramenta que permite aos usuários iniciar uma conversa diretamente no WhatsApp com um número
-            específico, através de um link gerado na página. Basta clicar em um botão para ser redirecionado para o
-            aplicativo de mensagens, facilitando o contato sem precisar salvar o número no celular.</span>
-          <a class="botao" href="https://leolucena22.github.io/projects/whatsapp/">Acessar</a>
-        </div>
-
-        <div class="card">
-          <h4>Calculadora de Pedras</h4>
-          <div class="imagem">
-            <img src="images/calculadora-pedras.webp" alt="">
-          </div>
-          <span>Ferramenta desenvolvida para facilitar o cálculo de quantidades de pedras cariri em diferentes tamanhos.
-            É especialmente útil para profissionais que trabalham com construção ou paisagismo, proporcionando uma
-            maneira prática de calcular a necessidade de material para projetos.</span>
-          <a class="botao" href="https://leolucena22.github.io/projects/calculadora-pedras">Acessar</a>
-        </div>
+        <h4 class="project-card__title">Sistema de Termo de Autorização</h4>
+        <p class="project-card__desc">
+          Plataforma para gerar, enviar e registrar termos de autorização de forma rápida e segura.
+          Permite personalização do documento, coleta de aceite/assinatura digital e padronização do processo.
+        </p>
+        <a class="project-card__link" href="https://leolucena22.github.io/projects/termo-autorizacao/">
+          Acessar <span>→</span>
+        </a>
       </div>
-    </div>
 
-    <footer>
-      <a href="https://github.com/leolucena22">&copy;leolucena22</a>
-    </footer>
-  </main>
+      <div class="project-card reveal">
+        <div class="project-card__icon">
+          <i class="fa-brands fa-whatsapp"></i>
+        </div>
+        <h4 class="project-card__title">Sistema de Mensagens Dinâmicas</h4>
+        <p class="project-card__desc">
+          Ferramenta para agilizar o envio de mensagens personalizadas via WhatsApp a partir de planilhas Excel.
+          Ideal para organizadores de eventos, professores e equipes de atendimento.
+        </p>
+        <a class="project-card__link" href="https://leolucena22.github.io/projects/enviar-mensagem/">
+          Acessar <span>→</span>
+        </a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-card__icon">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+        <h4 class="project-card__title">Simulador CDI</h4>
+        <p class="project-card__desc">
+          Ferramenta para facilitar o cálculo de investimentos atrelados ao CDI. Ideal para investidores e estudantes
+          que desejam simular rendimentos com base em taxas atualizadas e parâmetros personalizados.
+        </p>
+        <a class="project-card__link" href="https://leolucena22.github.io/projects/calculadora-cdi">
+          Acessar <span>→</span>
+        </a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-card__icon">
+          <i class="fa-solid fa-align-left"></i>
+        </div>
+        <h4 class="project-card__title">Formatador de Resumos</h4>
+        <p class="project-card__desc">
+          Ferramenta para automatizar a formatação de resumos científicos. Permite que pesquisadores
+          e acadêmicos padronizem seus textos rapidamente, garantindo estrutura correta e conteúdo pronto para submissão.
+        </p>
+        <a class="project-card__link" href="https://leolucena22.github.io/projects/formatar-resumo">
+          Acessar <span>→</span>
+        </a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-card__icon">
+          <i class="fa-solid fa-bullseye"></i>
+        </div>
+        <h4 class="project-card__title">Calculadora de Metas</h4>
+        <p class="project-card__desc">
+          Ferramenta para acompanhamento de metas financeiras dentro de eventos. Permite monitorar
+          o progresso em tempo real, garantindo visão clara sobre o atingimento de objetivos.
+        </p>
+        <a class="project-card__link" href="https://leolucena22.github.io/projects/meta-sabado">
+          Acessar <span>→</span>
+        </a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-card__icon">
+          <i class="fa-solid fa-weight-scale"></i>
+        </div>
+        <h4 class="project-card__title">Calculadora IMC</h4>
+        <p class="project-card__desc">
+          Calculadora de Índice de Massa Corporal. Ao inserir peso e altura, a ferramenta calcula seu IMC
+          e exibe a classificação correspondente de forma rápida e visual.
+        </p>
+        <a class="project-card__link" href="https://leolucena22.github.io/projects/imc/">
+          Acessar <span>→</span>
+        </a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-card__icon">
+          <i class="fa-solid fa-certificate"></i>
+        </div>
+        <h4 class="project-card__title">Gerador de Certificados</h4>
+        <p class="project-card__desc">
+          Criação automática de textos para diversos tipos de certificados: participação, apresentação de trabalho,
+          revisão e mais. Texto personalizado pronto para copiar e utilizar.
+        </p>
+        <a class="project-card__link" href="https://leolucena22.github.io/projects/certificados/">
+          Acessar <span>→</span>
+        </a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-card__icon">
+          <i class="fa-solid fa-link"></i>
+        </div>
+        <h4 class="project-card__title">Gerador de Links Diretos</h4>
+        <p class="project-card__desc">
+          Ferramenta que facilita a criação de links diretos para modelos de documentos: resumos expandidos,
+          apresentações orais e e-banners. Interface simples e objetiva.
+        </p>
+        <a class="project-card__link" href="https://leolucena22.github.io/projects/gerador-links-anexos">
+          Acessar <span>→</span>
+        </a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-card__icon">
+          <i class="fa-brands fa-whatsapp"></i>
+        </div>
+        <h4 class="project-card__title">Iniciar Conversa no WhatsApp</h4>
+        <p class="project-card__desc">
+          Inicie uma conversa diretamente no WhatsApp com um número específico, sem precisar salvar
+          o contato no celular. Rápido e prático.
+        </p>
+        <a class="project-card__link" href="https://leolucena22.github.io/projects/whatsapp/">
+          Acessar <span>→</span>
+        </a>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-card__icon">
+          <i class="fa-solid fa-cubes"></i>
+        </div>
+        <h4 class="project-card__title">Calculadora de Pedras</h4>
+        <p class="project-card__desc">
+          Ferramenta para calcular quantidades de pedras cariri em diferentes tamanhos.
+          Útil para profissionais de construção e paisagismo.
+        </p>
+        <a class="project-card__link" href="https://leolucena22.github.io/projects/calculadora-pedras">
+          Acessar <span>→</span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <a href="https://github.com/leolucena22">&copy; leolucena22</a>
+  </footer>
+
   <script src="/js/script.js"></script>
 </body>
 
